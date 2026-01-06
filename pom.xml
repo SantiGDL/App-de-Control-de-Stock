@@ -52,6 +52,13 @@
             <artifactId>flatlaf</artifactId>
             <version>3.7</version>
        </dependency>
+       
+       
+       <dependency>
+            <groupId>com.formdev</groupId>
+            <artifactId>flatlaf-intellij-themes</artifactId>
+            <version>3.7</version>
+        </dependency>
 
     </dependencies>
 </project>
