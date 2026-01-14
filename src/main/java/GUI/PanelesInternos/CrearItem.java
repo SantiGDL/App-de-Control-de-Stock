@@ -4,6 +4,9 @@
  */
 package GUI.PanelesInternos;
 
+import Persistencia.Clases.Item;
+import Persistencia.ManejadorDePersistencia;
+
 /**
  *
  * @author Santi-kun
@@ -27,18 +30,16 @@ public class CrearItem extends javax.swing.JPanel {
     private void initComponents() {
 
         NombreLbl = new javax.swing.JLabel();
-        NombreContenido = new javax.swing.JTextField();
         DescrpcionLbl = new javax.swing.JLabel();
-        DescrpcionContenido = new javax.swing.JTextField();
+        DescripcionContenido = new javax.swing.JTextField();
         Imagen = new javax.swing.JLabel();
         ImagenContenido = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        Aceptar = new javax.swing.JButton();
+        NombreContenido = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
         NombreLbl.setText("Nombre:");
-
-        NombreContenido.addActionListener(this::NombreContenidoActionPerformed);
 
         DescrpcionLbl.setText("Descrpción:");
 
@@ -47,8 +48,10 @@ public class CrearItem extends javax.swing.JPanel {
         ImagenContenido.setText("Seleccionar:");
         ImagenContenido.setBorder(null);
         ImagenContenido.setBorderPainted(false);
+        ImagenContenido.addActionListener(this::ImagenContenidoActionPerformed);
 
-        jButton1.setText("Aceptar");
+        Aceptar.setText("Aceptar");
+        Aceptar.addActionListener(this::AceptarActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -57,19 +60,17 @@ public class CrearItem extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(NombreLbl)
-                        .addGap(33, 33, 33)
-                        .addComponent(NombreContenido, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Aceptar)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(DescrpcionLbl)
-                            .addComponent(Imagen))
+                            .addComponent(Imagen)
+                            .addComponent(NombreLbl))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(DescrpcionContenido, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ImagenContenido, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(DescripcionContenido, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+                            .addComponent(ImagenContenido, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(NombreContenido))))
                 .addContainerGap(13, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -82,29 +83,58 @@ public class CrearItem extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(DescrpcionLbl)
-                    .addComponent(DescrpcionContenido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(DescripcionContenido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Imagen)
                     .addComponent(ImagenContenido, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(Aceptar)
                 .addContainerGap(122, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void NombreContenidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreContenidoActionPerformed
-      
-    }//GEN-LAST:event_NombreContenidoActionPerformed
+    private void AceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarActionPerformed
+        String nombre = NombreContenido.getText().trim();
+        String descripcion = DescripcionContenido.getText().trim();
+        String rutaImagenSeleccionada = null;
+        String imagen = rutaImagenSeleccionada; 
+        if (nombre.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this, "El nombre es obligatorio");
+        return;
+        }
+        if (imagen == null) {imagen = "";}
+        Item nuevo = new Item(nombre, descripcion, imagen);
+        try {
+        
+        ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
+        MDP.persistirItem(nuevo);
+        javax.swing.JOptionPane.showMessageDialog(this, "Item creado OK");
+        
+        // limpiar campos
+        NombreContenido.setText("");
+        DescripcionContenido.setText("");
+        rutaImagenSeleccionada = null;
+
+    } catch (Exception ex) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Error creando item: " + ex.getMessage());
+        ex.printStackTrace();
+    }
+
+    }//GEN-LAST:event_AceptarActionPerformed
+
+    private void ImagenContenidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImagenContenidoActionPerformed
+  
+    }//GEN-LAST:event_ImagenContenidoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField DescrpcionContenido;
+    private javax.swing.JButton Aceptar;
+    private javax.swing.JTextField DescripcionContenido;
     private javax.swing.JLabel DescrpcionLbl;
     private javax.swing.JLabel Imagen;
     private javax.swing.JButton ImagenContenido;
     private javax.swing.JTextField NombreContenido;
     private javax.swing.JLabel NombreLbl;
-    private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }

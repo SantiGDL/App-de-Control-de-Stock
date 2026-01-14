@@ -30,16 +30,23 @@ public class ManejadorDePersistencia {
         EntityTransaction et = em.getTransaction();
         try{
             et.begin();
+            // 1) Busco el catálogo general existente (hay 1 solo)
+        CatalogoGeneral cat = em.createQuery("SELECT c FROM CatalogoGeneral c", CatalogoGeneral.class).setMaxResults(1).getResultStream().findFirst().orElse(null);
+            // 2) Si no existe, lo creo y persisto
+            if (cat == null) {
+                cat = new CatalogoGeneral();
+                em.persist(cat);
+            }
+            // 3) Lo asigno al item (porque es NOT NULL la realacion)
+            nuevoItem.setCatalogo(cat);
+            // 4) Persisto el item
             em.persist(nuevoItem);
             et.commit();
-            }
-        catch(Exception e) {
-            if (et.isActive()) et.rollback();
-            throw new PersistenceException("Error al persistir item", e);
-                } 
+        }
+        catch(Exception e) {if (et.isActive()) {et.rollback();}throw new PersistenceException("Error al persistir item", e);} 
             finally {em.close();}
     }
-    
+ /*   
     public void persistirCatalogoGeneral(CatalogoGeneral nuevoCatGeneral){    
         EntityManager em = FabricaEntityManager.getEntityManager();
         EntityTransaction et = em.getTransaction();
@@ -56,7 +63,7 @@ public class ManejadorDePersistencia {
     }
 
 
-
+*/
 
 
 }
