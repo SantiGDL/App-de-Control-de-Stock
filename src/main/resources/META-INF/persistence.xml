@@ -5,7 +5,7 @@
              version="3.0">
 
     <persistence-unit name="stockPU" transaction-type="RESOURCE_LOCAL">
-        <!-- No es obligatorio listar clases si usás auto-scan, pero ayuda -->
+        <!-- No es obligatorio listar clases si uso auto-scan, pero ayuda -->
         <class>Persistencia.Clases.Item</class>
         <class>Persistencia.Clases.ItemDeProveedorX</class>
         <class>Persistencia.Clases.ItemDeSTOCK</class>

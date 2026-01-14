@@ -24,6 +24,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="NombreLbl" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
@@ -63,7 +64,9 @@
                   <Component id="Imagen" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="ImagenContenido" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="155" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="122" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -75,6 +78,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="NombreContenido">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="NombreContenidoActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="DescrpcionLbl">
       <Properties>
@@ -95,6 +101,11 @@
           <Border info="null"/>
         </Property>
         <Property name="borderPainted" type="boolean" value="false"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButton1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Aceptar"/>
       </Properties>
     </Component>
   </SubComponents>

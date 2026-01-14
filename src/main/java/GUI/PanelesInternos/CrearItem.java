@@ -32,10 +32,13 @@ public class CrearItem extends javax.swing.JPanel {
         DescrpcionContenido = new javax.swing.JTextField();
         Imagen = new javax.swing.JLabel();
         ImagenContenido = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
         NombreLbl.setText("Nombre:");
+
+        NombreContenido.addActionListener(this::NombreContenidoActionPerformed);
 
         DescrpcionLbl.setText("Descrpción:");
 
@@ -45,6 +48,8 @@ public class CrearItem extends javax.swing.JPanel {
         ImagenContenido.setBorder(null);
         ImagenContenido.setBorderPainted(false);
 
+        jButton1.setText("Aceptar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -52,6 +57,7 @@ public class CrearItem extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(NombreLbl)
                         .addGap(33, 33, 33)
@@ -81,9 +87,15 @@ public class CrearItem extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Imagen)
                     .addComponent(ImagenContenido, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap(122, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void NombreContenidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreContenidoActionPerformed
+      
+    }//GEN-LAST:event_NombreContenidoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -93,5 +105,6 @@ public class CrearItem extends javax.swing.JPanel {
     private javax.swing.JButton ImagenContenido;
     private javax.swing.JTextField NombreContenido;
     private javax.swing.JLabel NombreLbl;
+    private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }

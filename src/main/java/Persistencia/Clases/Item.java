@@ -39,6 +39,7 @@ public class Item {
 
 //Getters y Setters
     String getNombre(){return this.nombre;}
+    public void setCatalogo(CatalogoGeneral cat){this.catalogo = cat;}
 
 
 }
