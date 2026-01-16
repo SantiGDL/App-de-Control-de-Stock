@@ -8,12 +8,12 @@ package GUI.PanelesInternos;
  *
  * @author Santi-kun
  */
-public class CrearProveedor extends javax.swing.JPanel {
+public class CrearProveedorJPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form CrearProveedor
      */
-    public CrearProveedor() {
+    public CrearProveedorJPanel() {
         initComponents();
     }
 
@@ -84,7 +84,7 @@ public class CrearProveedor extends javax.swing.JPanel {
                     .addComponent(NombreContenido, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(DescripcionContenido, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ImagenContenido, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(89, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

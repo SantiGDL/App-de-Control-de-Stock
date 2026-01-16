@@ -11,12 +11,12 @@ import Persistencia.ManejadorDePersistencia;
  *
  * @author Santi-kun
  */
-public class CrearItem extends javax.swing.JPanel {
+public class CrearItemJPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form CrearItem
      */
-    public CrearItem() {
+    public CrearItemJPanel() {
         initComponents();
     }
 
