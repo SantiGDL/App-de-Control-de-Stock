@@ -32,13 +32,6 @@ GUIController controller = new GUIController();
     private void initComponents() {
 
         Fondo = new javax.swing.JPanel();
-        MenuLateral = new javax.swing.JPanel();
-        CrearProveedor = new javax.swing.JButton();
-        CrearItem = new javax.swing.JButton();
-        Logo = new javax.swing.JLabel();
-        Login = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        Configuracion = new javax.swing.JButton();
         MenuSuperior = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -49,6 +42,19 @@ GUIController controller = new GUIController();
         Password = new javax.swing.JPasswordField();
         Aceptar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        MenuLateral = new javax.swing.JPanel();
+        CrearProveedor1 = new javax.swing.JButton();
+        CrearItem1 = new javax.swing.JButton();
+        Logo1 = new javax.swing.JLabel();
+        Login1 = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        Configuracion1 = new javax.swing.JButton();
+        Configuracion2 = new javax.swing.JButton();
+        ComprarItem = new javax.swing.JButton();
+        VenderItem = new javax.swing.JButton();
+        VenderItem1 = new javax.swing.JButton();
+        Configuracion3 = new javax.swing.JButton();
+        Configuracion4 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new java.awt.BorderLayout());
@@ -56,78 +62,6 @@ GUIController controller = new GUIController();
         Fondo.setBackground(new java.awt.Color(255, 255, 255));
         Fondo.setPreferredSize(new java.awt.Dimension(800, 500));
         Fondo.setRequestFocusEnabled(false);
-
-        MenuLateral.setBackground(new java.awt.Color(51, 153, 255));
-        MenuLateral.setPreferredSize(new java.awt.Dimension(200, 500));
-        MenuLateral.setRequestFocusEnabled(false);
-
-        CrearProveedor.setForeground(new java.awt.Color(0, 0, 0));
-        CrearProveedor.setText("Crear Proveedor");
-        CrearProveedor.setBorder(null);
-        CrearProveedor.setBorderPainted(false);
-        CrearProveedor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CrearProveedor.addActionListener(this::CrearProveedorActionPerformed);
-
-        CrearItem.setForeground(new java.awt.Color(0, 0, 0));
-        CrearItem.setText("Crear Item");
-        CrearItem.setBorder(null);
-        CrearItem.setBorderPainted(false);
-        CrearItem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CrearItem.addActionListener(this::CrearItemActionPerformed);
-
-        Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/TelecomLogo.png"))); // NOI18N
-
-        Login.setForeground(new java.awt.Color(0, 0, 0));
-        Login.setText("Iniciar Sesion");
-        Login.setBorder(null);
-        Login.setBorderPainted(false);
-        Login.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Login.addActionListener(this::LoginActionPerformed);
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("ACCIONES");
-
-        Configuracion.setForeground(new java.awt.Color(0, 0, 0));
-        Configuracion.setText("Configuración");
-        Configuracion.setBorder(null);
-        Configuracion.setBorderPainted(false);
-        Configuracion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Configuracion.addActionListener(this::ConfiguracionActionPerformed);
-
-        javax.swing.GroupLayout MenuLateralLayout = new javax.swing.GroupLayout(MenuLateral);
-        MenuLateral.setLayout(MenuLateralLayout);
-        MenuLateralLayout.setHorizontalGroup(
-            MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(CrearItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(Login, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(MenuLateralLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(Logo)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(CrearProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(MenuLateralLayout.createSequentialGroup()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(Configuracion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        MenuLateralLayout.setVerticalGroup(
-            MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(MenuLateralLayout.createSequentialGroup()
-                .addComponent(Logo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Login)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CrearItem)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CrearProveedor)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Configuracion)
-                .addContainerGap(122, Short.MAX_VALUE))
-        );
 
         MenuSuperior.setBackground(new java.awt.Color(0, 102, 255));
 
@@ -146,7 +80,7 @@ GUIController controller = new GUIController();
         MenuSuperiorLayout.setHorizontalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuSuperiorLayout.createSequentialGroup()
-                .addContainerGap(116, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -229,25 +163,160 @@ GUIController controller = new GUIController();
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        MenuLateral.setBackground(new java.awt.Color(51, 153, 255));
+        MenuLateral.setPreferredSize(new java.awt.Dimension(200, 500));
+        MenuLateral.setRequestFocusEnabled(false);
+
+        CrearProveedor1.setForeground(new java.awt.Color(0, 0, 0));
+        CrearProveedor1.setText("Crear Proveedor (ok)");
+        CrearProveedor1.setBorder(null);
+        CrearProveedor1.setBorderPainted(false);
+        CrearProveedor1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        CrearProveedor1.addActionListener(this::CrearProveedor1ActionPerformed);
+
+        CrearItem1.setForeground(new java.awt.Color(0, 0, 0));
+        CrearItem1.setText("Crear Item (ok)");
+        CrearItem1.setBorder(null);
+        CrearItem1.setBorderPainted(false);
+        CrearItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        CrearItem1.addActionListener(this::CrearItem1ActionPerformed);
+
+        Logo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/TelecomLogo.png"))); // NOI18N
+
+        Login1.setForeground(new java.awt.Color(0, 0, 0));
+        Login1.setText("Iniciar Sesion (ok)");
+        Login1.setBorder(null);
+        Login1.setBorderPainted(false);
+        Login1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Login1.addActionListener(this::Login1ActionPerformed);
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("ACCIONES");
+
+        Configuracion1.setForeground(new java.awt.Color(0, 0, 0));
+        Configuracion1.setText("Configuración (ok)");
+        Configuracion1.setBorder(null);
+        Configuracion1.setBorderPainted(false);
+        Configuracion1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Configuracion1.addActionListener(this::Configuracion1ActionPerformed);
+
+        Configuracion2.setForeground(new java.awt.Color(0, 0, 0));
+        Configuracion2.setText("Historial");
+        Configuracion2.setBorder(null);
+        Configuracion2.setBorderPainted(false);
+        Configuracion2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Configuracion2.addActionListener(this::Configuracion2ActionPerformed);
+
+        ComprarItem.setForeground(new java.awt.Color(0, 0, 0));
+        ComprarItem.setText("Comprar Item");
+        ComprarItem.setBorder(null);
+        ComprarItem.setBorderPainted(false);
+        ComprarItem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ComprarItem.addActionListener(this::ComprarItemActionPerformed);
+
+        VenderItem.setForeground(new java.awt.Color(0, 0, 0));
+        VenderItem.setText("Vender Item");
+        VenderItem.setBorder(null);
+        VenderItem.setBorderPainted(false);
+        VenderItem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        VenderItem.addActionListener(this::VenderItemActionPerformed);
+
+        VenderItem1.setForeground(new java.awt.Color(0, 0, 0));
+        VenderItem1.setBorder(null);
+        VenderItem1.setBorderPainted(false);
+        VenderItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        VenderItem1.addActionListener(this::VenderItem1ActionPerformed);
+
+        Configuracion3.setForeground(new java.awt.Color(0, 0, 0));
+        Configuracion3.setText("Catálogo General");
+        Configuracion3.setBorder(null);
+        Configuracion3.setBorderPainted(false);
+        Configuracion3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Configuracion3.addActionListener(this::Configuracion3ActionPerformed);
+
+        Configuracion4.setForeground(new java.awt.Color(0, 0, 0));
+        Configuracion4.setText("Catálogo por Proveedor");
+        Configuracion4.setBorder(null);
+        Configuracion4.setBorderPainted(false);
+        Configuracion4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Configuracion4.addActionListener(this::Configuracion4ActionPerformed);
+
+        javax.swing.GroupLayout MenuLateralLayout = new javax.swing.GroupLayout(MenuLateral);
+        MenuLateral.setLayout(MenuLateralLayout);
+        MenuLateralLayout.setHorizontalGroup(
+            MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(CrearItem1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Login1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(MenuLateralLayout.createSequentialGroup()
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
+            .addComponent(VenderItem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(ComprarItem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(MenuLateralLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(MenuLateralLayout.createSequentialGroup()
+                        .addComponent(Logo1)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuLateralLayout.createSequentialGroup()
+                        .addGap(89, 89, 89)
+                        .addComponent(VenderItem1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(63, 63, 63))))
+            .addComponent(CrearProveedor1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Configuracion2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Configuracion1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Configuracion3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Configuracion4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        MenuLateralLayout.setVerticalGroup(
+            MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MenuLateralLayout.createSequentialGroup()
+                .addComponent(Logo1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Login1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CrearItem1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ComprarItem)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(VenderItem)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CrearProveedor1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Configuracion2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Configuracion3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Configuracion4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Configuracion1)
+                .addGap(34, 34, 34)
+                .addComponent(VenderItem1)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout FondoLayout = new javax.swing.GroupLayout(Fondo);
         Fondo.setLayout(FondoLayout);
         FondoLayout.setHorizontalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(FondoLayout.createSequentialGroup()
-                .addComponent(MenuLateral, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(MenuLateral, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(MenuSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)))
+                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)))
         );
         FondoLayout.setVerticalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
             .addGroup(FondoLayout.createSequentialGroup()
                 .addComponent(MenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
-                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE))
+            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
         );
 
         add(Fondo, java.awt.BorderLayout.CENTER);
@@ -257,50 +326,80 @@ GUIController controller = new GUIController();
         // TODO add your handling code here:
     }//GEN-LAST:event_UsuarioContenidoActionPerformed
 
-    private void CrearProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearProveedorActionPerformed
+    private void CrearProveedor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearProveedor1ActionPerformed
         // Creo el panel CrearProveedor
         JPanel crearProveedorPanel = new CrearProveedorJPanel();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(crearProveedorPanel);
-    }//GEN-LAST:event_CrearProveedorActionPerformed
+    }//GEN-LAST:event_CrearProveedor1ActionPerformed
 
-    private void CrearItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearItemActionPerformed
-       JPanel crearItemPanel = new CrearItemJPanel();
+    private void CrearItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearItem1ActionPerformed
+        JPanel crearItemPanel = new CrearItemJPanel();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(crearItemPanel);
-    }//GEN-LAST:event_CrearItemActionPerformed
+    }//GEN-LAST:event_CrearItem1ActionPerformed
 
-    private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
-     JPanel loginPanel = new LoginJPanel();
-       FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-       frame.cambiarFondo(loginPanel);
-    }//GEN-LAST:event_LoginActionPerformed
+    private void Login1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Login1ActionPerformed
+        JPanel loginPanel = new LoginJPanel();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(loginPanel);
+    }//GEN-LAST:event_Login1ActionPerformed
 
-    private void ConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfiguracionActionPerformed
+    private void Configuracion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Configuracion1ActionPerformed
         JPanel configuracionPanel = new PanelDeConfiguracion();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(configuracionPanel);
-    }//GEN-LAST:event_ConfiguracionActionPerformed
+    }//GEN-LAST:event_Configuracion1ActionPerformed
+
+    private void Configuracion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Configuracion2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Configuracion2ActionPerformed
+
+    private void ComprarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComprarItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ComprarItemActionPerformed
+
+    private void VenderItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VenderItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VenderItemActionPerformed
+
+    private void VenderItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VenderItem1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VenderItem1ActionPerformed
+
+    private void Configuracion3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Configuracion3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Configuracion3ActionPerformed
+
+    private void Configuracion4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Configuracion4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Configuracion4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Aceptar;
-    private javax.swing.JButton Configuracion;
+    private javax.swing.JButton ComprarItem;
+    private javax.swing.JButton Configuracion1;
+    private javax.swing.JButton Configuracion2;
+    private javax.swing.JButton Configuracion3;
+    private javax.swing.JButton Configuracion4;
     private javax.swing.JPanel Contenido;
-    private javax.swing.JButton CrearItem;
-    private javax.swing.JButton CrearProveedor;
+    private javax.swing.JButton CrearItem1;
+    private javax.swing.JButton CrearProveedor1;
     private javax.swing.JPanel Fondo;
-    private javax.swing.JButton Login;
-    private javax.swing.JLabel Logo;
+    private javax.swing.JButton Login1;
+    private javax.swing.JLabel Logo1;
     private javax.swing.JPanel MenuLateral;
     private javax.swing.JPanel MenuSuperior;
     private javax.swing.JPasswordField Password;
     private javax.swing.JTextField UsuarioContenido;
+    private javax.swing.JButton VenderItem;
+    private javax.swing.JButton VenderItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     // End of variables declaration//GEN-END:variables
 }

@@ -38,14 +38,14 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
         MenuLateral.setRequestFocusEnabled(false);
 
         EliminarItem.setForeground(new java.awt.Color(0, 0, 0));
-        EliminarItem.setText("<html> <div style ='text-align:center;'> Eliminar Item <br> Permanentemente /<html>");
+        EliminarItem.setText("<html> <div style ='text-align:center;'> Eliminar Item <br> Permanentemente (ok) /<html>");
         EliminarItem.setBorder(null);
         EliminarItem.setBorderPainted(false);
         EliminarItem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         EliminarItem.addActionListener(this::EliminarItemActionPerformed);
 
         ConfigurarAlertas.setForeground(new java.awt.Color(0, 0, 0));
-        ConfigurarAlertas.setText("Configurar Alertas");
+        ConfigurarAlertas.setText("Configurar Alertas (ok)");
         ConfigurarAlertas.setBorder(null);
         ConfigurarAlertas.setBorderPainted(false);
         ConfigurarAlertas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -54,7 +54,7 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
         Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/TelecomLogo.png"))); // NOI18N
 
         Atras.setForeground(new java.awt.Color(0, 0, 0));
-        Atras.setText("Regresar");
+        Atras.setText("Regresar (ok)");
         Atras.setBorder(null);
         Atras.setBorderPainted(false);
         Atras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -66,7 +66,7 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
         jLabel1.setText("ACCIONES");
 
         Configuracion.setForeground(new java.awt.Color(0, 0, 0));
-        Configuracion.setText("sin uso por ahora");
+        Configuracion.setText("<html> <div style ='text-align:center;'> Modificar Precios <br> de Proveedores /<html>");
         Configuracion.setBorder(null);
         Configuracion.setBorderPainted(false);
         Configuracion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
