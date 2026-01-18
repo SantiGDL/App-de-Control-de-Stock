@@ -6,28 +6,27 @@ package GUI.PanelesInternos;
 
 import GUI.FramePrincipal;
 import GUI.PanelDeConfiguracion;
-import Persistencia.Clases.CatalogoGeneral;
 import Persistencia.Clases.Item;
+import Persistencia.Clases.ItemDeProveedorX;
+import Persistencia.Clases.Proveedor;
 import Persistencia.FabricaEntityManager;
 import Persistencia.ManejadorDePersistencia;
 import jakarta.persistence.EntityManager;
 import java.util.List;
 import javax.swing.JPanel;
+import static javax.swing.SwingConstants.CENTER;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
  * @author Santi-kun
  */
-public class ComprarItemJPanel extends javax.swing.JPanel {
-    private void irASeleccionProveedor(Long itemId){
-        JPanel seleccionarProveedor = new SeleccionarProveedorCompraJPanel(itemId);
+public class SeleccionarProveedorCompraJPanel extends javax.swing.JPanel {
+     private void irARellenarDatosCompra(Long itemId, Long ProveedorId){
+        JPanel datosCompra = new RellenarDatosCompraJPanel();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(seleccionarProveedor);
+        frame.cambiarFondo(datosCompra);
     }
-    /**
-     * Creates new form ComprarItem
-     */
     private void cargarTablaItems() {
     // Llamo al manejador de persistencia que tiene la funcion de traerme los items
     ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
@@ -35,21 +34,32 @@ public class ComprarItemJPanel extends javax.swing.JPanel {
     FabricaEntityManager FEM = new FabricaEntityManager();
     EntityManager em = FEM.getEntityManager();
     //Uso la funcion del manejador de persistencia que hice
-    List<Item> items = MDP.getItemsDeCatalogoGeneral(em);
+    List<Proveedor> proveedores = MDP.obtenerTodosLosProveedores(em);
     // 2) Armo el modelo con columnas
     javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
-        new Object[]{"ID", "Nombre", "Descripcion", "Imagen", ""}, 0
+        new Object[]{"ID", "Nombre", "Contacto", "Ubicación" , "Descripción", "Imágen", ""}, 0
     ) {
         @Override public boolean isCellEditable(int r, int c) { return false; }
     };
-
+    
+    modeloTabla.addRow(new Object[]{
+        0L,
+        "Proveedor sin especificar",
+        "",                 // Contacto
+        "",                 // Ubicación
+        "Elija este proveedor cuando no quiera especificar dónde compró el item",
+        "",                 // Imagen 
+        ">"                 // columna acción
+    });
     // 3) Cargás filas
-    for (Item it : items) {
+    for (Proveedor p : proveedores) {
         modeloTabla.addRow(new Object[]{
-            it.getId(),
-            it.getNombre(),
-            it.getDescripcion(),
-            it.getImagen(),
+            p.getId(),
+            p.getNombre(),
+            p.getContacto(),
+            p.getUbicacion(),
+            p.getDescripcion(),
+            p.getImagen(),
             ">"
         });
     }
@@ -57,7 +67,7 @@ public class ComprarItemJPanel extends javax.swing.JPanel {
     
     //AHORA EL BOTON PARA APRETAR PARA SELECCIONAR PROVEEDOR
     
-    CatalogoGeneral.getColumnModel().getColumn(4).setCellRenderer(new DefaultTableCellRenderer() {
+    CatalogoGeneral.getColumnModel().getColumn(6).setCellRenderer(new DefaultTableCellRenderer() {
     @Override
     public java.awt.Component getTableCellRendererComponent(
             javax.swing.JTable table, Object value, boolean isSelected,
@@ -71,8 +81,8 @@ public class ComprarItemJPanel extends javax.swing.JPanel {
         return c;
     }
     });
-    CatalogoGeneral.getColumnModel().getColumn(4).setMaxWidth(45);
-    CatalogoGeneral.getColumnModel().getColumn(4).setMinWidth(45);
+    CatalogoGeneral.getColumnModel().getColumn(6).setMaxWidth(45);
+    CatalogoGeneral.getColumnModel().getColumn(6).setMinWidth(45);
    
     //AHORA DETECTAR LA INTERACCION CON LA COLOUMNA 4
     
@@ -83,30 +93,31 @@ public class ComprarItemJPanel extends javax.swing.JPanel {
         int viewCol = CatalogoGeneral.columnAtPoint(e.getPoint());
         if (viewRow == -1 || viewCol == -1) return;
 
-        int colAccion = 4; // la de "<"
+        int colAccion = 6; // la de "<"
         if (viewCol != colAccion) return;
 
         int modelRow = CatalogoGeneral.convertRowIndexToModel(viewRow);
         Object idObj = CatalogoGeneral.getModel().getValueAt(modelRow, 0);
-        Long itemId = Long.valueOf(idObj.toString());
-        //GUARDO EL ITEM ID SELECCIONADO Y ME CAMBIO DE PANTALLA
-        irASeleccionProveedor(itemId);
+        Long ProveedorId = Long.valueOf(idObj.toString());
+        //LO CREO POR AHORA PARA QUE FUNCIONE NOMAS
+        Long itemId = 8L;
+        
+        //Me voy a la pantalla de compra teniendo en memoria el ID del Item y del Proveedor, en caso de no especificar
+        //el Proveedor porque eligió el default que lo dejo arriba del todo o en un boton NO CREO UN ItemDeProveedorX
+        irARellenarDatosCompra(itemId, ProveedorId);
     }
 });
     }
-   
     
     
     
-    
-    
-    
-    
-    public ComprarItemJPanel() {
+    /**
+     * Creates new form SeleccionarProveedorCompra
+     */
+    public SeleccionarProveedorCompraJPanel(Long itemId) {
         initComponents();
         cargarTablaItems();
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -150,12 +161,12 @@ public class ComprarItemJPanel extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Comprar Item");
+        jLabel3.setText("Seleccion de Proveedor");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("seleccione uno de los items disponibles");
+        jLabel4.setText("<html> <div style:'text-alignment:center'>seleccione uno de los proveedores disponibles <br> o cree uno nuevo</html>");
 
         javax.swing.GroupLayout MenuSuperiorLayout = new javax.swing.GroupLayout(MenuSuperior);
         MenuSuperior.setLayout(MenuSuperiorLayout);
@@ -165,11 +176,11 @@ public class ComprarItemJPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3)
                         .addGap(151, 151, 151))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(14, 14, 14))))
+                        .addGap(41, 41, 41))))
         );
         MenuSuperiorLayout.setVerticalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,7 +212,7 @@ public class ComprarItemJPanel extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("CATÁLOGO GENERAL");
+        jLabel5.setText("Proveedores Disponibles");
 
         javax.swing.GroupLayout ContenidoLayout = new javax.swing.GroupLayout(Contenido);
         Contenido.setLayout(ContenidoLayout);
@@ -212,8 +223,8 @@ public class ComprarItemJPanel extends javax.swing.JPanel {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ContenidoLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(116, 116, 116))
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(123, 123, 123))
         );
         ContenidoLayout.setVerticalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -413,7 +424,7 @@ public class ComprarItemJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_Configuracion2ActionPerformed
 
     private void ComprarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComprarItemActionPerformed
-      JPanel  comprarItem = new ComprarItemJPanel();
+        JPanel  comprarItem = new ComprarItemJPanel();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(comprarItem);
     }//GEN-LAST:event_ComprarItemActionPerformed

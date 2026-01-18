@@ -356,7 +356,9 @@ GUIController controller = new GUIController();
     }//GEN-LAST:event_Configuracion2ActionPerformed
 
     private void ComprarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComprarItemActionPerformed
-        // TODO add your handling code here:
+      JPanel  comprarItem = new ComprarItemJPanel();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(comprarItem);
     }//GEN-LAST:event_ComprarItemActionPerformed
 
     private void VenderItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VenderItemActionPerformed

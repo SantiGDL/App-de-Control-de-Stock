@@ -6,6 +6,7 @@ import Persistencia.Clases.Proveedor;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.PersistenceException;
+import java.util.List;
 
 /**
  *
@@ -61,6 +62,30 @@ public class ManejadorDePersistencia {
         catch(Exception e) {if (et.isActive()) {et.rollback();}throw new PersistenceException("Error al persistir proveedor", e);} 
             finally {em.close();}
     }
+    
+    
+    public List<Item> getItemsDeCatalogoGeneral(EntityManager em) {
+    CatalogoGeneral c = em.createQuery(
+        "SELECT DISTINCT c FROM CatalogoGeneral c " +
+        //el left join es para que me traiga ya cargala la lista de items
+        "LEFT JOIN FETCH c.ItemsDeCatalogo " +
+        "WHERE c.id = :id",
+        CatalogoGeneral.class
+    )
+    .setParameter("id", 1L)
+    .getSingleResult();
+    
+    //una ves traje el catalogo de la base de datos le pido la lista de items
+    return c.getItemsDeCatalogo();
+}
+    
+    
+  public List<Proveedor> obtenerTodosLosProveedores(EntityManager em) {
+    return em.createQuery(
+            "SELECT p FROM Proveedor p ORDER BY p.nombre",
+            Proveedor.class
+    ).getResultList();
+}
  /*   
     public void persistirCatalogoGeneral(CatalogoGeneral nuevoCatGeneral){    
         EntityManager em = FabricaEntityManager.getEntityManager();

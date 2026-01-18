@@ -38,7 +38,10 @@ public class Item {
     }
 
 //Getters y Setters
-    String getNombre(){return this.nombre;}
+    public Long getId(){return this.id;}
+    public String getNombre(){return this.nombre;}
+    public String getDescripcion(){return this.descripcion;}
+    public String getImagen() {return this.imagen;}
     public void setCatalogo(CatalogoGeneral cat){this.catalogo = cat;}
 
 

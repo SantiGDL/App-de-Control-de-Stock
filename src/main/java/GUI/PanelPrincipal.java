@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import GUI.PanelesInternos.ComprarItemJPanel;
 import GUI.PanelesInternos.CrearItemJPanel;
 import GUI.PanelesInternos.CrearProveedorJPanel;
 import GUI.PanelesInternos.LoginJPanel;
@@ -285,7 +286,9 @@ public class PanelPrincipal extends javax.swing.JPanel {
     }//GEN-LAST:event_Configuracion1ActionPerformed
 
     private void ComprarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComprarItemActionPerformed
-        // TODO add your handling code here:
+     JPanel  comprarItem = new ComprarItemJPanel();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(comprarItem);
     }//GEN-LAST:event_ComprarItemActionPerformed
 
     private void VenderItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VenderItemActionPerformed
