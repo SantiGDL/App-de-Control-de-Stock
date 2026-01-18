@@ -350,7 +350,7 @@ public class CrearItemJPanel extends javax.swing.JPanel {
         
         ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
         MDP.persistirItem(nuevo);
-        javax.swing.JOptionPane.showMessageDialog(this, "Item creado OK");
+        javax.swing.JOptionPane.showMessageDialog(null, "Item creado OK");
         
         // limpiar campos
         NombreContenido.setText("");
@@ -358,7 +358,7 @@ public class CrearItemJPanel extends javax.swing.JPanel {
         rutaImagenSeleccionada = null;
 
     } catch (Exception ex) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Error creando item: " + ex.getMessage());
+        javax.swing.JOptionPane.showMessageDialog(null, "Error creando item: " + ex.getMessage());
         ex.printStackTrace();
     }
 

@@ -7,6 +7,8 @@ package GUI.PanelesInternos;
 import GUI.FramePrincipal;
 import GUI.GUIController;
 import GUI.PanelDeConfiguracion;
+import Persistencia.Clases.Proveedor;
+import Persistencia.ManejadorDePersistencia;
 import javax.swing.JPanel;
 
 /**
@@ -135,7 +137,7 @@ public class CrearProveedorJPanel extends javax.swing.JPanel {
 
         ImagenLbl.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         ImagenLbl.setForeground(new java.awt.Color(0, 0, 0));
-        ImagenLbl.setText("Imágen:");
+        ImagenLbl.setText("Imágen (opcional):");
 
         ImagenContenido.setText("Seleccionar");
         ImagenContenido.setBorder(null);
@@ -148,39 +150,48 @@ public class CrearProveedorJPanel extends javax.swing.JPanel {
         ACEPTAR.setForeground(new java.awt.Color(255, 255, 255));
         ACEPTAR.setText("ACEPTAR");
         ACEPTAR.setBorder(null);
+        ACEPTAR.addActionListener(this::ACEPTARActionPerformed);
 
         javax.swing.GroupLayout ContenidoLayout = new javax.swing.GroupLayout(Contenido);
         Contenido.setLayout(ContenidoLayout);
         ContenidoLayout.setHorizontalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContenidoLayout.createSequentialGroup()
-                .addGap(125, 125, 125)
-                .addComponent(ACEPTAR, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ContenidoLayout.createSequentialGroup()
+                        .addGap(183, 183, 183)
+                        .addComponent(ImagenContenido, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ContenidoLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(ACEPTAR, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(ContenidoLayout.createSequentialGroup()
                     .addGap(25, 25, 25)
                     .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(UbicacionLbl)
-                        .addComponent(DescripcionLbl)
-                        .addComponent(ContactoLbl)
-                        .addComponent(NombreLbl)
-                        .addComponent(ImagenLbl))
-                    .addGap(18, 18, 18)
-                    .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(UbicacionContenido, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(ContactoContenido, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(NombreContenido, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(DescripcionContenido, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(ImagenContenido, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(ImagenLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(ContenidoLayout.createSequentialGroup()
+                            .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(UbicacionLbl)
+                                .addComponent(DescripcionLbl)
+                                .addComponent(ContactoLbl)
+                                .addComponent(NombreLbl))
+                            .addGap(18, 18, 18)
+                            .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(UbicacionContenido, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(ContactoContenido, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(NombreContenido, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(DescripcionContenido, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         ContenidoLayout.setVerticalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ContenidoLayout.createSequentialGroup()
-                .addContainerGap(219, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ImagenContenido)
+                .addGap(18, 18, 18)
                 .addComponent(ACEPTAR, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(31, 31, 31))
             .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(ContenidoLayout.createSequentialGroup()
                     .addGap(23, 23, 23)
@@ -200,9 +211,7 @@ public class CrearProveedorJPanel extends javax.swing.JPanel {
                         .addComponent(DescripcionContenido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(DescripcionLbl))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(ImagenLbl)
-                        .addComponent(ImagenContenido))
+                    .addComponent(ImagenLbl)
                     .addContainerGap(36, Short.MAX_VALUE)))
         );
 
@@ -339,7 +348,7 @@ public class CrearProveedorJPanel extends javax.swing.JPanel {
                 .addComponent(Configuracion1)
                 .addGap(34, 34, 34)
                 .addComponent(VenderItem1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout FondoLayout = new javax.swing.GroupLayout(Fondo);
@@ -434,6 +443,35 @@ public class CrearProveedorJPanel extends javax.swing.JPanel {
     private void Configuracion4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Configuracion4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Configuracion4ActionPerformed
+
+    private void ACEPTARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ACEPTARActionPerformed
+      String nombreProveedor = NombreContenido.getText().trim();
+      String contacto = ContactoContenido.getText().trim();
+      String ubicacion = UbicacionContenido.getText().trim();
+      String descripcion = DescripcionContenido.getText().trim();
+      //Por ahora lo dejo asi hasta que configure las imagenes
+      String imagen = "";
+      
+      if (nombreProveedor.isEmpty() || contacto.isEmpty() || ubicacion.isEmpty() || descripcion.isEmpty()) {
+          javax.swing.JOptionPane.showMessageDialog(this, "Debe rellenar todos los campos");
+          return;
+          }
+      
+     Proveedor nuevoProveedor = new Proveedor(nombreProveedor, contacto, ubicacion, descripcion, imagen);
+     try{
+     ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
+     MDP.persistirProveedor(nuevoProveedor);
+     javax.swing.JOptionPane.showMessageDialog(null, "Proveedor OK");
+     //Limpio los campos de texto
+     NombreContenido.setText("");
+     ContactoContenido.setText("");
+     UbicacionContenido.setText("");
+     DescripcionContenido.setText("");
+     } catch (Exception ex) {
+        javax.swing.JOptionPane.showMessageDialog(null, "Error creando Proveedor: " + ex.getMessage());
+        ex.printStackTrace();
+     }
+    }//GEN-LAST:event_ACEPTARActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
