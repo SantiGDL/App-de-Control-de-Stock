@@ -2,17 +2,19 @@ package GUI;
 import GUI.MenusSuperiores.EliminarItemMenuSuperior;
 import GUI.MenusSuperiores.MenuSuperiorPrincipal;
 import GUI.PanelesInternos.LoginJPanel;
-import GUI.PanelesInternos.PanelPrincipal;
+import GUI.PanelPrincipal;
 import GUI.PanelesInternosConfiguracion.EliminarItemJPanel;
 import javax.swing.JPanel;
-public class ConfiguracionJPanel extends javax.swing.JPanel {
-    public ConfiguracionJPanel() {
+public class PanelDeConfiguracion extends javax.swing.JPanel {
+    GUIController controller = new GUIController();
+    public PanelDeConfiguracion() {
         initComponents();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        Fondo = new javax.swing.JPanel();
         MenuLateral = new javax.swing.JPanel();
         EliminarItem = new javax.swing.JButton();
         ConfigurarAlertas = new javax.swing.JButton();
@@ -26,6 +28,10 @@ public class ConfiguracionJPanel extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
         setName(""); // NOI18N
+        setLayout(new java.awt.BorderLayout());
+
+        Fondo.setBackground(new java.awt.Color(255, 255, 255));
+        Fondo.setName(""); // NOI18N
 
         MenuLateral.setBackground(new java.awt.Color(51, 153, 255));
         MenuLateral.setPreferredSize(new java.awt.Dimension(200, 500));
@@ -96,7 +102,7 @@ public class ConfiguracionJPanel extends javax.swing.JPanel {
                 .addComponent(EliminarItem, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Configuracion)
-                .addContainerGap(150, Short.MAX_VALUE))
+                .addContainerGap(156, Short.MAX_VALUE))
         );
 
         MenuSuperior.setBackground(new java.awt.Color(0, 102, 255));
@@ -104,16 +110,16 @@ public class ConfiguracionJPanel extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("CONFIGURACION");
+        jLabel2.setText("CONFIGURACIÓN");
 
         javax.swing.GroupLayout MenuSuperiorLayout = new javax.swing.GroupLayout(MenuSuperior);
         MenuSuperior.setLayout(MenuSuperiorLayout);
         MenuSuperiorLayout.setHorizontalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(259, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(215, 215, 215))
         );
         MenuSuperiorLayout.setVerticalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,35 +137,39 @@ public class ConfiguracionJPanel extends javax.swing.JPanel {
         Contenido.setLayout(ContenidoLayout);
         ContenidoLayout.setHorizontalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 562, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         ContenidoLayout.setVerticalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(MenuLateral, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(MenuSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 562, Short.MAX_VALUE))
-                .addContainerGap())
+        javax.swing.GroupLayout FondoLayout = new javax.swing.GroupLayout(Fondo);
+        Fondo.setLayout(FondoLayout);
+        FondoLayout.setHorizontalGroup(
+            FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 802, Short.MAX_VALUE)
+            .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(FondoLayout.createSequentialGroup()
+                    .addComponent(MenuLateral, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(MenuSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 628, Short.MAX_VALUE))))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(MenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
-                .addContainerGap())
+        FondoLayout.setVerticalGroup(
+            FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 415, Short.MAX_VALUE)
+            .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(FondoLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(MenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE))
+                .addComponent(MenuLateral, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE))
         );
+
+        add(Fondo, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     //FUNCIONES
@@ -198,24 +208,21 @@ public class ConfiguracionJPanel extends javax.swing.JPanel {
         MenuLateral.add(menuLateral);
         MenuLateral.revalidate();
         MenuLateral.repaint();
-        */
-        JPanel contenidoPrincipal = new PanelPrincipal();
+        
+        JPanel contenidoPrincipal = new ContenidoDePanelPrincipal();
         Contenido.add(contenidoPrincipal);
         Contenido.revalidate();
         Contenido.repaint();
-        
+        */
     }
     
    
     
     
     private void EliminarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarItemActionPerformed
-        // Creo el panel CrearProveedor
-        //JPanel eliminarItem = new EliminarItemJPanel();
-        //cambiarContenido(eliminarItem);
-        JPanel eliminarItemMenuSuperior = new EliminarItemMenuSuperior();
-        cambiarMenuSuperior(eliminarItemMenuSuperior);
-        
+        JPanel eliminarItems = new EliminarItemJPanel();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(eliminarItems); 
     }//GEN-LAST:event_EliminarItemActionPerformed
 
     private void ConfigurarAlertasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfigurarAlertasActionPerformed
@@ -224,8 +231,9 @@ public class ConfiguracionJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_ConfigurarAlertasActionPerformed
 
     private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
-        JPanel loginPanel = new LoginJPanel();
-        cambiarContenido(loginPanel);
+        JPanel panelPrincipal = new PanelPrincipal();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(panelPrincipal);
     }//GEN-LAST:event_AtrasActionPerformed
 
     private void ConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfiguracionActionPerformed
@@ -239,6 +247,7 @@ public class ConfiguracionJPanel extends javax.swing.JPanel {
     private javax.swing.JButton ConfigurarAlertas;
     private javax.swing.JPanel Contenido;
     private javax.swing.JButton EliminarItem;
+    private javax.swing.JPanel Fondo;
     private javax.swing.JLabel Logo;
     private javax.swing.JPanel MenuLateral;
     private javax.swing.JPanel MenuSuperior;

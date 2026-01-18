@@ -1,63 +1,27 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package GUI;
 
 import GUI.PanelesInternos.CrearItemJPanel;
 import GUI.PanelesInternos.CrearProveedorJPanel;
 import GUI.PanelesInternos.LoginJPanel;
-import com.formdev.flatlaf.FlatLightLaf;
-import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTMaterialLighterIJTheme;
-import java.awt.Color;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 
 /**
  *
  * @author Santi-kun
  */
-public class Principal extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Principal.class.getName());
-    
-    /*
-    public void InitStyles(){
-            //Hago que el label MensajeArriba tenga el valor h1 de texto gracias a FlatLaf
-            MensajeArriba.putClientProperty( "FlatLaf.style", "font : 14 $light.font" );  
-            MensajeArriba.setForeground(Color.black);
-        }
-    */
-    
-    //CONSTRUCTOR
-    public Principal() {
+public class PanelPrincipal extends javax.swing.JPanel {
+    GUIController controller = new GUIController();
+
+    /**
+     * Creates new form PanelPrincipal
+     */
+    public PanelPrincipal() {
         initComponents();
     }
-    //FUNCIONES
-    GUIController controller = new GUIController();
-    public void cambiarContenido(JPanel panelNuevo) {
-    panelNuevo.setSize(Contenido.getMaximumSize());
-    panelNuevo.setLocation(0, 0);
-    Contenido.removeAll();
-    Contenido.add(panelNuevo);
-    Contenido.revalidate();
-    Contenido.repaint();
-    }
-    /*
-    public void cambiarPanelEntero(JPanel panelNuevo){
-        panelNuevo.setSize(this.getMaximumSize()); //Obtengo el tamaño del JFrame 
-        panelNuevo.setLocation(0, 0);
-        //Borro el Menu, la Barra de Arriba, El Contenido y el Fondo, luego lo reemplazo por el nuevo panel
-        Menu.removeAll();
-        BarraArriba.removeAll();
-        Contenido.removeAll();
-        Fondo.removeAll();
-        Fondo.add(panelNuevo);
-        Fondo.revalidate();
-        Fondo.repaint();
-    }
-    */
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -77,10 +41,10 @@ public class Principal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         Configuracion = new javax.swing.JButton();
         MenuSuperior = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         Contenido = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLayout(new java.awt.BorderLayout());
 
         Fondo.setBackground(new java.awt.Color(255, 255, 255));
         Fondo.setPreferredSize(new java.awt.Dimension(800, 500));
@@ -155,30 +119,30 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(CrearProveedor)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Configuracion)
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addContainerGap(122, Short.MAX_VALUE))
         );
 
         MenuSuperior.setBackground(new java.awt.Color(0, 102, 255));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("MENÚ PRINCIPAL");
+        jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("MENÚ PRINCIPAL");
 
         javax.swing.GroupLayout MenuSuperiorLayout = new javax.swing.GroupLayout(MenuSuperior);
         MenuSuperior.setLayout(MenuSuperiorLayout);
         MenuSuperiorLayout.setHorizontalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
+            .addGroup(MenuSuperiorLayout.createSequentialGroup()
+                .addGap(162, 162, 162)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         MenuSuperiorLayout.setVerticalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuSuperiorLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(97, Short.MAX_VALUE))
         );
 
@@ -190,11 +154,11 @@ public class Principal extends javax.swing.JFrame {
         Contenido.setLayout(ContenidoLayout);
         ContenidoLayout.setHorizontalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 651, Short.MAX_VALUE)
+            .addGap(0, 495, Short.MAX_VALUE)
         );
         ContenidoLayout.setVerticalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 197, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout FondoLayout = new javax.swing.GroupLayout(Fondo);
@@ -206,69 +170,46 @@ public class Principal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(MenuSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 651, Short.MAX_VALUE)))
+                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)))
         );
         FondoLayout.setVerticalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
             .addGroup(FondoLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
                 .addComponent(MenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
+                .addGap(33, 33, 33)
+                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Fondo, javax.swing.GroupLayout.DEFAULT_SIZE, 822, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Fondo, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
-        );
-
-        pack();
-        setLocationRelativeTo(null);
+        add(Fondo, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void CrearProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearProveedorActionPerformed
-     // Creo el panel CrearProveedor
-        JPanel crearProveedorPanel = new CrearProveedorJPanel(); 
-        controller.cambiarContenido(crearProveedorPanel, Contenido);
+        // Creo el panel CrearProveedor
+        JPanel crearProveedorPanel = new CrearProveedorJPanel();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(crearProveedorPanel);
     }//GEN-LAST:event_CrearProveedorActionPerformed
 
     private void CrearItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearItemActionPerformed
-        JPanel crearItemPanel = new CrearItemJPanel(); 
-        controller.cambiarContenido(crearItemPanel, Contenido);
+        JPanel crearItemPanel = new CrearItemJPanel();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(crearItemPanel);
     }//GEN-LAST:event_CrearItemActionPerformed
 
     private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
-        JPanel loginPanel = new LoginJPanel();
-        controller.cambiarContenido(loginPanel, Contenido);
+       JPanel loginPanel = new LoginJPanel();
+       FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+       frame.cambiarFondo(loginPanel);
     }//GEN-LAST:event_LoginActionPerformed
 
     private void ConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfiguracionActionPerformed
-     JPanel configuracionPanel = new ConfiguracionJPanel();
-     controller.cambiarPanelEntero(MenuSuperior, MenuLateral, Contenido, Fondo, configuracionPanel, this);
+        JPanel configuracionPanel = new PanelDeConfiguracion();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(configuracionPanel);
     }//GEN-LAST:event_ConfiguracionActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //FlatMTMaterialLighterIJTheme.setup();
-        
-        
-        //Este es otro tema, DeepOcean->
-        //FlatMTMaterialDeepOceanIJTheme.setup();
-      
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Principal().setVisible(true));
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Configuracion;
@@ -281,6 +222,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel MenuLateral;
     private javax.swing.JPanel MenuSuperior;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }

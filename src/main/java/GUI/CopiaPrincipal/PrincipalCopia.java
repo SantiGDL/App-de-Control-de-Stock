@@ -1,26 +1,74 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package GUI.PanelesInternos;
+package GUI.CopiaPrincipal;
 
-import GUI.FramePrincipal;
-import GUI.GUIController;
-import GUI.PanelDeConfiguracion;
+import GUI.*;
+import GUI.PanelesInternos.CrearItemJPanel;
+import GUI.PanelesInternos.CrearProveedorJPanel;
+import GUI.PanelesInternos.LoginJPanel;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTMaterialLighterIJTheme;
+import java.awt.Color;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 /**
  *
  * @author Santi-kun
  */
-public class LoginJPanel extends javax.swing.JPanel {
-GUIController controller = new GUIController();
-    /**
-     * Creates new form Login
-     */
-    public LoginJPanel() {
+public class PrincipalCopia extends javax.swing.JFrame {
+    
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(PrincipalCopia.class.getName());
+    
+    /*
+    public void InitStyles(){
+            //Hago que el label MensajeArriba tenga el valor h1 de texto gracias a FlatLaf
+            MensajeArriba.putClientProperty( "FlatLaf.style", "font : 14 $light.font" );  
+            MensajeArriba.setForeground(Color.black);
+        }
+    */
+    
+    //CONSTRUCTOR
+    public PrincipalCopia() {
         initComponents();
     }
+    //FUNCIONES
+    GUIController controller = new GUIController();
+    public void cambiarContenido(JPanel panelNuevo) {
+    panelNuevo.setSize(Contenido.getMaximumSize());
+    panelNuevo.setLocation(0, 0);
+    Contenido.removeAll();
+    Contenido.add(panelNuevo);
+    Contenido.revalidate();
+    Contenido.repaint();
+    }
+       
+    
+    public void cambiarPanel(){
+        JPanel panelNuevo = new PanelDeConfiguracion();
+        panelNuevo.setSize(Fondo.getMaximumSize());
+        Fondo.removeAll();
+        Fondo.add(panelNuevo);
+        Fondo.revalidate();
+        Fondo.repaint();
+    }
+    /*
+    public void cambiarPanelEntero(JPanel panelNuevo){
+        panelNuevo.setSize(this.getMaximumSize()); //Obtengo el tamaño del JFrame 
+        panelNuevo.setLocation(0, 0);
+        //Borro el Menu, la Barra de Arriba, El Contenido y el Fondo, luego lo reemplazo por el nuevo panel
+        Menu.removeAll();
+        BarraArriba.removeAll();
+        Contenido.removeAll();
+        Fondo.removeAll();
+        Fondo.add(panelNuevo);
+        Fondo.revalidate();
+        Fondo.repaint();
+    }
+    */
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -37,21 +85,13 @@ GUIController controller = new GUIController();
         CrearItem = new javax.swing.JButton();
         Logo = new javax.swing.JLabel();
         Login = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         Configuracion = new javax.swing.JButton();
         MenuSuperior = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        Contenido = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        UsuarioContenido = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        Password = new javax.swing.JPasswordField();
-        Aceptar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        Contenido = new javax.swing.JPanel();
 
-        setBackground(new java.awt.Color(255, 255, 255));
-        setLayout(new java.awt.BorderLayout());
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         Fondo.setBackground(new java.awt.Color(255, 255, 255));
         Fondo.setPreferredSize(new java.awt.Dimension(800, 500));
@@ -84,10 +124,10 @@ GUIController controller = new GUIController();
         Login.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Login.addActionListener(this::LoginActionPerformed);
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("ACCIONES");
+        jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("ACCIONES");
 
         Configuracion.setForeground(new java.awt.Color(0, 0, 0));
         Configuracion.setText("Configuración");
@@ -108,7 +148,7 @@ GUIController controller = new GUIController();
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(CrearProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(MenuLateralLayout.createSequentialGroup()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addComponent(Configuracion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -117,7 +157,7 @@ GUIController controller = new GUIController();
             .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addComponent(Logo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Login)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -126,107 +166,46 @@ GUIController controller = new GUIController();
                 .addComponent(CrearProveedor)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Configuracion)
-                .addContainerGap(122, Short.MAX_VALUE))
+                .addContainerGap(127, Short.MAX_VALUE))
         );
 
         MenuSuperior.setBackground(new java.awt.Color(0, 102, 255));
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("ingrese los datos de incio de sesión");
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Iniciar Sesión");
+        jLabel2.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("MENÚ PRINCIPAL");
 
         javax.swing.GroupLayout MenuSuperiorLayout = new javax.swing.GroupLayout(MenuSuperior);
         MenuSuperior.setLayout(MenuSuperiorLayout);
         MenuSuperiorLayout.setHorizontalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(MenuSuperiorLayout.createSequentialGroup()
-                .addContainerGap(116, Short.MAX_VALUE)
-                .addGroup(MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(159, 159, 159))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(64, 64, 64))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15))
         );
         MenuSuperiorLayout.setVerticalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuSuperiorLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(97, Short.MAX_VALUE))
         );
 
         Contenido.setBackground(new java.awt.Color(204, 204, 204));
         Contenido.setPreferredSize(new java.awt.Dimension(700, 320));
         Contenido.setVerifyInputWhenFocusTarget(false);
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("USUARIO");
-
-        UsuarioContenido.setBackground(new java.awt.Color(255, 255, 255));
-        UsuarioContenido.setText("Ingrese su nombre de usuario...");
-        UsuarioContenido.setBorder(null);
-        UsuarioContenido.addActionListener(this::UsuarioContenidoActionPerformed);
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("CONTRASEÑA");
-
-        Password.setBackground(new java.awt.Color(255, 255, 255));
-        Password.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        Password.setForeground(new java.awt.Color(0, 0, 0));
-        Password.setText("jPasswordField1");
-        Password.setBorder(null);
-
-        Aceptar.setBackground(new java.awt.Color(0, 153, 255));
-        Aceptar.setText("ACEPTAR");
-        Aceptar.setBorder(null);
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("INICIAR SESION");
-
         javax.swing.GroupLayout ContenidoLayout = new javax.swing.GroupLayout(Contenido);
         Contenido.setLayout(ContenidoLayout);
         ContenidoLayout.setHorizontalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ContenidoLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(UsuarioContenido, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Password, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Aceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 651, Short.MAX_VALUE)
         );
         ContenidoLayout.setVerticalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ContenidoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(UsuarioContenido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Aceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout FondoLayout = new javax.swing.GroupLayout(Fondo);
@@ -238,53 +217,71 @@ GUIController controller = new GUIController();
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(MenuSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)))
+                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 651, Short.MAX_VALUE)))
         );
         FondoLayout.setVerticalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
+            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
             .addGroup(FondoLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
                 .addComponent(MenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
-                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        add(Fondo, java.awt.BorderLayout.CENTER);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(Fondo, javax.swing.GroupLayout.DEFAULT_SIZE, 822, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(Fondo, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+        );
+
+        pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void UsuarioContenidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsuarioContenidoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_UsuarioContenidoActionPerformed
-
     private void CrearProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearProveedorActionPerformed
-        // Creo el panel CrearProveedor
-        JPanel crearProveedorPanel = new CrearProveedorJPanel();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(crearProveedorPanel);
+     // Creo el panel CrearProveedor
+        JPanel crearProveedorPanel = new CrearProveedorJPanel(); 
+        controller.cambiarContenido(crearProveedorPanel, Contenido);
     }//GEN-LAST:event_CrearProveedorActionPerformed
 
     private void CrearItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearItemActionPerformed
-       JPanel crearItemPanel = new CrearItemJPanel();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(crearItemPanel);
+        JPanel crearItemPanel = new CrearItemJPanel(); 
+        controller.cambiarContenido(crearItemPanel, Contenido);
     }//GEN-LAST:event_CrearItemActionPerformed
 
     private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
-     JPanel loginPanel = new LoginJPanel();
-       FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-       frame.cambiarFondo(loginPanel);
+        JPanel loginPanel = new LoginJPanel();
+        controller.cambiarContenido(loginPanel, Contenido);
     }//GEN-LAST:event_LoginActionPerformed
 
     private void ConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfiguracionActionPerformed
-        JPanel configuracionPanel = new PanelDeConfiguracion();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(configuracionPanel);
+    JPanel configuracionPanel = new PanelDeConfiguracion();
+    controller.cambiarPanelGeneral(Fondo, configuracionPanel);
     }//GEN-LAST:event_ConfiguracionActionPerformed
 
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //FlatMTMaterialLighterIJTheme.setup();
+        
+        
+        //Este es otro tema, DeepOcean->
+        //FlatMTMaterialDeepOceanIJTheme.setup();
+      
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> new PrincipalCopia().setVisible(true));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Aceptar;
     private javax.swing.JButton Configuracion;
     private javax.swing.JPanel Contenido;
     private javax.swing.JButton CrearItem;
@@ -294,13 +291,7 @@ GUIController controller = new GUIController();
     private javax.swing.JLabel Logo;
     private javax.swing.JPanel MenuLateral;
     private javax.swing.JPanel MenuSuperior;
-    private javax.swing.JPasswordField Password;
-    private javax.swing.JTextField UsuarioContenido;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     // End of variables declaration//GEN-END:variables
 }

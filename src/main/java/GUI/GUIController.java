@@ -41,4 +41,12 @@ public class GUIController {
         MenuSuperior.repaint();
         
     }
+    
+     public void cambiarPanelGeneral(JPanel panelACambiar, JPanel panelNuevo){
+        panelNuevo.setSize(panelACambiar.getMaximumSize());
+        panelACambiar.removeAll();
+        panelACambiar.add(panelNuevo);
+        panelACambiar.revalidate();
+        panelACambiar.repaint();
+    }
 }
