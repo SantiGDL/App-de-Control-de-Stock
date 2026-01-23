@@ -1,4 +1,5 @@
 package Persistencia.Clases;
+import Persistencia.DTOs.DTItem;
 import jakarta.persistence.*;
 
 @Entity
@@ -23,10 +24,16 @@ import jakarta.persistence.*;
             this.cantUnidades = cantUnidades;
 
         }
+        public ItemDeSTOCK(DTItem dt, Integer cantUnidades) {
+        this.nombre = dt.getNombre();
+        this.descripcion = dt.getDescripcion();
+        this.imagen = dt.getImagen();
+        this.cantUnidades = cantUnidades;}
 
 //Getters y Setters
         public void setId(Long id) {this.id = id;}
         public Long getId() {return id;}
         public String getNombre(){return this.nombre;}
         public Integer getCantUnidades() {return cantUnidades;}
+        public void setStock(Stock stock){this.stock = stock;}
 }

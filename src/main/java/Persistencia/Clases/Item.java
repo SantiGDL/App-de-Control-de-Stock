@@ -5,6 +5,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import Persistencia.Clases.ItemDeProveedorX;
+import Persistencia.DTOs.DTItem;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,5 +45,8 @@ public class Item {
     public String getImagen() {return this.imagen;}
     public void setCatalogo(CatalogoGeneral cat){this.catalogo = cat;}
 
-
-}
+    public DTItem crearDTItem(){
+        DTItem dt = new DTItem(this.nombre, this.descripcion, this.imagen);
+        return dt;
+    }
+}  

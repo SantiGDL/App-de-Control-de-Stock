@@ -1,6 +1,8 @@
 package GUI;
-
-import GUI.MenusSuperiores.MenuSuperiorPrincipal;
+import Persistencia.DTOs.DTItem;
+import Persistencia.FabricaEntityManager;
+import Persistencia.ManejadorDePersistencia;
+import jakarta.persistence.EntityManager;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -28,20 +30,7 @@ public class GUIController {
         Fondo.revalidate();
         Fondo.repaint();
     }
-    
-    public void volverAMenuPrincipal(JPanel MenuSuperior, JPanel MenuLateral, JPanel Contenido){
-        //Borro la Barra de Arriba, el Menu y El Contenido del Configuracion JPanel para volver al Menu Principal
-        MenuSuperior.removeAll();
-        MenuLateral.removeAll();
-        Contenido.removeAll();
-        
-        JPanel menuPrincipal = new MenuSuperiorPrincipal();
-        MenuSuperior.add(menuPrincipal);
-        MenuSuperior.revalidate();
-        MenuSuperior.repaint();
-        
-    }
-    
+
      public void cambiarPanelGeneral(JPanel panelACambiar, JPanel panelNuevo){
         panelNuevo.setSize(panelACambiar.getMaximumSize());
         panelACambiar.removeAll();
@@ -49,4 +38,12 @@ public class GUIController {
         panelACambiar.revalidate();
         panelACambiar.repaint();
     }
+     
+     public DTItem recuperarDTItemDeId(Long itemId){
+        //Primero llamo al manejado de persistencia para obtener la insantncia de Item a partir de la id
+        ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
+        EntityManager em = FabricaEntityManager.getEntityManager();
+        DTItem dt = MDP.getDTItem(em, itemId);
+        return dt;
+     }
 }

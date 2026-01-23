@@ -2,10 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package GUI.PanelesInternos;
+package GUI.PanelesInternos.ComprarItem;
 
 import GUI.FramePrincipal;
-import GUI.PanelDeConfiguracion;
+import GUI.PanelesInternos.CrearItemJPanel;
+import GUI.PanelesInternos.CrearProveedorJPanel;
+import GUI.PanelesInternos.LoginJPanel;
+import GUI.PanelesPRINCIPALES.PanelDeConfiguracion;
 import Persistencia.Clases.CatalogoGeneral;
 import Persistencia.Clases.Item;
 import Persistencia.FabricaEntityManager;
@@ -20,20 +23,25 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @author Santi-kun
  */
 public class ComprarItemJPanel extends javax.swing.JPanel {
+    
+    //Atributos
+    private Long itemId; //aca voy a guardar el id del item que elija el usuario
+   
+    
+    //Cambio de pantalla con Seleccionar proveedor
     private void irASeleccionProveedor(Long itemId){
         JPanel seleccionarProveedor = new SeleccionarProveedorCompraJPanel(itemId);
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(seleccionarProveedor);
     }
-    /**
-     * Creates new form ComprarItem
-     */
+    
+  
+    public void setItemId(Long id){this.itemId = id;}
     private void cargarTablaItems() {
     // Llamo al manejador de persistencia que tiene la funcion de traerme los items
     ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
     //invoco el entity manager para trabajar
-    FabricaEntityManager FEM = new FabricaEntityManager();
-    EntityManager em = FEM.getEntityManager();
+    EntityManager em = FabricaEntityManager.getEntityManager();
     //Uso la funcion del manejador de persistencia que hice
     List<Item> items = MDP.getItemsDeCatalogoGeneral(em);
     // 2) Armo el modelo con columnas
@@ -88,9 +96,12 @@ public class ComprarItemJPanel extends javax.swing.JPanel {
 
         int modelRow = CatalogoGeneral.convertRowIndexToModel(viewRow);
         Object idObj = CatalogoGeneral.getModel().getValueAt(modelRow, 0);
-        Long itemId = Long.valueOf(idObj.toString());
+        Long it = Long.valueOf(idObj.toString());
+        //seteo la variable id 
+        setItemId(it);
+        
         //GUARDO EL ITEM ID SELECCIONADO Y ME CAMBIO DE PANTALLA
-        irASeleccionProveedor(itemId);
+        irASeleccionProveedor(it);
     }
 });
     }

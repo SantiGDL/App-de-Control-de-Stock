@@ -1,8 +1,8 @@
-package GUI;
-import GUI.MenusSuperiores.EliminarItemMenuSuperior;
-import GUI.MenusSuperiores.MenuSuperiorPrincipal;
-import GUI.PanelesInternos.LoginJPanel;
+package GUI.PanelesPRINCIPALES;
+import GUI.FramePrincipal;
+import GUI.GUIController;
 import GUI.PanelPrincipal;
+import GUI.PanelesInternos.LoginJPanel;
 import GUI.PanelesInternosConfiguracion.EliminarItemJPanel;
 import javax.swing.JPanel;
 public class PanelDeConfiguracion extends javax.swing.JPanel {
@@ -16,14 +16,12 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
 
         Fondo = new javax.swing.JPanel();
         MenuLateral = new javax.swing.JPanel();
-        EliminarItem = new javax.swing.JButton();
         ConfigurarAlertas = new javax.swing.JButton();
         Logo = new javax.swing.JLabel();
         Atras = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        Configuracion = new javax.swing.JButton();
         MenuSuperior = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         Contenido = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -37,15 +35,9 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
         MenuLateral.setPreferredSize(new java.awt.Dimension(200, 500));
         MenuLateral.setRequestFocusEnabled(false);
 
-        EliminarItem.setForeground(new java.awt.Color(0, 0, 0));
-        EliminarItem.setText("<html> <div style ='text-align:center;'> Eliminar Item <br> Permanentemente (ok) /<html>");
-        EliminarItem.setBorder(null);
-        EliminarItem.setBorderPainted(false);
-        EliminarItem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        EliminarItem.addActionListener(this::EliminarItemActionPerformed);
-
+        ConfigurarAlertas.setBackground(new java.awt.Color(102, 102, 255));
         ConfigurarAlertas.setForeground(new java.awt.Color(0, 0, 0));
-        ConfigurarAlertas.setText("Configurar Alertas (ok)");
+        ConfigurarAlertas.setText("Configurar Alertas (NOK)");
         ConfigurarAlertas.setBorder(null);
         ConfigurarAlertas.setBorderPainted(false);
         ConfigurarAlertas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -53,6 +45,7 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
 
         Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/TelecomLogo.png"))); // NOI18N
 
+        Atras.setBackground(new java.awt.Color(153, 255, 255));
         Atras.setForeground(new java.awt.Color(0, 0, 0));
         Atras.setText("Regresar (ok)");
         Atras.setBorder(null);
@@ -65,21 +58,12 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("ACCIONES");
 
-        Configuracion.setForeground(new java.awt.Color(0, 0, 0));
-        Configuracion.setText("<html> <div style ='text-align:center;'> Modificar Precios <br> de Proveedores /<html>");
-        Configuracion.setBorder(null);
-        Configuracion.setBorderPainted(false);
-        Configuracion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Configuracion.addActionListener(this::ConfiguracionActionPerformed);
-
         javax.swing.GroupLayout MenuLateralLayout = new javax.swing.GroupLayout(MenuLateral);
         MenuLateral.setLayout(MenuLateralLayout);
         MenuLateralLayout.setHorizontalGroup(
             MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(ConfigurarAlertas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(Atras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(Configuracion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(EliminarItem, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(MenuLateralLayout.createSequentialGroup()
@@ -98,35 +82,31 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
                 .addComponent(Atras)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ConfigurarAlertas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(EliminarItem, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Configuracion)
-                .addContainerGap(156, Short.MAX_VALUE))
+                .addContainerGap(213, Short.MAX_VALUE))
         );
 
         MenuSuperior.setBackground(new java.awt.Color(0, 102, 255));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("CONFIGURACIÓN");
+        jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("MENU CONFIGURACIÓN");
 
         javax.swing.GroupLayout MenuSuperiorLayout = new javax.swing.GroupLayout(MenuSuperior);
         MenuSuperior.setLayout(MenuSuperiorLayout);
         MenuSuperiorLayout.setHorizontalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
-                .addContainerGap(259, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(215, 215, 215))
+                .addContainerGap(117, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(79, 79, 79))
         );
         MenuSuperiorLayout.setVerticalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuSuperiorLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(97, Short.MAX_VALUE))
+                .addComponent(jLabel3)
+                .addContainerGap(76, Short.MAX_VALUE))
         );
 
         Contenido.setBackground(new java.awt.Color(204, 204, 204));
@@ -181,7 +161,7 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
     Contenido.revalidate();
     Contenido.repaint();
     }
-    
+    /*
     public void cambiarMenuSuperior(JPanel menuNuevo){
         menuNuevo.setSize(MenuSuperior.getMaximumSize());
         menuNuevo.setLocation(0, 0);
@@ -203,7 +183,7 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
         MenuSuperior.add(menuSuperiorP);
         MenuSuperior.revalidate();
         MenuSuperior.repaint();
-        /*
+        
         JPanel menuLateral = new MenuLateralPrincipal();
         MenuLateral.add(menuLateral);
         MenuLateral.revalidate();
@@ -213,18 +193,12 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
         Contenido.add(contenidoPrincipal);
         Contenido.revalidate();
         Contenido.repaint();
-        */
+        
     }
-    
+    */
    
     
     
-    private void EliminarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarItemActionPerformed
-        JPanel eliminarItems = new EliminarItemJPanel();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(eliminarItems); 
-    }//GEN-LAST:event_EliminarItemActionPerformed
-
     private void ConfigurarAlertasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfigurarAlertasActionPerformed
         //JPanel configAlertas = new ConfigurarAlertasJPanel();
         //cambiarContenido(configAlertas);
@@ -236,22 +210,16 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
         frame.cambiarFondo(panelPrincipal);
     }//GEN-LAST:event_AtrasActionPerformed
 
-    private void ConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfiguracionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ConfiguracionActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Atras;
-    private javax.swing.JButton Configuracion;
     private javax.swing.JButton ConfigurarAlertas;
     private javax.swing.JPanel Contenido;
-    private javax.swing.JButton EliminarItem;
     private javax.swing.JPanel Fondo;
     private javax.swing.JLabel Logo;
     private javax.swing.JPanel MenuLateral;
     private javax.swing.JPanel MenuSuperior;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }

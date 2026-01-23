@@ -2,10 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package GUI.PanelesInternos;
+package GUI.PanelesInternos.ComprarItem;
 
 import GUI.FramePrincipal;
-import GUI.PanelDeConfiguracion;
+import GUI.PanelesInternos.CrearItemJPanel;
+import GUI.PanelesInternos.CrearProveedorJPanel;
+import GUI.PanelesInternos.LoginJPanel;
+import GUI.PanelesPRINCIPALES.PanelDeConfiguracion;
 import Persistencia.Clases.Item;
 import Persistencia.Clases.ItemDeProveedorX;
 import Persistencia.Clases.Proveedor;
@@ -22,8 +25,11 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @author Santi-kun
  */
 public class SeleccionarProveedorCompraJPanel extends javax.swing.JPanel {
-     private void irARellenarDatosCompra(Long itemId, Long ProveedorId){
-        JPanel datosCompra = new RellenarDatosCompraJPanel();
+    //Atributos
+    private Long ProveedorId;
+    
+    private void irARellenarDatosCompra(Long itemId, Long ProveedorId){
+        JPanel datosCompra = new RellenarDatosCompraJPanel(itemId, ProveedorId);
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(datosCompra);
     }
@@ -111,9 +117,7 @@ public class SeleccionarProveedorCompraJPanel extends javax.swing.JPanel {
     
     
     
-    /**
-     * Creates new form SeleccionarProveedorCompra
-     */
+    //<<CONSTRUCTOR>>
     public SeleccionarProveedorCompraJPanel(Long itemId) {
         initComponents();
         cargarTablaItems();
@@ -219,7 +223,7 @@ public class SeleccionarProveedorCompraJPanel extends javax.swing.JPanel {
         ContenidoLayout.setHorizontalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContenidoLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ContenidoLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -368,7 +372,7 @@ public class SeleccionarProveedorCompraJPanel extends javax.swing.JPanel {
                 .addComponent(Configuracion1)
                 .addGap(34, 34, 34)
                 .addComponent(VenderItem1)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout FondoLayout = new javax.swing.GroupLayout(Fondo);
@@ -380,15 +384,15 @@ public class SeleccionarProveedorCompraJPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(MenuSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)))
+                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 583, Short.MAX_VALUE)))
         );
         FondoLayout.setVerticalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(FondoLayout.createSequentialGroup()
                 .addComponent(MenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE))
-            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE))
+            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
         );
 
         add(Fondo, java.awt.BorderLayout.CENTER);

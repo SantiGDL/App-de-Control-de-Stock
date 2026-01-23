@@ -4,6 +4,7 @@
  */
 package GUI.CopiaPrincipal;
 
+import GUI.PanelesPRINCIPALES.PanelDeConfiguracion;
 import GUI.*;
 import GUI.PanelesInternos.CrearItemJPanel;
 import GUI.PanelesInternos.CrearProveedorJPanel;

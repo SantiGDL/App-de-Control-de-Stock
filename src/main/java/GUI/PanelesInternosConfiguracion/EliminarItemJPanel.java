@@ -5,7 +5,7 @@
 package GUI.PanelesInternosConfiguracion;
 
 import GUI.FramePrincipal;
-import GUI.PanelPrincipal;
+import GUI.PanelesPRINCIPALES.PanelDeTODASLasFunciones;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
@@ -246,7 +246,7 @@ public class EliminarItemJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_ConfigurarAlertasActionPerformed
 
     private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
-        JPanel panelPrincipal = new PanelPrincipal();
+        JPanel panelPrincipal = new PanelDeTODASLasFunciones();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(panelPrincipal);
     }//GEN-LAST:event_AtrasActionPerformed

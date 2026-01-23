@@ -2,13 +2,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package GUI.PanelesInternos;
+package GUI.PanelesInternos.ComprarItem;
 
 import GUI.FramePrincipal;
-import GUI.PanelDeConfiguracion;
+import GUI.GUIController;
+import GUI.PanelesInternos.CrearItemJPanel;
+import GUI.PanelesInternos.CrearProveedorJPanel;
+import GUI.PanelesInternos.LoginJPanel;
+import GUI.PanelesPRINCIPALES.PanelDeConfiguracion;
+import Persistencia.Clases.CompraItemAProveedorX;
 import Persistencia.Clases.Item;
 import Persistencia.Clases.ItemDeSTOCK;
+import Persistencia.DTOs.DTItem;
 import Persistencia.ManejadorDePersistencia;
+import java.time.LocalDate;
 import javax.swing.JPanel;
 
 /**
@@ -16,17 +23,77 @@ import javax.swing.JPanel;
  * @author Santi-kun
  */
 public class RellenarDatosCompraJPanel extends javax.swing.JPanel {
-
-    /**
-     * Creates new form RellenarDatosCompraJPanel
-     */
-    public RellenarDatosCompraJPanel() {
+    GUIController controller = new GUIController();
+    //Atributos
+    private Long itemId;
+    private Long ProveedorId;
+    
+    //Cuando creo la clase inicializo los atributos con los id que le pase del item y proveedor de las 2 pantallas anteriores
+    public RellenarDatosCompraJPanel(Long itemId, Long ProveedorId) {
+        this.itemId = itemId;
+        this.ProveedorId = ProveedorId;
         initComponents();
     }
     //SI eligio el default entonces no genero un ItemDeProveedorX, entonces lo que tengo que hacer es:
     //aumentar el STOCK
     //Y generar una fila en el historial general, no en el de proveedor
-    //el tema de control de gastos no imoporta, eso es para una segunda versión 
+    //LOS GASTOS POR AHORA LOS IGNORAMOS
+
+    public void crearCompra(){
+       if (ProveedorId == 0) {
+           //obtengo el DT del item que seleccionó
+           DTItem dt = controller.recuperarDTItemDeId(itemId);
+           NombreItem.setText(dt.getNombre()); 
+           DescripcionItem.setText(dt.getDescripcion());
+           //Obtengo la cantidad de unidades 
+           String cantStr = cantUnidades.getText().trim();
+           //parseo de string a  integer las unidades
+           Integer cantUnidades;
+        try {
+            cantUnidades = Integer.valueOf(cantStr);
+        } catch (NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Ingresá una cantidad de unidades válida.");
+            return; 
+        }
+            //Creo un nuevo item de stock
+           ItemDeSTOCK nuevoItemDeStock = new ItemDeSTOCK(dt, cantUnidades);
+           
+           //-------> AUMENTO EL STOCK ---> PERSITO EL ITEM DE STOCK  ----->
+        try {
+        
+            ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
+            MDP.AumentarStock(nuevoItemDeStock);
+            javax.swing.JOptionPane.showMessageDialog(null, "Item de Stock creado OK");
+        } catch (Exception ex) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Error creando item: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+           
+           //OBTENGO EL PRECIO POR UNIDAD
+           String precioUnidadstr = precioUnidad.getText().trim();
+           Float precioUnidad;
+           try {
+            precioUnidad = Float.valueOf(precioUnidadstr);
+        } catch (NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Ingresá un número válido.");
+            return; 
+        }
+           //CALCULO EL PRECIO TOTAL
+           Float precioTotal =  precioUnidad * cantUnidades;
+           
+        /*   
+           //ACA ESTOY AGREGANDOLO AL HISTORIAL 
+        String nombreProveedor;
+        String nombreItem;
+        LocalDate fechaActual = new LocalDate
+        CompraItemAProveedorX compra = new CompraItemAProveedorX()   
+        //public CompraItemAProveedorX(String nombreProveedor, String nombreItem, Integer cantUnidades, Float precioXUnidad, Float precioTotal, LocalDate fecha){
+    */
+       }
+    } 
+    
+    
+    
     
     
    /*if (ProveedorId == 0){
@@ -75,17 +142,17 @@ public class RellenarDatosCompraJPanel extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        DescripcionItem = new javax.swing.JTextField();
+        precioUnidad = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        NombreItem = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        precioTotal = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        cantUnidades = new javax.swing.JTextField();
         Comprar = new javax.swing.JButton();
         MenuLateral = new javax.swing.JPanel();
         CrearProveedor1 = new javax.swing.JButton();
@@ -175,9 +242,9 @@ public class RellenarDatosCompraJPanel extends javax.swing.JPanel {
         jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("Nombre");
 
-        jTextField1.addActionListener(this::jTextField1ActionPerformed);
+        DescripcionItem.addActionListener(this::DescripcionItemActionPerformed);
 
-        jTextField2.addActionListener(this::jTextField2ActionPerformed);
+        precioUnidad.addActionListener(this::precioUnidadActionPerformed);
 
         jTextField3.addActionListener(this::jTextField3ActionPerformed);
 
@@ -207,25 +274,26 @@ public class RellenarDatosCompraJPanel extends javax.swing.JPanel {
         jLabel11.setForeground(new java.awt.Color(0, 0, 0));
         jLabel11.setText("Datos Item:");
 
-        jTextField4.addActionListener(this::jTextField4ActionPerformed);
+        NombreItem.addActionListener(this::NombreItemActionPerformed);
 
         jLabel12.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(0, 0, 0));
         jLabel12.setText("Precio por unidad:");
 
-        jTextField5.addActionListener(this::jTextField5ActionPerformed);
+        precioTotal.addActionListener(this::precioTotalActionPerformed);
 
         jLabel13.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(0, 0, 0));
         jLabel13.setText("Precio Total:");
 
-        jTextField6.addActionListener(this::jTextField6ActionPerformed);
+        cantUnidades.addActionListener(this::cantUnidadesActionPerformed);
 
         Comprar.setBackground(new java.awt.Color(51, 204, 255));
         Comprar.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
         Comprar.setForeground(new java.awt.Color(255, 255, 255));
         Comprar.setText("COMPRAR");
         Comprar.setBorder(null);
+        Comprar.addActionListener(this::ComprarActionPerformed);
 
         javax.swing.GroupLayout ContenidoLayout = new javax.swing.GroupLayout(Contenido);
         Contenido.setLayout(ContenidoLayout);
@@ -246,8 +314,8 @@ public class RellenarDatosCompraJPanel extends javax.swing.JPanel {
                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField4))))
+                                    .addComponent(DescripcionItem, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(NombreItem))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ContenidoLayout.createSequentialGroup()
@@ -274,11 +342,11 @@ public class RellenarDatosCompraJPanel extends javax.swing.JPanel {
                         .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(ContenidoLayout.createSequentialGroup()
                                 .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addComponent(cantUnidades, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                                    .addComponent(precioUnidad, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(ContenidoLayout.createSequentialGroup()
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(precioTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(Comprar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(38, 38, 38))))))
@@ -304,11 +372,11 @@ public class RellenarDatosCompraJPanel extends javax.swing.JPanel {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(ContenidoLayout.createSequentialGroup()
                         .addGap(54, 54, 54)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(NombreItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
                         .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DescripcionItem, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -317,15 +385,15 @@ public class RellenarDatosCompraJPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(precioUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cantUnidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(precioTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Comprar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3))
             .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -549,25 +617,30 @@ public class RellenarDatosCompraJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void precioUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_precioUnidadActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_precioUnidadActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void DescripcionItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DescripcionItemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_DescripcionItemActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void NombreItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreItemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_NombreItemActionPerformed
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+    private void precioTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_precioTotalActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_precioTotalActionPerformed
 
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+    private void cantUnidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cantUnidadesActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
+    }//GEN-LAST:event_cantUnidadesActionPerformed
+
+    private void ComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComprarActionPerformed
+     crearCompra();
+     System.out.println("Item id = "+ itemId + "Proveedor id = " + ProveedorId);
+    }//GEN-LAST:event_ComprarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -580,13 +653,16 @@ public class RellenarDatosCompraJPanel extends javax.swing.JPanel {
     private javax.swing.JPanel Contenido;
     private javax.swing.JButton CrearItem1;
     private javax.swing.JButton CrearProveedor1;
+    private javax.swing.JTextField DescripcionItem;
     private javax.swing.JPanel Fondo;
     private javax.swing.JButton Login1;
     private javax.swing.JLabel Logo1;
     private javax.swing.JPanel MenuLateral;
     private javax.swing.JPanel MenuSuperior;
+    private javax.swing.JTextField NombreItem;
     private javax.swing.JButton VenderItem;
     private javax.swing.JButton VenderItem1;
+    private javax.swing.JTextField cantUnidades;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -602,11 +678,8 @@ public class RellenarDatosCompraJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField precioTotal;
+    private javax.swing.JTextField precioUnidad;
     // End of variables declaration//GEN-END:variables
 }

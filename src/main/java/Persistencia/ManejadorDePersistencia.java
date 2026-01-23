@@ -2,7 +2,10 @@ package Persistencia;
 
 import Persistencia.Clases.CatalogoGeneral;
 import Persistencia.Clases.Item;
+import Persistencia.Clases.ItemDeSTOCK;
 import Persistencia.Clases.Proveedor;
+import Persistencia.Clases.Stock;
+import Persistencia.DTOs.DTItem;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.PersistenceException;
@@ -105,5 +108,40 @@ public class ManejadorDePersistencia {
 
 */
 
+public DTItem getDTItem(EntityManager em, Long itemId) {
+    Item it = em.createQuery(
+        "SELECT DISTINCT it FROM Item it " +
+        "WHERE it.id = :id",
+        Item.class
+    )
+    .setParameter("id", itemId)
+    .getSingleResult();
+    
+    DTItem dt = it.crearDTItem();
+    return dt;
+}
 
+
+
+    public void AumentarStock(ItemDeSTOCK nuevoItemDeStock){    
+        EntityManager em = FabricaEntityManager.getEntityManager();
+        EntityTransaction et = em.getTransaction();
+        try{
+            et.begin();
+            // 1) Busco el catálogo general existente (hay 1 solo)
+        Stock stock = em.createQuery("SELECT s FROM Stock c", Stock.class).setMaxResults(1).getResultStream().findFirst().orElse(null);
+            // 2) Si no existe, lo creo y persisto
+            if (stock == null) {
+                stock = new Stock();
+                em.persist(stock);
+            }
+            // 3) Lo asigno al item (porque es NOT NULL la realacion)
+            nuevoItemDeStock.setStock(stock);
+            // 4) Persisto el item
+            em.persist(nuevoItemDeStock);
+            et.commit();
+        }
+        catch(Exception e) {if (et.isActive()) {et.rollback();}throw new PersistenceException("Error al persistir item de Stock", e);} 
+            finally {em.close();}
+    }
 }

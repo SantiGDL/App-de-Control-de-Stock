@@ -4,9 +4,10 @@
  */
 package GUI.PanelesInternos;
 
+import GUI.PanelesInternos.ComprarItem.ComprarItemJPanel;
 import GUI.FramePrincipal;
 import GUI.GUIController;
-import GUI.PanelDeConfiguracion;
+import GUI.PanelesPRINCIPALES.PanelDeConfiguracion;
 import Persistencia.Clases.Item;
 import Persistencia.ManejadorDePersistencia;
 import javax.swing.JPanel;
