@@ -6,20 +6,58 @@ package GUI.PanelesPRINCIPALES;
 
 import GUI.FramePrincipal;
 import GUI.PanelPrincipal;
-import GUI.PanelesInternos.Catalogos.CatalogoGeneralJPanel;
+import GUI.PanelesInternos.Items.ComprarItem.ComprarItemJPanel;
+import Persistencia.Clases.Item;
+import Persistencia.Clases.ItemDeSTOCK;
+import Persistencia.FabricaEntityManager;
+import Persistencia.ManejadorDePersistencia;
+import jakarta.persistence.EntityManager;
+import java.util.List;
 import javax.swing.JPanel;
 
 /**
  *
  * @author Santi-kun
  */
-public class PanelDeCatalogos extends javax.swing.JPanel {
+public class PanelDeStock extends javax.swing.JPanel {
 
+    private void cargarTablaItemsSTOCK() {
+    // Llamo al manejador de persistencia que tiene la funcion de traerme los items
+    ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
+    //invoco el entity manager para trabajar
+    FabricaEntityManager FEM = new FabricaEntityManager();
+    EntityManager em = FEM.getEntityManager();
+    //Uso la funcion del manejador de persistencia que hice
+    List<ItemDeSTOCK> itemsDeStock = MDP.getItemsDeStock(em);
+    // 2) Armo el modelo con columnas
+    javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
+        new Object[]{"ID", "Nombre", "Descripcion", "Imagen", "cantUnidades"}, 0
+    ) {
+        @Override public boolean isCellEditable(int row, int column) { return false; }
+        
+    };
+
+    // 3) Cargás filas
+    for (ItemDeSTOCK it : itemsDeStock) {
+        modeloTabla.addRow(new Object[]{
+            it.getId(),
+            it.getNombre(),
+            it.getDescripcion(),
+            it.getImagen(),
+            it.getCantUnidades(),
+        });
+    }
+    TablaDeStock.setModel(modeloTabla);
+    TablaDeStock.getTableHeader().setReorderingAllowed(false);
+
+    
+    }
     /**
-     * Creates new form PanelDeCatalogos
+     * Creates new form PanelDeStock
      */
-    public PanelDeCatalogos() {
+    public PanelDeStock() {
         initComponents();
+        cargarTablaItemsSTOCK();
     }
 
     /**
@@ -36,12 +74,14 @@ public class PanelDeCatalogos extends javax.swing.JPanel {
         Logo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         VenderItem1 = new javax.swing.JButton();
-        CatalogoGeneral = new javax.swing.JButton();
-        PROVEEDORES3 = new javax.swing.JButton();
+        Stock1 = new javax.swing.JButton();
+        Stock2 = new javax.swing.JButton();
         Atras = new javax.swing.JButton();
         MenuSuperior = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         Contenido = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TablaDeStock = new javax.swing.JTable();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -66,28 +106,28 @@ public class PanelDeCatalogos extends javax.swing.JPanel {
         VenderItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         VenderItem1.addActionListener(this::VenderItem1ActionPerformed);
 
-        CatalogoGeneral.setBackground(new java.awt.Color(255, 153, 153));
-        CatalogoGeneral.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        CatalogoGeneral.setForeground(new java.awt.Color(0, 0, 0));
-        CatalogoGeneral.setText("Catálogo General (OK)");
-        CatalogoGeneral.setBorder(null);
-        CatalogoGeneral.setBorderPainted(false);
-        CatalogoGeneral.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CatalogoGeneral.addActionListener(this::CatalogoGeneralActionPerformed);
+        Stock1.setBackground(new java.awt.Color(29, 63, 243));
+        Stock1.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        Stock1.setForeground(new java.awt.Color(0, 0, 0));
+        Stock1.setText("Aumentar(comprar item)");
+        Stock1.setBorder(null);
+        Stock1.setBorderPainted(false);
+        Stock1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Stock1.addActionListener(this::Stock1ActionPerformed);
 
-        PROVEEDORES3.setBackground(new java.awt.Color(255, 153, 153));
-        PROVEEDORES3.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        PROVEEDORES3.setForeground(new java.awt.Color(0, 0, 0));
-        PROVEEDORES3.setText("Catálogo x Proveedor (NOK)");
-        PROVEEDORES3.setBorder(null);
-        PROVEEDORES3.setBorderPainted(false);
-        PROVEEDORES3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        PROVEEDORES3.addActionListener(this::PROVEEDORES3ActionPerformed);
+        Stock2.setBackground(new java.awt.Color(29, 63, 243));
+        Stock2.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        Stock2.setForeground(new java.awt.Color(0, 0, 0));
+        Stock2.setText("Disminuir (vender)");
+        Stock2.setBorder(null);
+        Stock2.setBorderPainted(false);
+        Stock2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Stock2.addActionListener(this::Stock2ActionPerformed);
 
         Atras.setBackground(new java.awt.Color(153, 255, 255));
-        Atras.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        Atras.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         Atras.setForeground(new java.awt.Color(0, 0, 0));
-        Atras.setText("Atrás");
+        Atras.setText("ATRAS");
         Atras.setBorder(null);
         Atras.setBorderPainted(false);
         Atras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -100,8 +140,8 @@ public class PanelDeCatalogos extends javax.swing.JPanel {
             .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(CatalogoGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(PROVEEDORES3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Stock1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Stock2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -122,11 +162,11 @@ public class PanelDeCatalogos extends javax.swing.JPanel {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(Atras)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Stock1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CatalogoGeneral)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PROVEEDORES3)
-                .addGap(161, 161, 161)
+                .addComponent(Stock2)
+                .addGap(164, 164, 164)
                 .addComponent(VenderItem1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -136,38 +176,56 @@ public class PanelDeCatalogos extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("MENU CATÁLOGOS");
+        jLabel3.setText("MENÚ STOCK");
 
         javax.swing.GroupLayout MenuSuperiorLayout = new javax.swing.GroupLayout(MenuSuperior);
         MenuSuperior.setLayout(MenuSuperiorLayout);
         MenuSuperiorLayout.setHorizontalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
-                .addContainerGap(51, Short.MAX_VALUE)
+            .addGroup(MenuSuperiorLayout.createSequentialGroup()
+                .addGap(129, 129, 129)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(133, 133, 133))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         MenuSuperiorLayout.setVerticalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuSuperiorLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jLabel3)
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addGap(37, 37, 37)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(66, Short.MAX_VALUE))
         );
 
         Contenido.setBackground(new java.awt.Color(204, 204, 204));
         Contenido.setPreferredSize(new java.awt.Dimension(700, 320));
         Contenido.setVerifyInputWhenFocusTarget(false);
 
+        TablaDeStock.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(TablaDeStock);
+
         javax.swing.GroupLayout ContenidoLayout = new javax.swing.GroupLayout(Contenido);
         Contenido.setLayout(ContenidoLayout);
         ContenidoLayout.setHorizontalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(ContenidoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         ContenidoLayout.setVerticalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(ContenidoLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout FondoLayout = new javax.swing.GroupLayout(Fondo);
@@ -179,15 +237,15 @@ public class PanelDeCatalogos extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(MenuSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)))
+                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)))
         );
         FondoLayout.setVerticalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
             .addGroup(FondoLayout.createSequentialGroup()
                 .addComponent(MenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -198,15 +256,15 @@ public class PanelDeCatalogos extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_VenderItem1ActionPerformed
 
-    private void CatalogoGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CatalogoGeneralActionPerformed
-   JPanel catalogoGeneral = new CatalogoGeneralJPanel();
+    private void Stock1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Stock1ActionPerformed
+     JPanel  comprarItem = new ComprarItemJPanel();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(catalogoGeneral);
-    }//GEN-LAST:event_CatalogoGeneralActionPerformed
+        frame.cambiarFondo(comprarItem);
+    }//GEN-LAST:event_Stock1ActionPerformed
 
-    private void PROVEEDORES3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PROVEEDORES3ActionPerformed
+    private void Stock2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Stock2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_PROVEEDORES3ActionPerformed
+    }//GEN-LAST:event_Stock2ActionPerformed
 
     private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
         JPanel panelPrincipal = new PanelPrincipal();
@@ -217,15 +275,17 @@ public class PanelDeCatalogos extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Atras;
-    private javax.swing.JButton CatalogoGeneral;
     private javax.swing.JPanel Contenido;
     private javax.swing.JPanel Fondo;
     private javax.swing.JLabel Logo;
     private javax.swing.JPanel MenuLateral;
     private javax.swing.JPanel MenuSuperior;
-    private javax.swing.JButton PROVEEDORES3;
+    private javax.swing.JButton Stock1;
+    private javax.swing.JButton Stock2;
+    private javax.swing.JTable TablaDeStock;
     private javax.swing.JButton VenderItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

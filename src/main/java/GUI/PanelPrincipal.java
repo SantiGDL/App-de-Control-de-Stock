@@ -9,6 +9,7 @@ import GUI.PanelesPRINCIPALES.PanelDeProveedores;
 import GUI.PanelesPRINCIPALES.PanelDeItems;
 import GUI.PanelesInternos.LoginJPanel;
 import GUI.PanelesPRINCIPALES.PanelDeCatalogos;
+import GUI.PanelesPRINCIPALES.PanelDeStock;
 import GUI.PanelesPRINCIPALES.PanelDeTODASLasFunciones;
 import javax.swing.JPanel;
 
@@ -44,8 +45,9 @@ public class PanelPrincipal extends javax.swing.JPanel {
         ITEMS = new javax.swing.JButton();
         PROVEEDORES = new javax.swing.JButton();
         PROVEEDORES1 = new javax.swing.JButton();
-        PROVEEDORES2 = new javax.swing.JButton();
-        PROVEEDORES3 = new javax.swing.JButton();
+        menuCatalogos = new javax.swing.JButton();
+        TodasLasFunciones = new javax.swing.JButton();
+        Stock = new javax.swing.JButton();
         MenuSuperior = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         Contenido = new javax.swing.JPanel();
@@ -118,23 +120,32 @@ public class PanelPrincipal extends javax.swing.JPanel {
         PROVEEDORES1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         PROVEEDORES1.addActionListener(this::PROVEEDORES1ActionPerformed);
 
-        PROVEEDORES2.setBackground(new java.awt.Color(255, 153, 153));
-        PROVEEDORES2.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        PROVEEDORES2.setForeground(new java.awt.Color(0, 0, 0));
-        PROVEEDORES2.setText("CATÁLOGOS");
-        PROVEEDORES2.setBorder(null);
-        PROVEEDORES2.setBorderPainted(false);
-        PROVEEDORES2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        PROVEEDORES2.addActionListener(this::PROVEEDORES2ActionPerformed);
+        menuCatalogos.setBackground(new java.awt.Color(255, 153, 153));
+        menuCatalogos.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        menuCatalogos.setForeground(new java.awt.Color(0, 0, 0));
+        menuCatalogos.setText("CATÁLOGOS");
+        menuCatalogos.setBorder(null);
+        menuCatalogos.setBorderPainted(false);
+        menuCatalogos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menuCatalogos.addActionListener(this::menuCatalogosActionPerformed);
 
-        PROVEEDORES3.setBackground(new java.awt.Color(255, 153, 153));
-        PROVEEDORES3.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        PROVEEDORES3.setForeground(new java.awt.Color(0, 0, 0));
-        PROVEEDORES3.setText("todo");
-        PROVEEDORES3.setBorder(null);
-        PROVEEDORES3.setBorderPainted(false);
-        PROVEEDORES3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        PROVEEDORES3.addActionListener(this::PROVEEDORES3ActionPerformed);
+        TodasLasFunciones.setBackground(new java.awt.Color(255, 153, 153));
+        TodasLasFunciones.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        TodasLasFunciones.setForeground(new java.awt.Color(0, 0, 0));
+        TodasLasFunciones.setText("TODAS LAS FUNCIONES");
+        TodasLasFunciones.setBorder(null);
+        TodasLasFunciones.setBorderPainted(false);
+        TodasLasFunciones.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        TodasLasFunciones.addActionListener(this::TodasLasFuncionesActionPerformed);
+
+        Stock.setBackground(new java.awt.Color(29, 63, 243));
+        Stock.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        Stock.setForeground(new java.awt.Color(0, 0, 0));
+        Stock.setText("STOCK");
+        Stock.setBorder(null);
+        Stock.setBorderPainted(false);
+        Stock.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Stock.addActionListener(this::StockActionPerformed);
 
         javax.swing.GroupLayout MenuLateralLayout = new javax.swing.GroupLayout(MenuLateral);
         MenuLateral.setLayout(MenuLateralLayout);
@@ -148,7 +159,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
             .addComponent(ITEMS, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(PROVEEDORES, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(PROVEEDORES1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(PROVEEDORES2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(menuCatalogos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,10 +169,9 @@ public class PanelPrincipal extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuLateralLayout.createSequentialGroup()
                         .addGap(89, 89, 89)
                         .addComponent(VenderItem1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(63, 63, 63))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuLateralLayout.createSequentialGroup()
-                        .addComponent(PROVEEDORES3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addGap(63, 63, 63))))
+            .addComponent(Stock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(TodasLasFunciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         MenuLateralLayout.setVerticalGroup(
             MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,20 +182,22 @@ public class PanelPrincipal extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(Login)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Stock)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ITEMS)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PROVEEDORES)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PROVEEDORES1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PROVEEDORES2)
+                .addComponent(menuCatalogos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TodasLasFunciones)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Configuracion)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PROVEEDORES3)
-                .addGap(71, 71, 71)
+                .addGap(54, 54, 54)
                 .addComponent(VenderItem1)
-                .addContainerGap(98, Short.MAX_VALUE))
+                .addContainerGap(92, Short.MAX_VALUE))
         );
 
         MenuSuperior.setBackground(new java.awt.Color(0, 102, 255));
@@ -283,17 +295,23 @@ public class PanelPrincipal extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_PROVEEDORES1ActionPerformed
 
-    private void PROVEEDORES2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PROVEEDORES2ActionPerformed
+    private void menuCatalogosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCatalogosActionPerformed
       JPanel  menuCatalogos = new PanelDeCatalogos();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(menuCatalogos);
-    }//GEN-LAST:event_PROVEEDORES2ActionPerformed
+    }//GEN-LAST:event_menuCatalogosActionPerformed
 
-    private void PROVEEDORES3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PROVEEDORES3ActionPerformed
+    private void TodasLasFuncionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TodasLasFuncionesActionPerformed
      JPanel  PanelDeTODAS = new PanelDeTODASLasFunciones();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(PanelDeTODAS);
-    }//GEN-LAST:event_PROVEEDORES3ActionPerformed
+    }//GEN-LAST:event_TodasLasFuncionesActionPerformed
+
+    private void StockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StockActionPerformed
+     JPanel  stockPanel = new PanelDeStock();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(stockPanel);
+    }//GEN-LAST:event_StockActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -307,10 +325,11 @@ public class PanelPrincipal extends javax.swing.JPanel {
     private javax.swing.JPanel MenuSuperior;
     private javax.swing.JButton PROVEEDORES;
     private javax.swing.JButton PROVEEDORES1;
-    private javax.swing.JButton PROVEEDORES2;
-    private javax.swing.JButton PROVEEDORES3;
+    private javax.swing.JButton Stock;
+    private javax.swing.JButton TodasLasFunciones;
     private javax.swing.JButton VenderItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JButton menuCatalogos;
     // End of variables declaration//GEN-END:variables
 }

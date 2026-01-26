@@ -6,9 +6,9 @@ package GUI.PanelesPRINCIPALES;
 
 import GUI.FramePrincipal;
 import GUI.PanelPrincipal;
-import GUI.PanelesInternos.ComprarItem.ComprarItemJPanel;
-import GUI.PanelesInternos.CrearItemJPanel;
-import GUI.PanelesInternosConfiguracion.EliminarItemJPanel;
+import GUI.PanelesInternos.Items.ComprarItem.ComprarItemJPanel;
+import GUI.PanelesInternos.Items.CrearItemJPanel;
+import GUI.PanelesInternosConfiguraciones.EliminarItemJPanel;
 import javax.swing.JPanel;
 
 /**
@@ -43,6 +43,7 @@ public class PanelDeItems extends javax.swing.JPanel {
         VenderItem1 = new javax.swing.JButton();
         Atras = new javax.swing.JButton();
         EliminarItem = new javax.swing.JButton();
+        VenderItem2 = new javax.swing.JButton();
         MenuSuperior = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         Contenido = new javax.swing.JPanel();
@@ -58,9 +59,9 @@ public class PanelDeItems extends javax.swing.JPanel {
         MenuLateral.setRequestFocusEnabled(false);
 
         CrearItem.setBackground(new java.awt.Color(204, 102, 255));
-        CrearItem.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        CrearItem.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         CrearItem.setForeground(new java.awt.Color(0, 0, 0));
-        CrearItem.setText("Crear Item (ok)");
+        CrearItem.setText("Crear Item (OK)");
         CrearItem.setBorder(null);
         CrearItem.setBorderPainted(false);
         CrearItem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -74,18 +75,18 @@ public class PanelDeItems extends javax.swing.JPanel {
         jLabel1.setText("ACCIONES");
 
         ComprarItem.setBackground(new java.awt.Color(204, 102, 255));
-        ComprarItem.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        ComprarItem.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         ComprarItem.setForeground(new java.awt.Color(0, 0, 0));
-        ComprarItem.setText("Comprar Item (ok)");
+        ComprarItem.setText("Comprar Item (OK)");
         ComprarItem.setBorder(null);
         ComprarItem.setBorderPainted(false);
         ComprarItem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         ComprarItem.addActionListener(this::ComprarItemActionPerformed);
 
         VenderItem.setBackground(new java.awt.Color(204, 102, 255));
-        VenderItem.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        VenderItem.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         VenderItem.setForeground(new java.awt.Color(0, 0, 0));
-        VenderItem.setText("Vender Item");
+        VenderItem.setText("Vender Item (NOK)");
         VenderItem.setBorder(null);
         VenderItem.setBorderPainted(false);
         VenderItem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -98,22 +99,31 @@ public class PanelDeItems extends javax.swing.JPanel {
         VenderItem1.addActionListener(this::VenderItem1ActionPerformed);
 
         Atras.setBackground(new java.awt.Color(204, 255, 255));
-        Atras.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        Atras.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         Atras.setForeground(new java.awt.Color(0, 0, 0));
-        Atras.setText("Atrás");
+        Atras.setText("ATRÁS");
         Atras.setBorder(null);
         Atras.setBorderPainted(false);
         Atras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Atras.addActionListener(this::AtrasActionPerformed);
 
         EliminarItem.setBackground(new java.awt.Color(204, 102, 255));
-        EliminarItem.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        EliminarItem.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         EliminarItem.setForeground(new java.awt.Color(0, 0, 0));
-        EliminarItem.setText("Eliminar Item");
+        EliminarItem.setText("Eliminar Item (NOK)");
         EliminarItem.setBorder(null);
         EliminarItem.setBorderPainted(false);
         EliminarItem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         EliminarItem.addActionListener(this::EliminarItemActionPerformed);
+
+        VenderItem2.setBackground(new java.awt.Color(204, 102, 255));
+        VenderItem2.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        VenderItem2.setForeground(new java.awt.Color(0, 0, 0));
+        VenderItem2.setText("Editar Item (NOK)");
+        VenderItem2.setBorder(null);
+        VenderItem2.setBorderPainted(false);
+        VenderItem2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        VenderItem2.addActionListener(this::VenderItem2ActionPerformed);
 
         javax.swing.GroupLayout MenuLateralLayout = new javax.swing.GroupLayout(MenuLateral);
         MenuLateral.setLayout(MenuLateralLayout);
@@ -122,21 +132,24 @@ public class PanelDeItems extends javax.swing.JPanel {
             .addComponent(CrearItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(VenderItem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(ComprarItem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Atras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(MenuLateralLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(EliminarItem, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(MenuLateralLayout.createSequentialGroup()
-                        .addComponent(Logo)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuLateralLayout.createSequentialGroup()
                         .addGap(89, 89, 89)
                         .addComponent(VenderItem1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(63, 63, 63))))
-            .addComponent(Atras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(63, 63, 63))
+                    .addGroup(MenuLateralLayout.createSequentialGroup()
+                        .addComponent(Logo)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(EliminarItem, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(VenderItem2, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         MenuLateralLayout.setVerticalGroup(
@@ -154,10 +167,12 @@ public class PanelDeItems extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(VenderItem)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(VenderItem2)
+                .addGap(10, 10, 10)
                 .addComponent(EliminarItem)
-                .addGap(95, 95, 95)
+                .addGap(66, 66, 66)
                 .addComponent(VenderItem1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(101, Short.MAX_VALUE))
         );
 
         MenuSuperior.setBackground(new java.awt.Color(0, 102, 255));
@@ -255,6 +270,10 @@ public class PanelDeItems extends javax.swing.JPanel {
         frame.cambiarFondo(eliminarItems);
     }//GEN-LAST:event_EliminarItemActionPerformed
 
+    private void VenderItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VenderItem2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VenderItem2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Atras;
@@ -268,6 +287,7 @@ public class PanelDeItems extends javax.swing.JPanel {
     private javax.swing.JPanel MenuSuperior;
     private javax.swing.JButton VenderItem;
     private javax.swing.JButton VenderItem1;
+    private javax.swing.JButton VenderItem2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables

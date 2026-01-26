@@ -1,10 +1,24 @@
 package GUI;
+import ImagenesHelpers.ImagenesHelper;
+import Persistencia.Clases.Item;
 import Persistencia.DTOs.DTItem;
+import Persistencia.DTOs.DTProveedor;
 import Persistencia.FabricaEntityManager;
 import Persistencia.ManejadorDePersistencia;
 import jakarta.persistence.EntityManager;
+import java.awt.Image;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+//imports para cargar imagenes
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
+import java.util.UUID;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class GUIController {
     
@@ -46,4 +60,43 @@ public class GUIController {
         DTItem dt = MDP.getDTItem(em, itemId);
         return dt;
      }
+     
+     
+     //Funciones Auxiliares de Cargar Imagen
+    
+     public String cargarImagen(String rutaImagen) throws IOException{
+         //Llamo al Imagen Helper para que se encergue de cargar la imagen que le paso 
+         return ImagenesHelper.copiarImagenAAppSources(rutaImagen);
+     }
+     
+     public DTProveedor recuperarDTProveedorDeId(Long proveedorId){
+        //Primero llamo al manejado de persistencia para obtener la insantncia de Item a partir de la id
+        ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
+        EntityManager em = FabricaEntityManager.getEntityManager();
+        DTProveedor dt = MDP.getDTProveedor(em, proveedorId);
+        return dt;
+     }
+     
+    public void mostrarImagenEnPanel(JPanel panel, JLabel label, String ruta) {
+    if (ruta == null || ruta.isBlank()) {
+        label.setIcon(null);
+        return;
+    }
+
+    ImageIcon icon = new ImageIcon(ruta);
+    if (icon.getIconWidth() <= 0) { // no cargó
+        label.setIcon(null);
+        return;
+    }
+
+    int w = panel.getWidth();
+    int h = panel.getHeight();
+    if (w <= 0 || h <= 0) { // si todavía no se layout-eó
+        w = 160; h = 160;   // fallback
+    }
+
+    Image escalada = icon.getImage().getScaledInstance(w, h, java.awt.Image.SCALE_SMOOTH);
+    label.setIcon(new ImageIcon(escalada));
+}
+    
 }

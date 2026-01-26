@@ -6,6 +6,8 @@ package GUI.PanelesPRINCIPALES;
 
 import GUI.FramePrincipal;
 import GUI.PanelPrincipal;
+import GUI.PanelesInternos.Proveedores.CrearProveedorJPanel;
+import GUI.PanelesInternos.Proveedores.ListaDeProveedoresJPanel;
 import javax.swing.JPanel;
 
 /**
@@ -35,7 +37,7 @@ public class PanelDeProveedores extends javax.swing.JPanel {
         Logo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         VenderItem1 = new javax.swing.JButton();
-        Configuracion4 = new javax.swing.JButton();
+        ListaDeProveedores = new javax.swing.JButton();
         CrearProveedor1 = new javax.swing.JButton();
         ConfigurarAlertas1 = new javax.swing.JButton();
         ConfigurarAlertas2 = new javax.swing.JButton();
@@ -67,41 +69,46 @@ public class PanelDeProveedores extends javax.swing.JPanel {
         VenderItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         VenderItem1.addActionListener(this::VenderItem1ActionPerformed);
 
-        Configuracion4.setBackground(new java.awt.Color(153, 255, 153));
-        Configuracion4.setForeground(new java.awt.Color(0, 0, 0));
-        Configuracion4.setText("Lista de Proveedores");
-        Configuracion4.setBorder(null);
-        Configuracion4.setBorderPainted(false);
-        Configuracion4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Configuracion4.addActionListener(this::Configuracion4ActionPerformed);
+        ListaDeProveedores.setBackground(new java.awt.Color(153, 255, 153));
+        ListaDeProveedores.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        ListaDeProveedores.setForeground(new java.awt.Color(0, 0, 0));
+        ListaDeProveedores.setText("Lista de Proveedores (OK)");
+        ListaDeProveedores.setBorder(null);
+        ListaDeProveedores.setBorderPainted(false);
+        ListaDeProveedores.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ListaDeProveedores.addActionListener(this::ListaDeProveedoresActionPerformed);
 
         CrearProveedor1.setBackground(new java.awt.Color(153, 255, 153));
+        CrearProveedor1.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         CrearProveedor1.setForeground(new java.awt.Color(0, 0, 0));
-        CrearProveedor1.setText("Crear Proveedor (ok)");
+        CrearProveedor1.setText("Crear Proveedor (OK)");
         CrearProveedor1.setBorder(null);
         CrearProveedor1.setBorderPainted(false);
         CrearProveedor1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         CrearProveedor1.addActionListener(this::CrearProveedor1ActionPerformed);
 
         ConfigurarAlertas1.setBackground(new java.awt.Color(153, 255, 153));
+        ConfigurarAlertas1.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         ConfigurarAlertas1.setForeground(new java.awt.Color(0, 0, 0));
-        ConfigurarAlertas1.setText("Editar Proveedor");
+        ConfigurarAlertas1.setText("Editar Proveedor (NOK)");
         ConfigurarAlertas1.setBorder(null);
         ConfigurarAlertas1.setBorderPainted(false);
         ConfigurarAlertas1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         ConfigurarAlertas1.addActionListener(this::ConfigurarAlertas1ActionPerformed);
 
         ConfigurarAlertas2.setBackground(new java.awt.Color(153, 255, 153));
+        ConfigurarAlertas2.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         ConfigurarAlertas2.setForeground(new java.awt.Color(0, 0, 0));
-        ConfigurarAlertas2.setText("Eliminar Proveedor");
+        ConfigurarAlertas2.setText("Eliminar Proveedor (NOK)");
         ConfigurarAlertas2.setBorder(null);
         ConfigurarAlertas2.setBorderPainted(false);
         ConfigurarAlertas2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         ConfigurarAlertas2.addActionListener(this::ConfigurarAlertas2ActionPerformed);
 
         Atras.setBackground(new java.awt.Color(153, 255, 255));
+        Atras.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         Atras.setForeground(new java.awt.Color(0, 0, 0));
-        Atras.setText("Menú Principal (ok)");
+        Atras.setText("ATRAS");
         Atras.setBorder(null);
         Atras.setBorderPainted(false);
         Atras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -114,7 +121,7 @@ public class PanelDeProveedores extends javax.swing.JPanel {
             .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(Configuracion4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(ListaDeProveedores, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(CrearProveedor1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addContainerGap()
@@ -141,7 +148,7 @@ public class PanelDeProveedores extends javax.swing.JPanel {
                 .addGap(5, 5, 5)
                 .addComponent(CrearProveedor1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Configuracion4)
+                .addComponent(ListaDeProveedores)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ConfigurarAlertas1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -163,7 +170,7 @@ public class PanelDeProveedores extends javax.swing.JPanel {
         MenuSuperiorLayout.setHorizontalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
-                .addContainerGap(109, Short.MAX_VALUE)
+                .addContainerGap(198, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addGap(46, 46, 46))
         );
@@ -199,15 +206,15 @@ public class PanelDeProveedores extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(MenuSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)))
+                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)))
         );
         FondoLayout.setVerticalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
+            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(FondoLayout.createSequentialGroup()
                 .addComponent(MenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
-                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -218,12 +225,16 @@ public class PanelDeProveedores extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_VenderItem1ActionPerformed
 
-    private void Configuracion4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Configuracion4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Configuracion4ActionPerformed
+    private void ListaDeProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListaDeProveedoresActionPerformed
+    JPanel  listaProveedores = new ListaDeProveedoresJPanel();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(listaProveedores);
+    }//GEN-LAST:event_ListaDeProveedoresActionPerformed
 
     private void CrearProveedor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearProveedor1ActionPerformed
-        // TODO add your handling code here:
+    JPanel crearProveedor = new CrearProveedorJPanel();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(crearProveedor);
     }//GEN-LAST:event_CrearProveedor1ActionPerformed
 
     private void ConfigurarAlertas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfigurarAlertas1ActionPerformed
@@ -243,12 +254,12 @@ public class PanelDeProveedores extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Atras;
-    private javax.swing.JButton Configuracion4;
     private javax.swing.JButton ConfigurarAlertas1;
     private javax.swing.JButton ConfigurarAlertas2;
     private javax.swing.JPanel Contenido;
     private javax.swing.JButton CrearProveedor1;
     private javax.swing.JPanel Fondo;
+    private javax.swing.JButton ListaDeProveedores;
     private javax.swing.JLabel Logo;
     private javax.swing.JPanel MenuLateral;
     private javax.swing.JPanel MenuSuperior;

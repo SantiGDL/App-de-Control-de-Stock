@@ -6,6 +6,7 @@ import Persistencia.Clases.ItemDeSTOCK;
 import Persistencia.Clases.Proveedor;
 import Persistencia.Clases.Stock;
 import Persistencia.DTOs.DTItem;
+import Persistencia.DTOs.DTProveedor;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.PersistenceException;
@@ -83,9 +84,16 @@ public class ManejadorDePersistencia {
 }
     
     
-  public List<Proveedor> obtenerTodosLosProveedores(EntityManager em) {
+  public List<Proveedor> obtenerTodosLosProveedoresOrderByNombre(EntityManager em) {
     return em.createQuery(
             "SELECT p FROM Proveedor p ORDER BY p.nombre",
+            Proveedor.class
+    ).getResultList();
+}
+  
+  public List<Proveedor> obtenerTodosLosProveedoresOrderById(EntityManager em) {
+    return em.createQuery(
+            "SELECT p FROM Proveedor p ORDER BY p.id",
             Proveedor.class
     ).getResultList();
 }
@@ -129,14 +137,15 @@ public DTItem getDTItem(EntityManager em, Long itemId) {
         try{
             et.begin();
             // 1) Busco el catálogo general existente (hay 1 solo)
-        Stock stock = em.createQuery("SELECT s FROM Stock c", Stock.class).setMaxResults(1).getResultStream().findFirst().orElse(null);
+        Stock stock = em.createQuery("SELECT s FROM Stock s", Stock.class).setMaxResults(1).getResultStream().findFirst().orElse(null);
             // 2) Si no existe, lo creo y persisto
             if (stock == null) {
                 stock = new Stock();
                 em.persist(stock);
             }
+            
             // 3) Lo asigno al item (porque es NOT NULL la realacion)
-            nuevoItemDeStock.setStock(stock);
+            nuevoItemDeStock.setStock(stock);//no hace falta hacer add porque lo hago desde la persistencia
             // 4) Persisto el item
             em.persist(nuevoItemDeStock);
             et.commit();
@@ -144,4 +153,33 @@ public DTItem getDTItem(EntityManager em, Long itemId) {
         catch(Exception e) {if (et.isActive()) {et.rollback();}throw new PersistenceException("Error al persistir item de Stock", e);} 
             finally {em.close();}
     }
+    
+    
+    public List<ItemDeSTOCK> getItemsDeStock(EntityManager em) {
+    Stock s = em.createQuery(
+        "SELECT DISTINCT s FROM Stock s " +
+        //el left join es para que me traiga ya cargala la lista de items
+        "LEFT JOIN FETCH s.itemsDeStock " +
+        "WHERE s.id = :id",
+        Stock.class
+    )
+    .setParameter("id", 1L) //Hay un solo stock y lo seteo en 1L
+    .getSingleResult();
+    
+    //una ves traje el catalogo de la base de datos le pido la lista de items
+    return s.getItemsDeSTOCK();
+    }
+    
+    public DTProveedor getDTProveedor(EntityManager em, Long proveedorId) {
+    Proveedor p = em.createQuery(
+        "SELECT DISTINCT p FROM Proveedor p " +
+        "WHERE p.id = :id",
+        Proveedor.class
+    )
+    .setParameter("id", proveedorId)
+    .getSingleResult();
+    
+    DTProveedor dt = p.crearDTProveedor();
+    return dt;
+}
 }

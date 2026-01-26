@@ -2,63 +2,73 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package GUI.PanelesInternos;
+package GUI.PanelesInternos.Proveedores;
 
 import GUI.FramePrincipal;
 import GUI.PanelPrincipal;
+import GUI.PanelesPRINCIPALES.PanelDeProveedores;
+import ImagenesHelpers.RenderDeImagenEnTablas;
 import Persistencia.Clases.Item;
+import Persistencia.Clases.Proveedor;
 import Persistencia.FabricaEntityManager;
 import Persistencia.ManejadorDePersistencia;
 import jakarta.persistence.EntityManager;
 import java.util.List;
 import javax.swing.JPanel;
-import static javax.swing.SwingConstants.CENTER;
-import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
  * @author Santi-kun
  */
-public class CatalogoGeneralJPanel extends javax.swing.JPanel {
-    
-private void cargarTablaItems() {
-    // Llamo al manejador de persistencia que tiene la funcion de traerme los items
+public class ListaDeProveedoresJPanel extends javax.swing.JPanel {
+
+    private void cargarTablaProveedores() {
     ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
-    //invoco el entity manager para trabajar
     FabricaEntityManager FEM = new FabricaEntityManager();
     EntityManager em = FEM.getEntityManager();
-    //Uso la funcion del manejador de persistencia que hice
-    List<Item> items = MDP.getItemsDeCatalogoGeneral(em);
+    //Los ordeno por nombre
+    List<Proveedor> proveedores = MDP.obtenerTodosLosProveedoresOrderByNombre(em);
     // 2) Armo el modelo con columnas
     javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
-        new Object[]{"ID", "Nombre", "Descripcion", "Imagen"}, 0
+        new Object[]{"ID", "Nombre", "Contacto", "Ubicacion", "Descripcion", "Imagen"}, 0
     ) {
         @Override public boolean isCellEditable(int row, int column) { return false; }
         
     };
 
     // 3) Cargás filas
-    for (Item it : items) {
+    for (Proveedor p : proveedores) {
         modeloTabla.addRow(new Object[]{
-            it.getId(),
-            it.getNombre(),
-            it.getDescripcion(),
-            it.getImagen(),
+            p.getId(),
+            p.getNombre(),
+            p.getContacto(),
+            p.getUbicacion(),
+            p.getDescripcion(),
+            p.getImagen(),
         });
     }
     CatalogoGeneral.setModel(modeloTabla);
     CatalogoGeneral.getTableHeader().setReorderingAllowed(false);
+     // oculto ID (col 0)
+    CatalogoGeneral.getColumnModel().getColumn(0).setMinWidth(0);
+    CatalogoGeneral.getColumnModel().getColumn(0).setMaxWidth(0);
+    CatalogoGeneral.getColumnModel().getColumn(0).setPreferredWidth(0);
+    //HAY QUE RENDERIZAR DESPUES DE SETEAR EL MODELO
+    int colImagen = 5;
+    CatalogoGeneral.setRowHeight(120);
+    //RENDERIZO LA IMAGEN USANDO EL HELPER
+    CatalogoGeneral.getColumnModel().getColumn(colImagen)
+              .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
 
     
     }
-
     
     /**
-     * Creates new form CatalogoGeneralJPanel
+     * Creates new form ListaDeProveedoresJPanel
      */
-    public CatalogoGeneralJPanel() {
+    public ListaDeProveedoresJPanel() {
         initComponents();
-        cargarTablaItems();
+        cargarTablaProveedores();
     }
 
     /**
@@ -81,6 +91,7 @@ private void cargarTablaItems() {
         jLabel1 = new javax.swing.JLabel();
         VenderItem1 = new javax.swing.JButton();
         Atras = new javax.swing.JButton();
+        Atras1 = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -93,23 +104,23 @@ private void cargarTablaItems() {
         jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("CATALOGO GENERAL");
+        jLabel3.setText("LISTA DE PROVEEDORES");
 
         javax.swing.GroupLayout MenuSuperiorLayout = new javax.swing.GroupLayout(MenuSuperior);
         MenuSuperior.setLayout(MenuSuperiorLayout);
         MenuSuperiorLayout.setHorizontalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
-                .addContainerGap(46, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44))
+            .addGroup(MenuSuperiorLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(68, Short.MAX_VALUE))
         );
         MenuSuperiorLayout.setVerticalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuSuperiorLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(21, 21, 21)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         Contenido.setBackground(new java.awt.Color(204, 204, 204));
@@ -163,13 +174,22 @@ private void cargarTablaItems() {
         VenderItem1.addActionListener(this::VenderItem1ActionPerformed);
 
         Atras.setBackground(new java.awt.Color(153, 255, 255));
-        Atras.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        Atras.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         Atras.setForeground(new java.awt.Color(0, 0, 0));
-        Atras.setText("Atrás");
+        Atras.setText("MENU PRINCIPAL");
         Atras.setBorder(null);
         Atras.setBorderPainted(false);
         Atras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Atras.addActionListener(this::AtrasActionPerformed);
+
+        Atras1.setBackground(new java.awt.Color(153, 255, 153));
+        Atras1.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        Atras1.setForeground(new java.awt.Color(0, 0, 0));
+        Atras1.setText("ATRAS");
+        Atras1.setBorder(null);
+        Atras1.setBorderPainted(false);
+        Atras1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Atras1.addActionListener(this::Atras1ActionPerformed);
 
         javax.swing.GroupLayout MenuLateralLayout = new javax.swing.GroupLayout(MenuLateral);
         MenuLateral.setLayout(MenuLateralLayout);
@@ -188,7 +208,9 @@ private void cargarTablaItems() {
                         .addGap(89, 89, 89)
                         .addComponent(VenderItem1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(63, 63, 63))))
-            .addComponent(Atras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(Atras, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
+                .addComponent(Atras1, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
         );
         MenuLateralLayout.setVerticalGroup(
             MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -196,11 +218,16 @@ private void cargarTablaItems() {
                 .addComponent(Logo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(Atras)
-                .addGap(210, 210, 210)
+                .addGap(247, 247, 247)
                 .addComponent(VenderItem1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(MenuLateralLayout.createSequentialGroup()
+                    .addGap(185, 185, 185)
+                    .addComponent(Atras)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(Atras1)
+                    .addContainerGap(186, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout FondoLayout = new javax.swing.GroupLayout(Fondo);
@@ -212,7 +239,7 @@ private void cargarTablaItems() {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(MenuSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)))
+                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 558, Short.MAX_VALUE)))
         );
         FondoLayout.setVerticalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,9 +263,16 @@ private void cargarTablaItems() {
         frame.cambiarFondo(panelPrincipal);
     }//GEN-LAST:event_AtrasActionPerformed
 
+    private void Atras1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Atras1ActionPerformed
+        JPanel panelDeProveedores = new PanelDeProveedores();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(panelDeProveedores);
+    }//GEN-LAST:event_Atras1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Atras;
+    private javax.swing.JButton Atras1;
     private javax.swing.JTable CatalogoGeneral;
     private javax.swing.JPanel Contenido;
     private javax.swing.JPanel Fondo;

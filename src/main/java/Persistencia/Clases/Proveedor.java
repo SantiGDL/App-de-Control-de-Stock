@@ -53,7 +53,7 @@ public class Proveedor {
 
 
     //Contructor de DTProveedor --> Aca lo puedo
-    public DTProveedor getDTProveedor() {
+    public DTProveedor crearDTProveedor() {
         DTProveedor dt = new DTProveedor(this.nombre, this.contacto, this.ubicacion, this.descripcion, this.imagen);
         return dt;
     }

@@ -2,21 +2,28 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package GUI.PanelesInternos;
+package GUI.PanelesInternos.Proveedores;
 
-import GUI.PanelesInternos.ComprarItem.ComprarItemJPanel;
+import GUI.PanelesInternos.Items.ComprarItem.ComprarItemJPanel;
 import GUI.FramePrincipal;
 import GUI.GUIController;
+import GUI.PanelPrincipal;
 import GUI.PanelesPRINCIPALES.PanelDeConfiguracion;
+import GUI.PanelesPRINCIPALES.PanelDeProveedores;
 import Persistencia.Clases.Proveedor;
 import Persistencia.ManejadorDePersistencia;
+import java.io.File;
+import java.io.IOException;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
  * @author Santi-kun
  */
 public class CrearProveedorJPanel extends javax.swing.JPanel {
+    private String rutaImagenSeleccionada = "";
     GUIController controller = new GUIController();
     /**
      * Creates new form CrearProveedor
@@ -51,18 +58,11 @@ public class CrearProveedorJPanel extends javax.swing.JPanel {
         ImagenContenido = new javax.swing.JButton();
         ACEPTAR = new javax.swing.JButton();
         MenuLateral = new javax.swing.JPanel();
-        CrearProveedor1 = new javax.swing.JButton();
-        CrearItem1 = new javax.swing.JButton();
         Logo1 = new javax.swing.JLabel();
-        Login1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        Configuracion1 = new javax.swing.JButton();
-        Configuracion2 = new javax.swing.JButton();
-        ComprarItem = new javax.swing.JButton();
-        VenderItem = new javax.swing.JButton();
         VenderItem1 = new javax.swing.JButton();
-        Configuracion3 = new javax.swing.JButton();
-        Configuracion4 = new javax.swing.JButton();
+        Atras = new javax.swing.JButton();
+        Atras1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(0, 320));
@@ -220,61 +220,12 @@ public class CrearProveedorJPanel extends javax.swing.JPanel {
         MenuLateral.setPreferredSize(new java.awt.Dimension(200, 500));
         MenuLateral.setRequestFocusEnabled(false);
 
-        CrearProveedor1.setForeground(new java.awt.Color(0, 0, 0));
-        CrearProveedor1.setText("Crear Proveedor (ok)");
-        CrearProveedor1.setBorder(null);
-        CrearProveedor1.setBorderPainted(false);
-        CrearProveedor1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CrearProveedor1.addActionListener(this::CrearProveedor1ActionPerformed);
-
-        CrearItem1.setForeground(new java.awt.Color(0, 0, 0));
-        CrearItem1.setText("Crear Item (ok)");
-        CrearItem1.setBorder(null);
-        CrearItem1.setBorderPainted(false);
-        CrearItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CrearItem1.addActionListener(this::CrearItem1ActionPerformed);
-
         Logo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/TelecomLogo.png"))); // NOI18N
-
-        Login1.setForeground(new java.awt.Color(0, 0, 0));
-        Login1.setText("Iniciar Sesion (ok)");
-        Login1.setBorder(null);
-        Login1.setBorderPainted(false);
-        Login1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Login1.addActionListener(this::Login1ActionPerformed);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("ACCIONES");
-
-        Configuracion1.setForeground(new java.awt.Color(0, 0, 0));
-        Configuracion1.setText("Configuración (ok)");
-        Configuracion1.setBorder(null);
-        Configuracion1.setBorderPainted(false);
-        Configuracion1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Configuracion1.addActionListener(this::Configuracion1ActionPerformed);
-
-        Configuracion2.setForeground(new java.awt.Color(0, 0, 0));
-        Configuracion2.setText("Historial");
-        Configuracion2.setBorder(null);
-        Configuracion2.setBorderPainted(false);
-        Configuracion2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Configuracion2.addActionListener(this::Configuracion2ActionPerformed);
-
-        ComprarItem.setForeground(new java.awt.Color(0, 0, 0));
-        ComprarItem.setText("Comprar Item");
-        ComprarItem.setBorder(null);
-        ComprarItem.setBorderPainted(false);
-        ComprarItem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        ComprarItem.addActionListener(this::ComprarItemActionPerformed);
-
-        VenderItem.setForeground(new java.awt.Color(0, 0, 0));
-        VenderItem.setText("Vender Item");
-        VenderItem.setBorder(null);
-        VenderItem.setBorderPainted(false);
-        VenderItem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        VenderItem.addActionListener(this::VenderItemActionPerformed);
 
         VenderItem1.setForeground(new java.awt.Color(0, 0, 0));
         VenderItem1.setBorder(null);
@@ -282,31 +233,32 @@ public class CrearProveedorJPanel extends javax.swing.JPanel {
         VenderItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         VenderItem1.addActionListener(this::VenderItem1ActionPerformed);
 
-        Configuracion3.setForeground(new java.awt.Color(0, 0, 0));
-        Configuracion3.setText("Catálogo General");
-        Configuracion3.setBorder(null);
-        Configuracion3.setBorderPainted(false);
-        Configuracion3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Configuracion3.addActionListener(this::Configuracion3ActionPerformed);
+        Atras.setBackground(new java.awt.Color(153, 255, 255));
+        Atras.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        Atras.setForeground(new java.awt.Color(0, 0, 0));
+        Atras.setText("MENU PRINCIPAL");
+        Atras.setBorder(null);
+        Atras.setBorderPainted(false);
+        Atras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Atras.addActionListener(this::AtrasActionPerformed);
 
-        Configuracion4.setForeground(new java.awt.Color(0, 0, 0));
-        Configuracion4.setText("Catálogo por Proveedor");
-        Configuracion4.setBorder(null);
-        Configuracion4.setBorderPainted(false);
-        Configuracion4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Configuracion4.addActionListener(this::Configuracion4ActionPerformed);
+        Atras1.setBackground(new java.awt.Color(153, 255, 153));
+        Atras1.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        Atras1.setForeground(new java.awt.Color(0, 0, 0));
+        Atras1.setText("ATRAS");
+        Atras1.setBorder(null);
+        Atras1.setBorderPainted(false);
+        Atras1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Atras1.addActionListener(this::Atras1ActionPerformed);
 
         javax.swing.GroupLayout MenuLateralLayout = new javax.swing.GroupLayout(MenuLateral);
         MenuLateral.setLayout(MenuLateralLayout);
         MenuLateralLayout.setHorizontalGroup(
             MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(CrearItem1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(Login1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 6, Short.MAX_VALUE))
-            .addComponent(VenderItem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(ComprarItem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Atras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -317,11 +269,7 @@ public class CrearProveedorJPanel extends javax.swing.JPanel {
                         .addGap(89, 89, 89)
                         .addComponent(VenderItem1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(63, 63, 63))))
-            .addComponent(CrearProveedor1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(Configuracion2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(Configuracion1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(Configuracion3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(Configuracion4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Atras1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         MenuLateralLayout.setVerticalGroup(
             MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -329,25 +277,11 @@ public class CrearProveedorJPanel extends javax.swing.JPanel {
                 .addComponent(Logo1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(Atras)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Login1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CrearItem1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ComprarItem)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(VenderItem)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CrearProveedor1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Configuracion2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Configuracion3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Configuracion4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Configuracion1)
-                .addGap(34, 34, 34)
+                .addComponent(Atras1)
+                .addGap(174, 174, 174)
                 .addComponent(VenderItem1)
                 .addContainerGap(18, Short.MAX_VALUE))
         );
@@ -393,59 +327,28 @@ public class CrearProveedorJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_DescripcionContenidoActionPerformed
 
     private void ImagenContenidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImagenContenidoActionPerformed
-        // TODO add your handling code here:
+  JFileChooser chooser = new JFileChooser();
+    chooser.setDialogTitle("Seleccionar imagen");
+
+    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+            "Imágenes (png, jpg, jpeg, gif, webp)", "png", "jpg", "jpeg", "gif", "webp"
+    );
+    chooser.setFileFilter(filter);
+
+    int result = chooser.showOpenDialog(this);
+    if (result == JFileChooser.APPROVE_OPTION) {
+        File file = chooser.getSelectedFile();
+        rutaImagenSeleccionada = file.getAbsolutePath();
+
+        // (Opcional) mostrar al usuario qué eligió:
+        javax.swing.JOptionPane.showMessageDialog(this, "Imagen seleccionada:\n" + rutaImagenSeleccionada);
+    
+}  
     }//GEN-LAST:event_ImagenContenidoActionPerformed
-
-    private void CrearProveedor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearProveedor1ActionPerformed
-        // Creo el panel CrearProveedor
-        JPanel crearProveedorPanel = new CrearProveedorJPanel();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(crearProveedorPanel);
-    }//GEN-LAST:event_CrearProveedor1ActionPerformed
-
-    private void CrearItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearItem1ActionPerformed
-        JPanel crearItemPanel = new CrearItemJPanel();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(crearItemPanel);
-    }//GEN-LAST:event_CrearItem1ActionPerformed
-
-    private void Login1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Login1ActionPerformed
-        JPanel loginPanel = new LoginJPanel();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(loginPanel);
-    }//GEN-LAST:event_Login1ActionPerformed
-
-    private void Configuracion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Configuracion1ActionPerformed
-        JPanel configuracionPanel = new PanelDeConfiguracion();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(configuracionPanel);
-    }//GEN-LAST:event_Configuracion1ActionPerformed
-
-    private void Configuracion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Configuracion2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Configuracion2ActionPerformed
-
-    private void ComprarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComprarItemActionPerformed
-    JPanel  comprarItem = new ComprarItemJPanel();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(comprarItem);
-    }//GEN-LAST:event_ComprarItemActionPerformed
-
-    private void VenderItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VenderItemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_VenderItemActionPerformed
 
     private void VenderItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VenderItem1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_VenderItem1ActionPerformed
-
-    private void Configuracion3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Configuracion3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Configuracion3ActionPerformed
-
-    private void Configuracion4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Configuracion4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Configuracion4ActionPerformed
 
     private void ACEPTARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ACEPTARActionPerformed
       String nombreProveedor = NombreContenido.getText().trim();
@@ -454,7 +357,13 @@ public class CrearProveedorJPanel extends javax.swing.JPanel {
       String descripcion = DescripcionContenido.getText().trim();
       //Por ahora lo dejo asi hasta que configure las imagenes
       String imagen = "";
-      
+      try {
+        // Copia la imagen elegida a la carpeta raíz (si el usuario eligió una)
+        imagen = controller.cargarImagen(rutaImagenSeleccionada);
+        } catch (IOException io) {
+        javax.swing.JOptionPane.showMessageDialog(this, "No se pudo copiar la imagen:\n" + io.getMessage());
+        return;
+        }
       if (nombreProveedor.isEmpty() || contacto.isEmpty() || ubicacion.isEmpty() || descripcion.isEmpty()) {
           javax.swing.JOptionPane.showMessageDialog(this, "Debe rellenar todos los campos");
           return;
@@ -476,25 +385,31 @@ public class CrearProveedorJPanel extends javax.swing.JPanel {
      }
     }//GEN-LAST:event_ACEPTARActionPerformed
 
+    private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
+        JPanel panelPrincipal = new PanelPrincipal();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(panelPrincipal);
+    }//GEN-LAST:event_AtrasActionPerformed
+
+    private void Atras1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Atras1ActionPerformed
+     JPanel panelDeProveedores = new PanelDeProveedores();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(panelDeProveedores);
+    }//GEN-LAST:event_Atras1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ACEPTAR;
-    private javax.swing.JButton ComprarItem;
-    private javax.swing.JButton Configuracion1;
-    private javax.swing.JButton Configuracion2;
-    private javax.swing.JButton Configuracion3;
-    private javax.swing.JButton Configuracion4;
+    private javax.swing.JButton Atras;
+    private javax.swing.JButton Atras1;
     private javax.swing.JTextField ContactoContenido;
     private javax.swing.JLabel ContactoLbl;
     private javax.swing.JPanel Contenido;
-    private javax.swing.JButton CrearItem1;
-    private javax.swing.JButton CrearProveedor1;
     private javax.swing.JTextField DescripcionContenido;
     private javax.swing.JLabel DescripcionLbl;
     private javax.swing.JPanel Fondo;
     private javax.swing.JButton ImagenContenido;
     private javax.swing.JLabel ImagenLbl;
-    private javax.swing.JButton Login1;
     private javax.swing.JLabel Logo1;
     private javax.swing.JPanel MenuLateral;
     private javax.swing.JPanel MenuSuperior;
@@ -502,7 +417,6 @@ public class CrearProveedorJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel NombreLbl;
     private javax.swing.JTextField UbicacionContenido;
     private javax.swing.JLabel UbicacionLbl;
-    private javax.swing.JButton VenderItem;
     private javax.swing.JButton VenderItem1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

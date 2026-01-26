@@ -3,7 +3,7 @@ import GUI.FramePrincipal;
 import GUI.GUIController;
 import GUI.PanelPrincipal;
 import GUI.PanelesInternos.LoginJPanel;
-import GUI.PanelesInternosConfiguracion.EliminarItemJPanel;
+import GUI.PanelesInternosConfiguraciones.EliminarItemJPanel;
 import javax.swing.JPanel;
 public class PanelDeConfiguracion extends javax.swing.JPanel {
     GUIController controller = new GUIController();
@@ -36,6 +36,7 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
         MenuLateral.setRequestFocusEnabled(false);
 
         ConfigurarAlertas.setBackground(new java.awt.Color(102, 102, 255));
+        ConfigurarAlertas.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         ConfigurarAlertas.setForeground(new java.awt.Color(0, 0, 0));
         ConfigurarAlertas.setText("Configurar Alertas (NOK)");
         ConfigurarAlertas.setBorder(null);
@@ -46,8 +47,9 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
         Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/TelecomLogo.png"))); // NOI18N
 
         Atras.setBackground(new java.awt.Color(153, 255, 255));
+        Atras.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         Atras.setForeground(new java.awt.Color(0, 0, 0));
-        Atras.setText("Regresar (ok)");
+        Atras.setText("Atrás");
         Atras.setBorder(null);
         Atras.setBorderPainted(false);
         Atras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -82,7 +84,7 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
                 .addComponent(Atras)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ConfigurarAlertas)
-                .addContainerGap(213, Short.MAX_VALUE))
+                .addContainerGap(207, Short.MAX_VALUE))
         );
 
         MenuSuperior.setBackground(new java.awt.Color(0, 102, 255));

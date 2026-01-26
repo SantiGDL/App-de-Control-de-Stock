@@ -26,6 +26,15 @@ public class Stock {
     public Long getId() {return id;}
     public List<ItemDeSTOCK> getItemsDeSTOCK() {return this.itemsDeStock;}
 //Funciones
+    public boolean itemEnStock(ItemDeSTOCK nuevoItem, Integer cantUni){
+        for (ItemDeSTOCK it: itemsDeStock){
+            //si la id del item que seleccine ya estaba en el stock no creo uno nuevo, solo lo aumento
+            if (nuevoItem.getId() == itemsDeStock[it].getId()){
+                it.aumentarStock(cantUni);
+            }
+        }
+    }
+    
     public void addItemDeStock(ItemDeSTOCK item) {
         itemsDeStock.add(item);
     }

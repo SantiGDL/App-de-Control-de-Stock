@@ -4,8 +4,8 @@
  */
 package GUI;
 
-import GUI.PanelesInternos.CrearItemJPanel;
-import GUI.PanelesInternos.CrearProveedorJPanel;
+import GUI.PanelesInternos.Items.CrearItemJPanel;
+import GUI.PanelesInternos.Proveedores.CrearProveedorJPanel;
 import GUI.PanelesInternos.LoginJPanel;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTMaterialLighterIJTheme;

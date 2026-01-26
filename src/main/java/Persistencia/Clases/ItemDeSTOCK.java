@@ -34,6 +34,9 @@ import jakarta.persistence.*;
         public void setId(Long id) {this.id = id;}
         public Long getId() {return id;}
         public String getNombre(){return this.nombre;}
+        public String getDescripcion(){return this.descripcion;}
+        public String getImagen(){return this.imagen;}
         public Integer getCantUnidades() {return cantUnidades;}
         public void setStock(Stock stock){this.stock = stock;}
+        public void aumentarStock(Integer cantUni){this.cantUnidades = this.cantUnidades + cantUni;}
 }
