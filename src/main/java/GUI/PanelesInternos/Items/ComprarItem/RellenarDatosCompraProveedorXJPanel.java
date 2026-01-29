@@ -166,7 +166,10 @@ private void recalcularTotal() {
             ItemDeProveedorX itemProveedroX =  new ItemDeProveedorX(itemComprado,proveedorSeleccionado, precioUnidad, precioFlete, precioTotal, tiempoEnvio);
             CompraItemAProveedorX compraProveedorX = new CompraItemAProveedorX(
                     dtItem.getNombre(), 
-                    itemProveedroX,  
+                    itemProveedroX,
+                    itemComprado.getImagen(),
+                    proveedorSeleccionado.getNombre(),
+                    proveedorSeleccionado.getImagen(),
                     cantUni, 
                     precioUnidad, 
                     precioTotal, 

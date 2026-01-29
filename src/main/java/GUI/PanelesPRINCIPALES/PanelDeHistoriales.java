@@ -4,6 +4,11 @@
  */
 package GUI.PanelesPRINCIPALES;
 
+import GUI.FramePrincipal;
+import GUI.PanelPrincipal;
+import GUI.PanelesInternos.Catalogos.CatalogoGeneralJPanel;
+import javax.swing.JPanel;
+
 /**
  *
  * @author Santi-kun

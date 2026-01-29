@@ -168,7 +168,10 @@ private void recalcularTotal() {
 //------->GENERO LA COMPRA PARA PROVEEDOR DEFAULT  <-----------
             CompraItemAProveedorDefault compraDefault = new CompraItemAProveedorDefault(
                     dtItem.getNombre(), 
-                    itemComprado,  
+                    itemComprado,
+                    itemComprado.getImagen(),
+                    proveedorSeleccionado.getNombre(),
+                    proveedorSeleccionado.getImagen(),
                     cantUni, 
                     precioUnidad, 
                     precioTotal, 

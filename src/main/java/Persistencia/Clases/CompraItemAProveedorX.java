@@ -18,9 +18,9 @@ public class CompraItemAProveedorX  extends CompraItem{
 
 //Constructores
     public CompraItemAProveedorX() {}
-    public CompraItemAProveedorX(String nombreItem, ItemDeProveedorX itemDeProveedor,
-        Integer cantUnidades, Float precioXUnidad, Float precioTotal, LocalDate fecha){
-        super(nombreItem, cantUnidades, precioXUnidad, precioTotal, fecha);
+    public CompraItemAProveedorX(String nombreItem, ItemDeProveedorX itemDeProveedor, String imagenItem,
+        String nombreProveedor, String imagenProveedor, Integer cantUnidades, Float precioXUnidad, Float precioTotal, LocalDate fecha){
+        super(nombreItem, imagenItem, nombreProveedor, imagenProveedor, cantUnidades, precioXUnidad, precioTotal, fecha);
         this.itemDeProveedor = itemDeProveedor;
     }
 //Getters y Setters

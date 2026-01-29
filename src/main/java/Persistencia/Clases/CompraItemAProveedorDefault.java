@@ -25,9 +25,9 @@ public class CompraItemAProveedorDefault extends CompraItem {
 
 //Constructores
     public CompraItemAProveedorDefault() {}
-    public CompraItemAProveedorDefault(String nombreItem, Item itemComprado,
-        Integer cantUnidades, Float precioXUnidad, Float precioTotal, LocalDate fecha) {
-    super(nombreItem, itemComprado.getImagen(), cantUnidades, precioXUnidad, precioTotal, fecha);
+    public CompraItemAProveedorDefault(String nombreItem, Item itemComprado,String imagenItem, String nombreProveedor,
+        String imagenProveedor, Integer cantUnidades, Float precioXUnidad, Float precioTotal, LocalDate fecha) {
+    super(nombreItem, imagenItem, nombreProveedor, imagenProveedor,  cantUnidades, precioXUnidad, precioTotal, fecha);
     this.itemComun = itemComprado;
     }
 
