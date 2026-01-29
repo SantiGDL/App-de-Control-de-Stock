@@ -1,50 +1,29 @@
 package Persistencia.Clases;
-import jakarta.persistence.*;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED) 
 @Table(name = "CompraItemAProveedorX")
-public class CompraItemAProveedorX {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class CompraItemAProveedorX  extends CompraItem{
     private String nombreProveedor;
-    private String nombreItem;
-    private Integer cantUnidades;
-    private Float precioXUnidad;
-    private Float precioTotal;
-    private LocalDate fecha;
-                    
-    @ManyToOne
-    @JoinColumn(name="historialGeneralID", nullable=false)
-    private HistorialGeneral historialGeneral;
-
+    @OneToOne
+    @JoinColumn(name="item_id", nullable=false)
+    private ItemDeProveedorX itemDeProveedor;
 
 //Constructores
     public CompraItemAProveedorX() {}
-    public CompraItemAProveedorX(String nombreProveedor, String nombreItem, Integer cantUnidades, Float precioXUnidad, Float precioTotal, LocalDate fecha){
-        this.nombreProveedor = nombreProveedor;
-        this.nombreItem = nombreItem;
-        this.cantUnidades = cantUnidades;
-        this.precioXUnidad = precioXUnidad;
-        this.precioTotal = precioTotal;
-        this.fecha = fecha;
+    public CompraItemAProveedorX(String nombreItem, ItemDeProveedorX itemDeProveedor,
+        Integer cantUnidades, Float precioXUnidad, Float precioTotal, LocalDate fecha){
+        super(nombreItem, cantUnidades, precioXUnidad, precioTotal, fecha);
+        this.itemDeProveedor = itemDeProveedor;
     }
-
 //Getters y Setters
-    public Long getId(){return this.id;}
     public String getNombreProveedor(){return this.nombreProveedor;}
-    public String getNombreItem(){return this.nombreItem;}
-    public Integer getCantUnidades() {return this.cantUnidades;}
-    public Float getPrecioXunidad(){return this.precioXUnidad;}
-    public Float getprecioTotal() {return this.precioTotal;}
-    public LocalDate getFecha() {return this.fecha;}
-    
-    
-    public void setHistorialGeneral(HistorialGeneral historial){this.historialGeneral = historial;}
-
-    
+    public ItemDeProveedorX getItemComprado(){return this.itemDeProveedor;} 
 }  

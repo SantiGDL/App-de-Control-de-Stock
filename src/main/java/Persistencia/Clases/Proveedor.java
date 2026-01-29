@@ -22,7 +22,9 @@ public class Proveedor {
     private Stock stock;
     @OneToMany(mappedBy = "Proveedor", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<ItemDeProveedorX> listaItemsVendidos;
-
+    //-------> Acá hago el JOIN entre UN Proveedor y UN Historial X Proveedor <---------
+    @OneToOne (mappedBy = "proveedorVinculado")
+    private HistorialXProveedor historialXProveedor;
     // Constructores
     public Proveedor() {}
     public Proveedor(String nombre, String contacto, String ubicacion, String descripcion, String imagen) {
@@ -51,11 +53,17 @@ public class Proveedor {
     public String getImagen() { return imagen; }
     public void setImagen(String imagen) { this.imagen = imagen; }
 
-
+    public HistorialXProveedor getHistorialXProveedor(){return this.historialXProveedor;}
+    public void setHistorialXProveedor(HistorialXProveedor historial){
+        this.historialXProveedor = historial;
+    }
     //Contructor de DTProveedor --> Aca lo puedo
     public DTProveedor crearDTProveedor() {
         DTProveedor dt = new DTProveedor(this.nombre, this.contacto, this.ubicacion, this.descripcion, this.imagen);
         return dt;
     }
+    
+    
+    public Long getHistorialXProveedorId(){return this.historialXProveedor.getIdHistorialXProveedor();}
 
 }

@@ -9,6 +9,7 @@ import GUI.PanelesPRINCIPALES.PanelDeProveedores;
 import GUI.PanelesPRINCIPALES.PanelDeItems;
 import GUI.PanelesInternos.LoginJPanel;
 import GUI.PanelesPRINCIPALES.PanelDeCatalogos;
+import GUI.PanelesPRINCIPALES.PanelDeHistoriales;
 import GUI.PanelesPRINCIPALES.PanelDeStock;
 import GUI.PanelesPRINCIPALES.PanelDeTODASLasFunciones;
 import javax.swing.JPanel;
@@ -44,7 +45,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
         VenderItem1 = new javax.swing.JButton();
         ITEMS = new javax.swing.JButton();
         PROVEEDORES = new javax.swing.JButton();
-        PROVEEDORES1 = new javax.swing.JButton();
+        Historial = new javax.swing.JButton();
         menuCatalogos = new javax.swing.JButton();
         TodasLasFunciones = new javax.swing.JButton();
         Stock = new javax.swing.JButton();
@@ -111,14 +112,14 @@ public class PanelPrincipal extends javax.swing.JPanel {
         PROVEEDORES.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         PROVEEDORES.addActionListener(this::PROVEEDORESActionPerformed);
 
-        PROVEEDORES1.setBackground(new java.awt.Color(255, 255, 204));
-        PROVEEDORES1.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        PROVEEDORES1.setForeground(new java.awt.Color(0, 0, 0));
-        PROVEEDORES1.setText("HISTORIAL");
-        PROVEEDORES1.setBorder(null);
-        PROVEEDORES1.setBorderPainted(false);
-        PROVEEDORES1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        PROVEEDORES1.addActionListener(this::PROVEEDORES1ActionPerformed);
+        Historial.setBackground(new java.awt.Color(255, 255, 204));
+        Historial.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        Historial.setForeground(new java.awt.Color(0, 0, 0));
+        Historial.setText("HISTORIAL");
+        Historial.setBorder(null);
+        Historial.setBorderPainted(false);
+        Historial.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Historial.addActionListener(this::HistorialActionPerformed);
 
         menuCatalogos.setBackground(new java.awt.Color(255, 153, 153));
         menuCatalogos.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
@@ -158,7 +159,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
             .addComponent(Configuracion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(ITEMS, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(PROVEEDORES, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(PROVEEDORES1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Historial, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(menuCatalogos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addContainerGap()
@@ -188,7 +189,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PROVEEDORES)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PROVEEDORES1)
+                .addComponent(Historial)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(menuCatalogos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -291,9 +292,11 @@ public class PanelPrincipal extends javax.swing.JPanel {
         frame.cambiarFondo(menuProveedores);
     }//GEN-LAST:event_PROVEEDORESActionPerformed
 
-    private void PROVEEDORES1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PROVEEDORES1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PROVEEDORES1ActionPerformed
+    private void HistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HistorialActionPerformed
+      JPanel  menuHistoriales = new PanelDeHistoriales();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(menuHistoriales);
+    }//GEN-LAST:event_HistorialActionPerformed
 
     private void menuCatalogosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCatalogosActionPerformed
       JPanel  menuCatalogos = new PanelDeCatalogos();
@@ -318,13 +321,13 @@ public class PanelPrincipal extends javax.swing.JPanel {
     private javax.swing.JButton Configuracion;
     private javax.swing.JPanel Contenido;
     private javax.swing.JPanel Fondo;
+    private javax.swing.JButton Historial;
     private javax.swing.JButton ITEMS;
     private javax.swing.JButton Login;
     private javax.swing.JLabel Logo;
     private javax.swing.JPanel MenuLateral;
     private javax.swing.JPanel MenuSuperior;
     private javax.swing.JButton PROVEEDORES;
-    private javax.swing.JButton PROVEEDORES1;
     private javax.swing.JButton Stock;
     private javax.swing.JButton TodasLasFunciones;
     private javax.swing.JButton VenderItem1;

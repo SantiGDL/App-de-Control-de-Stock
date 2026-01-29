@@ -80,7 +80,7 @@
                   <Component id="Configuracion" alignment="0" max="32767" attributes="0"/>
                   <Component id="ITEMS" alignment="1" max="32767" attributes="0"/>
                   <Component id="PROVEEDORES" alignment="0" max="32767" attributes="0"/>
-                  <Component id="PROVEEDORES1" alignment="1" max="32767" attributes="0"/>
+                  <Component id="Historial" alignment="1" max="32767" attributes="0"/>
                   <Component id="menuCatalogos" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
@@ -115,7 +115,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="PROVEEDORES" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="PROVEEDORES1" min="-2" max="-2" attributes="0"/>
+                      <Component id="Historial" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="menuCatalogos" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -262,7 +262,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PROVEEDORESActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="PROVEEDORES1">
+            <Component class="javax.swing.JButton" name="Historial">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="cc" green="ff" red="ff" type="rgb"/>
@@ -283,7 +283,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PROVEEDORES1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="HistorialActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="menuCatalogos">

@@ -26,7 +26,8 @@ public class Item {
     private List<ItemDeProveedorX> listaDeItemsDeProveedorX;   //Serian todos los Item de Proveedor que se crean a partir de un solo Item
     //o sea que si el item es cableUTPExterior, tendria cableUTPExterior vendido por CDRMedios y por SuperCables, etc. Cada uno
     //genera una nueva insancia de ItemDeProveedorX que la entidad "Item" va a tener vinculada como una lista.
-
+    @OneToMany(mappedBy="ItemVendido", cascade=CascadeType.ALL, orphanRemoval=true)
+    private List<CompraItemAProveedorDefault> listaDeComprasDeProveedorDefault;
 
 
 

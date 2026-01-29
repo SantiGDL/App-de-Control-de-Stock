@@ -7,37 +7,41 @@ package GUI.PanelesInternos.Items.ComprarItem;
 import GUI.FramePrincipal;
 import GUI.GUIController;
 import GUI.PanelPrincipal;
-import GUI.PanelesInternos.Items.CrearItemJPanel;
-import GUI.PanelesInternos.Proveedores.CrearProveedorJPanel;
-import GUI.PanelesInternos.LoginJPanel;
-import GUI.PanelesPRINCIPALES.PanelDeConfiguracion;
 import GUI.PanelesPRINCIPALES.PanelDeItems;
+import Persistencia.Clases.CompraItemAProveedorDefault;
 import Persistencia.Clases.CompraItemAProveedorX;
 import Persistencia.Clases.Item;
+import Persistencia.Clases.ItemDeProveedorX;
 import Persistencia.Clases.ItemDeSTOCK;
+import Persistencia.Clases.Proveedor;
 import Persistencia.DTOs.DTItem;
 import Persistencia.DTOs.DTProveedor;
 import Persistencia.ManejadorDePersistencia;
 import java.time.LocalDate;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentListener;
 
 /**
  *
  * @author Santi-kun
  */
-public class RellenarDatosCompraJPanel extends javax.swing.JPanel {
+public class RellenarDatosCompraProveedorXJPanel extends javax.swing.JPanel {
     //Atributos
     private GUIController controller = new GUIController();
     private Long itemId;
     private Long proveedorId;
+    private Float precioUnidad;
+    private Integer cantUni;
+    private Float precioTotal;
+    private Float precioFlete;
+    private String tiempoEnvio;
     private DTItem dtItem;
     private DTProveedor dtProveedor;
+    private Item itemComprado;
+    private Proveedor proveedorSeleccionado;
     
-    public RellenarDatosCompraJPanel(Long itemId, Long ProveedorId) {
+    public RellenarDatosCompraProveedorXJPanel(Long itemId, Long ProveedorId) {
         this.itemId = itemId;
         this.proveedorId = ProveedorId;
         initComponents();
@@ -45,18 +49,14 @@ public class RellenarDatosCompraJPanel extends javax.swing.JPanel {
         dtItem = controller.recuperarDTItemDeId(itemId);
             //Obtengo los datos del proveedor
         dtProveedor = controller.recuperarDTProveedorDeId(proveedorId);
+        
+        ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
+        itemComprado = MDP.getItemAPartirDeId(itemId);
+        proveedorSeleccionado =  MDP.getProveedorAPartirDeId(ProveedorId);
         cargarDatos();
         configurarAutoTotal();
     }
     
-    
-
-    //Cuando creo la clase inicializo los atributos con los id que le pase del item y proveedor de las 2 pantallas anteriores
-    
-    //SI eligio el default entonces no genero un ItemDeProveedorX, entonces lo que tengo que hacer es:
-    //aumentar el STOCK
-    //Y generar una fila en el historial general, no en el de proveedor
-    //LOS GASTOS POR AHORA LOS IGNORAMOS
     public void cargarDatos(){
         //Datos Item
         NombreItem.setText(dtItem.getNombre()); 
@@ -118,151 +118,70 @@ private void recalcularTotal() {
 }
     
     public void crearCompra(){
-       //------->SI ELIJO PROVEEDOR DEFAULT <--------
-        //Obtengo la cantidad de unidades 
+        ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
+       //Se cual sea el tipo de proveedor esto es igual para todos
+       
+//------->OBTENGO LA CANTIDAD DE UNIDADES <--------
         String cantStr = cantUnidades.getText().trim();
         //parseo de string a  integer las unidades
-        Integer cantUnidades;
-        try {
-            cantUnidades = Integer.valueOf(cantStr);
-        } catch (NumberFormatException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Ingresá una cantidad de unidades válida.");
-            return; 
-        }
-            //Me fijo si existe el item de stock, si existe lo creo, sino solo aumento el stock
-        ItemDeSTOCK nuevoItemDeStock = new ItemDeSTOCK(dtItem, cantUnidades);
-           
-           //-------> AUMENTO EL STOCK ---> PERSITO EL ITEM DE STOCK  ----->
-        try {
+        this.cantUni = Integer.valueOf(cantStr);
         
-            ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
+          
+//------->OBTENGO EL PRECIO DEL FLETE <--------
+        String precioFleteStr = PrecioFlete.getText().trim();
+        //parseo de string a  integer las unidades
+        this.precioFlete = Float.valueOf(cantStr);
+ 
+//------->OBTENGO EL PRECIO DEL FLETE <--------
+        this.tiempoEnvio = TiempoEnvio.getText().trim();
+        
+
+        
+//------->CREO EL ITEM DE STOCK <--------, luego me fijo si existe previamente o no, y decido si aumento o le agrego uno nuevo
+        ItemDeSTOCK nuevoItemDeStock = new ItemDeSTOCK(dtItem, cantUni);
+
+        
+        
+//-------> AUMENTO EL STOCK <----------- PERSITO EL ITEM DE STOCK  (si no existe ya, sino solo aumento)----->
+        try {
             MDP.AumentarStock(nuevoItemDeStock);
-            javax.swing.JOptionPane.showMessageDialog(null, "Item de Stock creado OK");
+            JOptionPane.showMessageDialog(null, "Item de Stock creado OK");
         } catch (Exception ex) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Error creando item: " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Error creando item: " + ex.getMessage());
             ex.printStackTrace();
         }
-       
-       
-       
-       
-       
-        if (proveedorId == 0) {
-           //Obtengo la cantidad de unidades 
-           String cantStr = cantUnidades.getText().trim();
-           //parseo de string a  integer las unidades
-           Integer cantUnidades;
-        try {
-            cantUnidades = Integer.valueOf(cantStr);
-        } catch (NumberFormatException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Ingresá una cantidad de unidades válida.");
-            return; 
-        }
-            //Creo un nuevo item de stock
-           ItemDeSTOCK nuevoItemDeStock = new ItemDeSTOCK(dtItem, cantUnidades);
-           
-           //-------> AUMENTO EL STOCK ---> PERSITO EL ITEM DE STOCK  ----->
-        try {
-        
-            ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
-            MDP.AumentarStock(nuevoItemDeStock);
-            javax.swing.JOptionPane.showMessageDialog(null, "Item de Stock creado OK");
-        } catch (Exception ex) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Error creando item: " + ex.getMessage());
-            ex.printStackTrace();
-        }
-           
-           //OBTENGO EL PRECIO POR UNIDAD
-           String precioUnidadstr = PrecioUnidad.getText().trim();
-           Float precioUnidad;
+//------->OBTENGO EL PRECIO POR UNIDAD <----------- 
+       String precioUnidadstr = PrecioUnidad.getText().trim();
            try {
-            precioUnidad = Float.valueOf(precioUnidadstr);
-        } catch (NumberFormatException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Ingresá un precio por unidad válido.");
-            return; 
-        }
-           //CALCULO EL PRECIO TOTAL
-           Float precioTotal =  precioUnidad * cantUnidades;
-           PrecioTotal.setText(String.valueOf(precioTotal));
-           
-        /*   
-           //ACA ESTOY AGREGANDOLO AL HISTORIAL 
-        String nombreProveedor;
-        String nombreItem;
-        LocalDate fechaActual = new LocalDate
-        CompraItemAProveedorX compra = new CompraItemAProveedorX()   
-        //public CompraItemAProveedorX(String nombreProveedor, String nombreItem, Integer cantUnidades, Float precioXUnidad, Float precioTotal, LocalDate fecha){
-    */
+            this.precioUnidad = Float.valueOf(precioUnidadstr);
+        } catch (NumberFormatException e) {JOptionPane.showMessageDialog(this, "Ingresá un precio por unidad válido.");return;}
         
-        }
+//------->CALCULO EL PRECIO TOTAL <----------- 
+        this.precioTotal =  precioUnidad * cantUni;
+        //Ya tengo el precio total, cant unis, y proveedor id, puedo hacer el historial general
         
         
-        //------->SI ELIJO OTRO PROVEEDOR Y YA HABIA COMPRADO ANTES CON EL<--------
-        if (proveedorId != 0){
-           String cantStr = cantUnidades.getText().trim();
-           Integer cantUnidades;
-        try {cantUnidades = Integer.valueOf(cantStr);} catch (NumberFormatException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Ingresá una cantidad de unidades válida.");
-            return;}
-            //Creo un nuevo item de stock y de Proveedor 
-           ItemDeSTOCK nuevoItemDeStock = new ItemDeSTOCK(dtItem, cantUnidades);
-           
-           //-------> AUMENTO EL STOCK ---> PERSITO EL ITEM DE STOCK  ----->
-        try {
         
-            ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
-            MDP.AumentarStock(nuevoItemDeStock);
-            javax.swing.JOptionPane.showMessageDialog(null, "Item de Stock creado OK");
-        } catch (Exception ex) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Error creando item: " + ex.getMessage());
-            ex.printStackTrace();
-        }
-           
-           //OBTENGO EL PRECIO POR UNIDAD
-           String precioUnidadstr = PrecioUnidad.getText().trim();
-           Float precioUnidad;
-           try {
-            precioUnidad = Float.valueOf(precioUnidadstr);
-        } catch (NumberFormatException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Ingresá un precio por unidad válido.");
-            return; 
-        }
-           //CALCULO EL PRECIO TOTAL
-           Float precioTotal =  precioUnidad * cantUnidades;
-           PrecioTotal.setText(String.valueOf(precioTotal));
-        }
-       }
-    } 
-    
-    
-    
-    
-    
-   /*if (ProveedorId == 0){
-    //creo el item de stock
-    ItemDeSTOCK item = new ItemDeSTOCK();
-    //Lo persisto con el manejador
-    try{
-    ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
-    MDP.persistirItemDeSTOCK(item);
-    javax.swing.JOptionPane.showMessageDialog(null, "Item comprado exitosamente");
+//------->GENERO LA COMPRA PARA PROVEEDOR X  <-----------                   
+            ItemDeProveedorX itemProveedroX =  new ItemDeProveedorX(itemComprado,proveedorSeleccionado, precioUnidad, precioFlete, precioTotal, tiempoEnvio);
+            CompraItemAProveedorX compraProveedorX = new CompraItemAProveedorX(
+                    dtItem.getNombre(), 
+                    itemProveedroX,  
+                    cantUni, 
+                    precioUnidad, 
+                    precioTotal, 
+                    LocalDate.now());
+            
+//------->persito la compra de proveedor X   <-----------             
+            MDP.persistirCompra(compraProveedorX, proveedorId);
         
-    } catch (Exception ex) {
-        javax.swing.JOptionPane.showMessageDialog(null, "Error comprando item: " + ex.getMessage());
-        ex.printStackTrace();
-    }
+
 
     
-    }
-   
-    //Si eligió otro proveedor que no fuera el default ahi tengo que crear un ItemDeProveedorX
-    //generar una fila en el historial general
-    //generar una fila en el historial de Proveedor del id que selcciono
-    //Aumentar el STOCK por la cantidad de unidades que selecciono
-    if (ProveedorID != 0){
-}   }
-}
-     */
+    
+    
+} 
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -302,6 +221,10 @@ private void recalcularTotal() {
         cantUnidades = new javax.swing.JTextField();
         PrecioTotal = new javax.swing.JTextField();
         Comprar = new javax.swing.JButton();
+        PrecioFlete = new javax.swing.JTextField();
+        PrecioFleteLbl = new javax.swing.JLabel();
+        TiempoEnvioLbl = new javax.swing.JLabel();
+        TiempoEnvio = new javax.swing.JTextField();
         ContenidoDatosProveedor = new javax.swing.JPanel();
         ImagenProveedorLbl = new javax.swing.JLabel();
         DescripcionProvLbl = new javax.swing.JLabel();
@@ -315,8 +238,6 @@ private void recalcularTotal() {
         RellenoImagenProveedor = new javax.swing.JLabel();
         UbicacionProvLbl = new javax.swing.JLabel();
         UbicacionProveedor = new javax.swing.JTextField();
-
-        setLayout(new java.awt.BorderLayout());
 
         Fondo.setBackground(new java.awt.Color(255, 255, 255));
         Fondo.setPreferredSize(new java.awt.Dimension(800, 500));
@@ -553,6 +474,18 @@ private void recalcularTotal() {
         Comprar.setBorder(null);
         Comprar.addActionListener(this::ComprarActionPerformed);
 
+        PrecioFlete.addActionListener(this::PrecioFleteActionPerformed);
+
+        PrecioFleteLbl.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        PrecioFleteLbl.setForeground(new java.awt.Color(0, 0, 0));
+        PrecioFleteLbl.setText("Precio flete: ");
+
+        TiempoEnvioLbl.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        TiempoEnvioLbl.setForeground(new java.awt.Color(0, 0, 0));
+        TiempoEnvioLbl.setText("Tiempo de envío:");
+
+        TiempoEnvio.addActionListener(this::TiempoEnvioActionPerformed);
+
         javax.swing.GroupLayout ContenidoDatosCompraLayout = new javax.swing.GroupLayout(ContenidoDatosCompra);
         ContenidoDatosCompra.setLayout(ContenidoDatosCompraLayout);
         ContenidoDatosCompraLayout.setHorizontalGroup(
@@ -565,13 +498,24 @@ private void recalcularTotal() {
                     .addComponent(PrecioUniLbl))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(ContenidoDatosCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(PrecioUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cantUnidades, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(ContenidoDatosCompraLayout.createSequentialGroup()
                         .addComponent(PrecioTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(108, 108, 108)
-                        .addComponent(Comprar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(142, 202, Short.MAX_VALUE))
+                        .addComponent(Comprar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ContenidoDatosCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, ContenidoDatosCompraLayout.createSequentialGroup()
+                            .addComponent(PrecioUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(PrecioFleteLbl)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(PrecioFlete, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, ContenidoDatosCompraLayout.createSequentialGroup()
+                            .addComponent(cantUnidades, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(TiempoEnvioLbl)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(TiempoEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(78, 78, Short.MAX_VALUE))
             .addGroup(ContenidoDatosCompraLayout.createSequentialGroup()
                 .addGap(329, 329, 329)
                 .addComponent(TituloDatosCompra)
@@ -585,11 +529,17 @@ private void recalcularTotal() {
                 .addGap(18, 18, 18)
                 .addGroup(ContenidoDatosCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(PrecioUniLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(PrecioUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(ContenidoDatosCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CantUniLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cantUnidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(PrecioUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PrecioFleteLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PrecioFlete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(ContenidoDatosCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ContenidoDatosCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(CantUniLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cantUnidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ContenidoDatosCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(TiempoEnvioLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TiempoEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(ContenidoDatosCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(PrecioTotLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -743,52 +693,83 @@ private void recalcularTotal() {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(MenuSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 817, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane2)))
         );
         FondoLayout.setVerticalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(FondoLayout.createSequentialGroup()
                 .addComponent(MenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 648, Short.MAX_VALUE))
+                .addComponent(jScrollPane2))
             .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, 775, Short.MAX_VALUE)
         );
 
-        add(Fondo, java.awt.BorderLayout.CENTER);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 994, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(Fondo, javax.swing.GroupLayout.PREFERRED_SIZE, 994, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 775, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(Fondo, javax.swing.GroupLayout.PREFERRED_SIZE, 775, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void VenderItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VenderItem1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_VenderItem1ActionPerformed
 
-    private void NombreProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreProveedorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_NombreProveedorActionPerformed
+    private void menuPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPrincipalActionPerformed
+        JPanel panelPrincipal = new PanelPrincipal();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(panelPrincipal);
+    }//GEN-LAST:event_menuPrincipalActionPerformed
 
-    private void PrecioUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrecioUnidadActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PrecioUnidadActionPerformed
-
-    private void DescripcionItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DescripcionItemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DescripcionItemActionPerformed
+    private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
+        JPanel panelDeItems = new PanelDeItems();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(panelDeItems);
+    }//GEN-LAST:event_AtrasActionPerformed
 
     private void NombreItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreItemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_NombreItemActionPerformed
 
-    private void PrecioTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrecioTotalActionPerformed
+    private void DescripcionItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DescripcionItemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_PrecioTotalActionPerformed
+    }//GEN-LAST:event_DescripcionItemActionPerformed
+
+    private void PrecioUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrecioUnidadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PrecioUnidadActionPerformed
 
     private void cantUnidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cantUnidadesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cantUnidadesActionPerformed
 
+    private void PrecioTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrecioTotalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PrecioTotalActionPerformed
+
     private void ComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComprarActionPerformed
-     crearCompra();
-     JOptionPane.showMessageDialog(null, "Compra Realizada Exitosamente");
+        crearCompra();
+        JOptionPane.showMessageDialog(null, "Compra Realizada Exitosamente");
     }//GEN-LAST:event_ComprarActionPerformed
+
+    private void NombreProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreProveedorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NombreProveedorActionPerformed
 
     private void ContactoProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ContactoProveedorActionPerformed
         // TODO add your handling code here:
@@ -802,17 +783,13 @@ private void recalcularTotal() {
         // TODO add your handling code here:
     }//GEN-LAST:event_UbicacionProveedorActionPerformed
 
-    private void menuPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPrincipalActionPerformed
-        JPanel panelPrincipal = new PanelPrincipal();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(panelPrincipal);
-    }//GEN-LAST:event_menuPrincipalActionPerformed
+    private void PrecioFleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrecioFleteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PrecioFleteActionPerformed
 
-    private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
-        JPanel panelDeItems = new PanelDeItems();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(panelDeItems);
-    }//GEN-LAST:event_AtrasActionPerformed
+    private void TiempoEnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TiempoEnvioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TiempoEnvioActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -842,12 +819,16 @@ private void recalcularTotal() {
     private javax.swing.JLabel NombreItemLbl;
     private javax.swing.JLabel NombreProvLbl;
     private javax.swing.JTextField NombreProveedor;
+    private javax.swing.JTextField PrecioFlete;
+    private javax.swing.JLabel PrecioFleteLbl;
     private javax.swing.JLabel PrecioTotLbl;
     private javax.swing.JTextField PrecioTotal;
     private javax.swing.JLabel PrecioUniLbl;
     private javax.swing.JTextField PrecioUnidad;
     private javax.swing.JLabel RellenoImagenItem;
     private javax.swing.JLabel RellenoImagenProveedor;
+    private javax.swing.JTextField TiempoEnvio;
+    private javax.swing.JLabel TiempoEnvioLbl;
     private javax.swing.JLabel TituloDatosCompra;
     private javax.swing.JLabel TituloDatosItem;
     private javax.swing.JLabel UbicacionProvLbl;

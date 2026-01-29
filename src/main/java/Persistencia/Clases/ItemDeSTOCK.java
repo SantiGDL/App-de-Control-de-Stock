@@ -12,6 +12,7 @@ import jakarta.persistence.*;
         private String descripcion;
         private String imagen;
         private Integer cantUnidades;
+        private EstadoAlerta estadoAlerta = EstadoAlerta.GRIS;
         @ManyToOne
         @JoinColumn(name="stock_id", nullable=false)
         private Stock stock;

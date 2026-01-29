@@ -8,17 +8,16 @@ import java.util.List;
 @Table(name = "CatalogoGeneral")
 public class CatalogoGeneral {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //Atributos
-    private Long id;
+    @Column(unique = true, nullable = false)
+    private String clave = "DEFAULT";
     @OneToMany(mappedBy="catalogo", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<Item> ItemsDeCatalogo = new ArrayList<>();        //Guardo items comunes en el stock, No me interesa de quien lo compré en el stock creo
 
     //Constructor
     public CatalogoGeneral(){}
     //Setters y Getters
-    public Long getId() {return id;}
-    public void setId(Long id) {this.id = id;}
+    public String getId() {return clave;}
+    public void setId(String clave) {this.clave = clave;}
     public List<Item> getItemsDeCatalogo() {return this.ItemsDeCatalogo;}
 
 }

@@ -39,11 +39,18 @@ public class SeleccionarProveedorCompraJPanel extends javax.swing.JPanel {
     }
    
     
-    private void irARellenarDatosCompra(Long itemId, Long ProveedorId){
-        JPanel datosCompra = new RellenarDatosCompraJPanel(itemId, ProveedorId);
+    private void irARellenarDatosCompraDefault(Long itemId, Long ProveedorId){
+        JPanel datosCompra = new RellenarDatosCompraDefaultJPanel(itemId, ProveedorId);
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(datosCompra);
     }
+    
+    private void irARellenarDatosCompraProveedorX(Long itemId, Long ProveedorId){
+        JPanel datosCompraProveedorX = new RellenarDatosCompraProveedorXJPanel(itemId, ProveedorId);
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(datosCompraProveedorX);
+    }
+    
     private void cargarTablaItems() {
     // Llamo al manejador de persistencia que tiene la funcion de traerme los items
     ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
@@ -130,7 +137,9 @@ public class SeleccionarProveedorCompraJPanel extends javax.swing.JPanel {
         ProveedorId = Long.valueOf(idObj.toString());
         //Me voy a la pantalla de compra teniendo en memoria el ID del Item y del Proveedor, en caso de no especificar
         //el Proveedor porque eligió el default que lo dejo arriba del todo o en un boton NO CREO UN ItemDeProveedorX
-        irARellenarDatosCompra(ItemId, ProveedorId);
+        if (ProveedorId == 0){
+        irARellenarDatosCompraDefault(ItemId, ProveedorId);
+        }
     }
 });
     }

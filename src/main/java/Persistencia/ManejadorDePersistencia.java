@@ -1,6 +1,11 @@
 package Persistencia;
 
 import Persistencia.Clases.CatalogoGeneral;
+import Persistencia.Clases.CompraItem;
+import Persistencia.Clases.CompraItemAProveedorDefault;
+import Persistencia.Clases.CompraItemAProveedorX;
+import Persistencia.Clases.HistorialGeneral;
+import Persistencia.Clases.HistorialXProveedor;
 import Persistencia.Clases.Item;
 import Persistencia.Clases.ItemDeSTOCK;
 import Persistencia.Clases.Proveedor;
@@ -10,6 +15,7 @@ import Persistencia.DTOs.DTProveedor;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.PersistenceException;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -115,6 +121,14 @@ public class ManejadorDePersistencia {
 
 
 */
+public Proveedor getProveedorAPartirDeId(Long proveedorId) {
+    EntityManager em = FabricaEntityManager.getEntityManager();
+    try {
+        return em.find(Proveedor.class, proveedorId);
+    } finally {
+        em.close();
+    }
+}
 
 public DTItem getDTItem(EntityManager em, Long itemId) {
     Item it = em.createQuery(
@@ -130,24 +144,46 @@ public DTItem getDTItem(EntityManager em, Long itemId) {
 }
 
 
-
     public void AumentarStock(ItemDeSTOCK nuevoItemDeStock){    
         EntityManager em = FabricaEntityManager.getEntityManager();
         EntityTransaction et = em.getTransaction();
         try{
             et.begin();
             // 1) Busco el catálogo general existente (hay 1 solo)
-        Stock stock = em.createQuery("SELECT s FROM Stock s", Stock.class).setMaxResults(1).getResultStream().findFirst().orElse(null);
-            // 2) Si no existe, lo creo y persisto
+            List<Stock> listaStocks = em.createQuery("SELECT s FROM Stock s LEFT JOIN FETCH s.itemsDeStock", 
+                Stock.class)
+                .setMaxResults(1)
+                .getResultList();
+        
+            Stock stock;
+            if (listaStocks.isEmpty()){
+                stock = null;
+            }
+            else{
+                stock = listaStocks.get(0);
+            }
+            //La expresion de arriba es equivalente a esta:
+            //Stock stock = listaStocks.isEmpty() ? null : listaStocks.get(0);
+            // Si no existe, lo creo y persisto
             if (stock == null) {
                 stock = new Stock();
                 em.persist(stock);
             }
-            
-            // 3) Lo asigno al item (porque es NOT NULL la realacion)
-            nuevoItemDeStock.setStock(stock);//no hace falta hacer add porque lo hago desde la persistencia
-            // 4) Persisto el item
-            em.persist(nuevoItemDeStock);
+            boolean yaExiste = false;
+            //Obtengo la lista de items de stock para revisarla
+            List<ItemDeSTOCK> itemsDeStock = stock.getItemsDeSTOCK();
+            for (ItemDeSTOCK it: itemsDeStock){
+            if(nuevoItemDeStock.getNombre().equals(it.getNombre())){  //ACA PODRIA VER SI TAMBIEN TIENE QUE SER IGUAL LA DESCRIPCION O CON QUE LE NOMBRE LO SEA YA NO LO PERSISTO
+                //Si ya existe lo pongo en true para que no entre al otro if y le aumento el stock sin crear un ItemDeSTOCK nuevo
+                yaExiste = true;
+                it.aumentarStock(nuevoItemDeStock.getCantUnidades());
+                }
+            }
+            //Si luego de salir del for nunca entre a que son iguales es porque no existe asi que lo persisto,  sino se aumenta
+            if (yaExiste == false){
+                nuevoItemDeStock.setStock(stock);
+                em.persist(nuevoItemDeStock);      
+            }
             et.commit();
         }
         catch(Exception e) {if (et.isActive()) {et.rollback();}throw new PersistenceException("Error al persistir item de Stock", e);} 
@@ -182,4 +218,214 @@ public DTItem getDTItem(EntityManager em, Long itemId) {
     DTProveedor dt = p.crearDTProveedor();
     return dt;
 }
+    
+    
+public void AumentarSTOCK(ItemDeSTOCK nuevoItemDeStock){    
+        EntityManager em = FabricaEntityManager.getEntityManager();
+        EntityTransaction et = em.getTransaction();
+        try{
+            et.begin();
+            // 1) Busco el catálogo general existente (hay 1 solo)
+            List<Stock> listaStocks = em.createQuery("SELECT s FROM Stock s LEFT JOIN FETCH s.itemsDeStock", 
+                Stock.class)
+                .setMaxResults(1)
+                .getResultList();
+        
+            Stock stock;
+            if (listaStocks.isEmpty()){
+                stock = null;
+            }
+            else{
+                stock = listaStocks.get(0);
+            }
+            //La expresion de arriba es equivalente a esta:
+            //Stock stock = listaStocks.isEmpty() ? null : listaStocks.get(0);
+            // Si no existe, lo creo y persisto
+            if (stock == null) {
+                stock = new Stock();
+                em.persist(stock);
+            }
+            boolean yaExiste = false;
+            //Obtengo la lista de items de stock para revisarla
+            List<ItemDeSTOCK> itemsDeStock = stock.getItemsDeSTOCK();
+            for (ItemDeSTOCK it: itemsDeStock){
+            if(nuevoItemDeStock.getNombre().equals(it.getNombre())){  //ACA PODRIA VER SI TAMBIEN TIENE QUE SER IGUAL LA DESCRIPCION O CON QUE LE NOMBRE LO SEA YA NO LO PERSISTO
+                //Si ya existe lo pongo en true para que no entre al otro if y le aumento el stock sin crear un ItemDeSTOCK nuevo
+                yaExiste = true;
+                it.aumentarStock(nuevoItemDeStock.getCantUnidades());
+                }
+            }
+            //Si luego de salir del for nunca entre a que son iguales es porque no existe asi que lo persisto,  sino se aumenta
+            if (yaExiste == false){
+                nuevoItemDeStock.setStock(stock);
+                em.persist(nuevoItemDeStock);      
+            }
+            et.commit();
+        }
+        catch(Exception e) {if (et.isActive()) {et.rollback();}throw new PersistenceException("Error al persistir item de Stock", e);} 
+            finally {em.close();}
+    }
+
+
+    public Item getItemAPartirDeId(Long itemId){
+        EntityManager em = FabricaEntityManager.getEntityManager();
+        EntityTransaction et = em.getTransaction();
+        try{
+            et.begin();
+            Item it = em.createQuery(
+                    "SELECT DISTINCT it FROM It WHERE it.id = :id "
+                    ,Item.class)
+                    .setParameter("id", itemId)
+                    .getSingleResult();
+            return it;
+        }catch(Exception e) {if (et.isActive()) {et.rollback();}throw new PersistenceException("Error al devolver item", e);} 
+            finally {em.close();}  
+    }
+    
+ /*   
+    public void persistirCompraDefault(CompraItemAProveedorDefault compraDefault, Long proveedorId){    
+        EntityManager em = FabricaEntityManager.getEntityManager();
+        EntityTransaction et = em.getTransaction();
+        try{
+            et.begin();
+            
+            Proveedor p = em.find(Proveedor.class, proveedorId);
+            //El historial General es unico para todos y lo comparten
+        HistorialGeneral histG = em.createQuery(
+                "SELECT h FROM HistorialGeneral h",
+                HistorialGeneral.class)
+                .setMaxResults(1)
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
+            // Si no existe, lo creo y persisto
+            if (histG == null) {
+                histG = new HistorialGeneral();
+                histG.addCompra(compraDefault);
+                em.persist(histG);
+            }
+            histG.addCompra(compraDefault);
+            //El historialXProveedor es uno para cada Proveedor, en este paso el default
+        HistorialXProveedor histP = em.createQuery(
+                "SELECT hp FROM HistorialXProveedor hp WHERE hp.id = :id",
+                HistorialXProveedor.class)
+                .setParameter("id", p.getHistorialXProveedorId()) //Seteo para que busque el historialXProveedor del proveedorDefalut
+                .setMaxResults(1)
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
+            // Si no existe, lo creo y persisto
+            if (histP == null) {
+                histP = new HistorialXProveedor();
+                em.persist(histP);
+            }
+            histP.addCompra(compraDefault);
+            //LE ASIGNO A LA COMPRA EL HISTORIAL AL QUE CORRESPONDE
+            compraDefault.setHistorialGeneral(histG);
+            compraDefault.setHistorialXProveedor(histP);
+            //PERSISTO LA COMPRA
+            em.persist(compraDefault);
+            et.commit();
+        }
+        catch(Exception e) {if (et.isActive()) {et.rollback();}throw new PersistenceException("Error al persistir item", e);} 
+            finally {em.close();}
+    }
+    */
+    public void persistirCompra(CompraItem compra, Long proveedorId){    
+        EntityManager em = FabricaEntityManager.getEntityManager();
+        EntityTransaction et = em.getTransaction();
+        try{
+            et.begin();
+            
+            Proveedor p = em.find(Proveedor.class, proveedorId);
+             //------->HISOTIRAL GENERAL (UNICO PARA TODOS) <---------
+        HistorialGeneral histG = em.createQuery(
+                "SELECT h FROM HistorialGeneral h",
+                HistorialGeneral.class)
+                .setMaxResults(1)
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
+            // Si no existe, lo creo y persisto
+            if (histG == null) {
+                histG = new HistorialGeneral();
+                em.persist(histG);
+            }
+            histG.addCompra(compra);
+            
+            //------->HISOTIRAL X PROVEEDOR (UNO PARA CADA UNO) <---------
+        HistorialXProveedor histP = em.createQuery(
+                "SELECT hp FROM HistorialXProveedor hp WHERE hp.proveedor.id = :pid",
+                HistorialXProveedor.class)
+                .setParameter("pid", proveedorId) //Seteo para que busque el historialXProveedor del proveedorDefalut
+                .setMaxResults(1)
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
+            // Si no existe, lo creo y persisto
+            if (histP == null) {
+                histP = new HistorialXProveedor();
+                em.persist(histP);
+            } 
+            histP.setProveedor(p);
+            histP.addCompra(compra);
+            
+            
+            //LE ASIGNO A LA COMPRA EL HISTORIAL AL QUE CORRESPONDE
+            compra.setHistorialGeneral(histG);
+            compra.setHistorialXProveedor(histP);
+            //PERSISTO LA COMPRA
+            em.persist(compra);
+            et.commit();
+        }
+        catch(Exception e) {if (et.isActive()) {et.rollback();}throw new PersistenceException("Error al persistir item", e);} 
+            finally {em.close();}
+    }
+    
+    public List<CompraItem> getTodasLasCompras(HistorialGeneral historial){
+        EntityManager em = FabricaEntityManager.getEntityManager();
+        EntityTransaction et = em.getTransaction();
+    try {
+        HistorialGeneral h = em.createQuery(
+            "SELECT DISTINCT h FROM HistorialGeneral h LEFT JOIN FETCH h.compras ORDER BY h.id",
+            HistorialGeneral.class
+        )
+        .getResultStream()
+        .findFirst()
+        .orElse(null);
+        if (h == null) return Collections.emptyList();
+        return h.getCompras();
+    } catch(Exception e) {if (et.isActive()) {et.rollback();}throw new PersistenceException("Error al persistir item", e);} 
+            finally {em.close();}
+        
+        
+    }
+    
+    
+    public List<CompraItem> getTodasLasCompras() {
+    EntityManager em = FabricaEntityManager.getEntityManager();
+    try {
+        HistorialGeneral h = em.createQuery(
+            "SELECT DISTINCT h FROM HistorialGeneral h LEFT JOIN FETCH h.compras",
+            HistorialGeneral.class
+        )
+        .getResultStream()
+        .findFirst()
+        .orElse(null);
+
+        if (h == null) return java.util.Collections.emptyList();
+
+        return h.getCompras();
+    } catch (Exception e) {
+        throw new PersistenceException("Error al obtener compras", e);
+    } finally {
+        em.close();
+    }
 }
+
+
+
+}
+    
+    
+
