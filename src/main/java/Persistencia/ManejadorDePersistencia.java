@@ -439,8 +439,9 @@ public void AumentarSTOCK(ItemDeSTOCK nuevoItemDeStock){
             Proveedor p = em.find(Proveedor.class, proveedorId);
              //------->HISOTIRAL GENERAL (UNICO PARA TODOS) <---------
         HistorialGeneral histG = em.createQuery(
-                "SELECT h FROM HistorialGeneral h",
+                "SELECT h FROM HistorialGeneral h WHERE h.clave = :clave",
                 HistorialGeneral.class)
+                .setParameter("clave", "GENERAL")
                 .setMaxResults(1)
                 .getResultStream()
                 .findFirst()

@@ -31,7 +31,7 @@ public class CompraItem {
     private LocalDate fecha;
     //------> Acá hago el JOIN entre VARIAS compras a UN historial general <------          
     @ManyToOne
-    @JoinColumn(name="historialGeneralId", nullable=false)
+    @JoinColumn(name="historialGeneralId", referencedColumnName="clave", nullable=false)
     private HistorialGeneral historialGeneral;
     //-----> Acá hago el JOIN entre MUCHAS compras a UN historial x proveedor <-------
     @ManyToOne

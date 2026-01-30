@@ -132,7 +132,7 @@ private void recalcularTotal() {
         //parseo de string a  integer las unidades
         this.precioFlete = Float.valueOf(cantStr);
  
-//------->OBTENGO EL PRECIO DEL FLETE <--------
+//------->OBTENGO EL TIEMPO DEL FLETE <--------
         this.tiempoEnvio = TiempoEnvio.getText().trim();
         
 
@@ -145,7 +145,7 @@ private void recalcularTotal() {
 //-------> AUMENTO EL STOCK <----------- PERSITO EL ITEM DE STOCK  (si no existe ya, sino solo aumento)----->
         try {
             MDP.AumentarStock(nuevoItemDeStock);
-            JOptionPane.showMessageDialog(null, "Item de Stock creado OK");
+            JOptionPane.showMessageDialog(null, "Se aumento el stock");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error creando item: " + ex.getMessage());
             ex.printStackTrace();
@@ -697,8 +697,10 @@ private void recalcularTotal() {
                 .addComponent(MenuLateral, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(MenuSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                    .addGroup(FondoLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(MenuSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         FondoLayout.setVerticalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
