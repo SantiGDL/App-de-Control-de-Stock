@@ -22,13 +22,13 @@ public class Item {
     @JoinColumn(name="catalogo", nullable=false)
     private CatalogoGeneral catalogo;
 
-    @OneToMany(mappedBy="ItemVendido", cascade=CascadeType.ALL, orphanRemoval=true)
-    private List<ItemDeProveedorX> listaDeItemsDeProveedorX;   //Serian todos los Item de Proveedor que se crean a partir de un solo Item
-    //o sea que si el item es cableUTPExterior, tendria cableUTPExterior vendido por CDRMedios y por SuperCables, etc. Cada uno
-    //genera una nueva insancia de ItemDeProveedorX que la entidad "Item" va a tener vinculada como una lista.
-    @OneToMany(mappedBy="ItemVendido", cascade=CascadeType.ALL, orphanRemoval=true)
-    private List<CompraItemAProveedorDefault> listaDeComprasDeProveedorDefault;
-
+    //Vinculo con ItemDeProveedorX, UN item a MUCHOS ITEMS DE PROVEEDORX
+    @OneToMany(mappedBy="ItemDeProveedor", cascade=CascadeType.ALL, orphanRemoval=true)
+    private List<ItemDeProveedorX> listaDeItemsDeProveedorX = new ArrayList<>();;   //Serian todos los Item de Proveedor que se crean a partir de un solo Item
+    
+    //Vinculo con CompraItemAProveedorDefault, UN item a MUCHAS COMPRAS
+    @OneToMany(mappedBy="itemComun", cascade=CascadeType.ALL, orphanRemoval=true)
+    private List<CompraItemAProveedorDefault> listaDeComprasDeProveedorDefault = new ArrayList<>();;
 
 
 //Constructores

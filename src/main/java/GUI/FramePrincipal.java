@@ -7,6 +7,8 @@ package GUI;
 import GUI.PanelesInternos.Items.CrearItemJPanel;
 import GUI.PanelesInternos.Proveedores.CrearProveedorJPanel;
 import GUI.PanelesInternos.LoginJPanel;
+import Persistencia.Clases.Proveedor;
+import Persistencia.ManejadorDePersistencia;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTMaterialLighterIJTheme;
 import java.awt.Color;

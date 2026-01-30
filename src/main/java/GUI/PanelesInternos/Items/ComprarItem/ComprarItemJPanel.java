@@ -46,10 +46,10 @@ public class ComprarItemJPanel extends javax.swing.JPanel {
     //invoco el entity manager para trabajar
     EntityManager em = FabricaEntityManager.getEntityManager();
     //Uso la funcion del manejador de persistencia que hice
-    List<Item> items = MDP.getItemsDeCatalogoGeneral(em);
+    List<Item> items = MDP.getItemsDeCatalogoGeneralOptimizado();
     // 2) Armo el modelo con columnas
     javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
-        new Object[]{"ID", "Nombre", "Descripcion", "Imagen", ""}, 0
+        new Object[]{"ID", "Nombre", "Descripcion", "Imagen", ">"}, 0
     ) {
         @Override public boolean isCellEditable(int r, int c) { return false; }
     };

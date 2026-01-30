@@ -37,13 +37,18 @@ public class ManejadorDePersistencia {
     
     }
     
-    public void persistirItem(Item nuevoItem){    
+     public void persistirItem(Item nuevoItem){    
         EntityManager em = FabricaEntityManager.getEntityManager();
         EntityTransaction et = em.getTransaction();
         try{
             et.begin();
             // 1) Busco el catálogo general existente (hay 1 solo)
-        CatalogoGeneral cat = em.createQuery("SELECT c FROM CatalogoGeneral c", CatalogoGeneral.class).setMaxResults(1).getResultStream().findFirst().orElse(null);
+        CatalogoGeneral cat = em.createQuery("SELECT c FROM CatalogoGeneral c WHERE c.clave = :clave",
+                CatalogoGeneral.class)
+                .setParameter("clave", "DEFAULT")
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
             // 2) Si no existe, lo creo y persisto
             if (cat == null) {
                 cat = new CatalogoGeneral();
@@ -73,22 +78,60 @@ public class ManejadorDePersistencia {
             finally {em.close();}
     }
     
+    public Proveedor getOrCreateProveedorDefault() {
+    EntityManager em = FabricaEntityManager.getEntityManager();
+    EntityTransaction tx = em.getTransaction();
+
+    try {
+        tx.begin();
+
+        Proveedor p = em.createQuery(
+            "SELECT p FROM Proveedor p WHERE p.nombre = :n",
+            Proveedor.class
+        ).setParameter("n", "DEFAULT")
+         .getResultStream()
+         .findFirst()
+         .orElse(null);
+
+        if (p == null) {
+            p = new Proveedor(
+                "DEFAULT",
+                "-", "-", 
+                "Seleccione este proveedor cuando no quiera especificar dónde lo compró",
+                "/resources/Imagenes/UsuarioDefault.png"
+            );
+            em.persist(p);
+        }
+
+        tx.commit();
+        return p;
+    } catch (Exception e) {
+        if (tx.isActive()) tx.rollback();throw e;
+    } finally {
+        em.close();
+    }
+}
+    
     
     public List<Item> getItemsDeCatalogoGeneral(EntityManager em) {
-    CatalogoGeneral c = em.createQuery(
-        "SELECT DISTINCT c FROM CatalogoGeneral c " +
-        //el left join es para que me traiga ya cargala la lista de items
-        "LEFT JOIN FETCH c.ItemsDeCatalogo " +
-        "WHERE c.id = :id",
-        CatalogoGeneral.class
-    )
-    .setParameter("id", 1L)
-    .getSingleResult();
-    
-    //una ves traje el catalogo de la base de datos le pido la lista de items
+    CatalogoGeneral c = em.find(CatalogoGeneral.class, "DEFAULT");
+    if (c == null) return List.of(); // o new ArrayList<>()
     return c.getItemsDeCatalogo();
 }
     
+    public List<Item> getItemsDeCatalogoGeneralOptimizado() {
+    EntityManager em = FabricaEntityManager.getEntityManager();
+    try {
+        return em.createQuery(
+            "SELECT i FROM Item i WHERE i.catalogo.clave = :id ORDER BY i.id",
+            Item.class
+        )
+        .setParameter("id", "DEFAULT")
+        .getResultList();
+    } finally {
+        em.close();
+    }
+}
     
   public List<Proveedor> obtenerTodosLosProveedoresOrderByNombre(EntityManager em) {
     return em.createQuery(
@@ -143,7 +186,7 @@ public DTItem getDTItem(EntityManager em, Long itemId) {
     return dt;
 }
 
-
+//------> AUMENTAR STOCK <-------- 
     public void AumentarStock(ItemDeSTOCK nuevoItemDeStock){    
         EntityManager em = FabricaEntityManager.getEntityManager();
         EntityTransaction et = em.getTransaction();
@@ -189,8 +232,49 @@ public DTItem getDTItem(EntityManager em, Long itemId) {
         catch(Exception e) {if (et.isActive()) {et.rollback();}throw new PersistenceException("Error al persistir item de Stock", e);} 
             finally {em.close();}
     }
+//------> AUMENTAR STOCK <--------   
+//------> DISMINUIR STOCK <--------
+ public void DisminuirStock(ItemDeSTOCK ItemAReducir, Integer cantUnidades){    
+        EntityManager em = FabricaEntityManager.getEntityManager();
+        EntityTransaction et = em.getTransaction();
+        try{
+            et.begin();
+            // 1) Busco el catálogo general existente (hay 1 solo)
+            Stock stock = em.createQuery("SELECT s FROM Stock s LEFT JOIN FETCH s.itemsDeStock", 
+                Stock.class)
+                .setMaxResults(1)
+                .getResultStream()
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("No existe Stock en la BD"));
+         
+            boolean yaExiste = false;
+            //Obtengo la lista de items de stock para revisarla
+            List<ItemDeSTOCK> itemsDeStock = stock.getItemsDeSTOCK();
+            for (ItemDeSTOCK it: itemsDeStock){
+            if(ItemAReducir.getNombre().equals(it.getNombre())){  //ACA PODRIA VER SI TAMBIEN TIENE QUE SER IGUAL LA DESCRIPCION O CON QUE LE NOMBRE LO SEA YA NO LO PERSISTO
+                //Si ya existe lo pongo en true para que no entre al otro if y le aumento el stock sin crear un ItemDeSTOCK nuevo
+                yaExiste = true;
+                it.reducirStock(cantUnidades);
+                break;
+                }
+            
+            if (!yaExiste) {
+                throw new IllegalArgumentException("El item no existe en el stock: " + ItemAReducir.getNombre());
+            }
+            }
+             et.commit(); // <-- acá se persiste el UPDATE
+    } catch (Exception e) {
+        if (et.isActive()) et.rollback(); throw new PersistenceException("Error al disminuir stock", e);
+    } finally {
+        em.close();
+    }
+    } 
+//------> DISMINUIR STOCK <--------
     
-    
+ 
+ 
+ 
+ 
     public List<ItemDeSTOCK> getItemsDeStock(EntityManager em) {
     Stock s = em.createQuery(
         "SELECT DISTINCT s FROM Stock s " +
@@ -273,8 +357,23 @@ public void AumentarSTOCK(ItemDeSTOCK nuevoItemDeStock){
         try{
             et.begin();
             Item it = em.createQuery(
-                    "SELECT DISTINCT it FROM It WHERE it.id = :id "
+                    "SELECT DISTINCT it FROM Item it WHERE it.id = :id"
                     ,Item.class)
+                    .setParameter("id", itemId)
+                    .getSingleResult();
+            return it;
+        }catch(Exception e) {if (et.isActive()) {et.rollback();}throw new PersistenceException("Error al devolver item", e);} 
+            finally {em.close();}  
+    }
+    
+    public ItemDeSTOCK getItemDeSTOCKAPartirDeId(Long itemId){
+        EntityManager em = FabricaEntityManager.getEntityManager();
+        EntityTransaction et = em.getTransaction();
+        try{
+            et.begin();
+            ItemDeSTOCK it = em.createQuery(
+                    "SELECT DISTINCT it FROM ItemDeSTOCK it WHERE it.id = :id"
+                    ,ItemDeSTOCK.class)
                     .setParameter("id", itemId)
                     .getSingleResult();
             return it;

@@ -67,18 +67,20 @@ public class SeleccionarProveedorCompraJPanel extends javax.swing.JPanel {
         @Override public boolean isCellEditable(int r, int c) { return false; }
     };
     
+    Proveedor proveedorDefault = MDP.getOrCreateProveedorDefault();
     modeloTabla.addRow(new Object[]{
-        0L,
-        "Proveedor sin especificar",
-        "",                 // Contacto
-        "",                 // Ubicación
-        "Elija este proveedor cuando no quiera especificar dónde compró el item",
-        "",                 // Imagen 
+        proveedorDefault.getId(),
+        proveedorDefault.getNombre(),
+        proveedorDefault.getContacto(),                 
+        proveedorDefault.getUbicacion(),                 
+        proveedorDefault.getDescripcion(),
+        proveedorDefault.getImagen(),                 
         ">"                 // columna acción
     });
     // 3) Cargás filas
     for (Proveedor p : proveedores) {
-        modeloTabla.addRow(new Object[]{
+        if (!"DEFAULT".equals(p.getNombre())){
+            modeloTabla.addRow(new Object[]{
             p.getId(),
             p.getNombre(),
             p.getContacto(),
@@ -87,6 +89,8 @@ public class SeleccionarProveedorCompraJPanel extends javax.swing.JPanel {
             p.getImagen(),
             ">"
         });
+        }
+        
     }
     CatalogoGeneral.setModel(modeloTabla);
     // oculto ID (col 0)
@@ -133,12 +137,20 @@ public class SeleccionarProveedorCompraJPanel extends javax.swing.JPanel {
         if (viewCol != colAccion) return;
 
         int modelRow = CatalogoGeneral.convertRowIndexToModel(viewRow);
+        //USO EL ID PARA OBTENER LOS DATOS
         Object idObj = CatalogoGeneral.getModel().getValueAt(modelRow, 0);
         ProveedorId = Long.valueOf(idObj.toString());
+        
+        //PARA VERIFICAR SI ES EL DEFAULT O NO USO EL NOMBRE
+        Object nombreObj = CatalogoGeneral.getModel().getValueAt(modelRow, 1);
+        String nombreProveedor = (nombreObj.toString());
         //Me voy a la pantalla de compra teniendo en memoria el ID del Item y del Proveedor, en caso de no especificar
         //el Proveedor porque eligió el default que lo dejo arriba del todo o en un boton NO CREO UN ItemDeProveedorX
-        if (ProveedorId == 0){
+        if ("DEFAULT".equals(nombreProveedor)){
         irARellenarDatosCompraDefault(ItemId, ProveedorId);
+        }
+            else{
+            irARellenarDatosCompraProveedorX(ItemId, ProveedorId);
         }
     }
 });

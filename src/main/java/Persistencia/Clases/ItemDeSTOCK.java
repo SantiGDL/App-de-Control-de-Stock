@@ -40,4 +40,12 @@ import jakarta.persistence.*;
         public Integer getCantUnidades() {return cantUnidades;}
         public void setStock(Stock stock){this.stock = stock;}
         public void aumentarStock(Integer cantUni){this.cantUnidades = this.cantUnidades + cantUni;}
+        public void reducirStock(Integer cantUni){
+            if (this.cantUnidades - cantUni < 0){
+                this.cantUnidades = 0;
+            }else{
+                this.cantUnidades = this.cantUnidades - cantUni;
+            }
+        } //tendria que ver lo de los nuemro negativos
+
 }

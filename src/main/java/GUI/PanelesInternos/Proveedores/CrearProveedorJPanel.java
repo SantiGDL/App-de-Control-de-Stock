@@ -357,6 +357,7 @@ public class CrearProveedorJPanel extends javax.swing.JPanel {
       String descripcion = DescripcionContenido.getText().trim();
       //Por ahora lo dejo asi hasta que configure las imagenes
       String imagen = "";
+      if (descripcion.isEmpty()){descripcion = "";}
       try {
         // Copia la imagen elegida a la carpeta raíz (si el usuario eligió una)
         imagen = controller.cargarImagen(rutaImagenSeleccionada);
@@ -364,7 +365,7 @@ public class CrearProveedorJPanel extends javax.swing.JPanel {
         javax.swing.JOptionPane.showMessageDialog(this, "No se pudo copiar la imagen:\n" + io.getMessage());
         return;
         }
-      if (nombreProveedor.isEmpty() || contacto.isEmpty() || ubicacion.isEmpty() || descripcion.isEmpty()) {
+      if (nombreProveedor.isEmpty() || contacto.isEmpty() || ubicacion.isEmpty()) {
           javax.swing.JOptionPane.showMessageDialog(this, "Debe rellenar todos los campos");
           return;
           }

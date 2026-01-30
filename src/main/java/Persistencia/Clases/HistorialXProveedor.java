@@ -11,7 +11,7 @@ public class HistorialXProveedor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idHistorialXProveedor;
     //-------> Acá hago el join entre UN historial X Proveedor a MUCHAS compras
-    @OneToMany(mappedBy="historialXProveedorId", cascade=CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(mappedBy="historialXProveedor", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<CompraItem> compras = new ArrayList<>();        //Guardo items de Proveedor 
     //-------> Acá hago el JOIN entre UN Proveedor y UN Historial X Proveedor <---------
     @OneToOne

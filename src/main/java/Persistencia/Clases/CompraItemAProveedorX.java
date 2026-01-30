@@ -1,19 +1,17 @@
 package Persistencia.Clases;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED) 
+@Entity 
 @Table(name = "CompraItemAProveedorX")
 public class CompraItemAProveedorX  extends CompraItem{
-    private String nombreProveedor;
-    @OneToOne
-    @JoinColumn(name="item_id", nullable=false)
+    //Vinculo con tabla Item De ProveedorX, MUCHAS compras a UN item
+    @ManyToOne
+    @JoinColumn(name="itemDeProveedorId", nullable=false) 
     private ItemDeProveedorX itemDeProveedor;
 
 //Constructores
@@ -24,6 +22,5 @@ public class CompraItemAProveedorX  extends CompraItem{
         this.itemDeProveedor = itemDeProveedor;
     }
 //Getters y Setters
-    public String getNombreProveedor(){return this.nombreProveedor;}
     public ItemDeProveedorX getItemComprado(){return this.itemDeProveedor;} 
 }  

@@ -11,8 +11,7 @@ public class HistorialGeneral {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     //Relacion de UN historial general a MUCHAS compras
-    @OneToMany(mappedBy="historialGeneralId", cascade=CascadeType.ALL, orphanRemoval=true)
-    //LO HAGO GENERICO CON compraItem PARA PODER GUARDAR TANTO COMPRADEFAULT COMO A PROVEEDORX
+    @OneToMany(mappedBy="historialGeneral", cascade=CascadeType.ALL, orphanRemoval=true)    //LO HAGO GENERICO CON compraItem PARA PODER GUARDAR TANTO COMPRADEFAULT COMO A PROVEEDORX
     private List<CompraItem> compras = new ArrayList<>();        //Guardo items de Proveedor 
     //Constructor
     public HistorialGeneral(){}

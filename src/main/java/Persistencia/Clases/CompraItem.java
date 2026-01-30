@@ -16,6 +16,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "CompraItem")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class CompraItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

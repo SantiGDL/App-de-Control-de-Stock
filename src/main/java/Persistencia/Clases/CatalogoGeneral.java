@@ -11,13 +11,13 @@ public class CatalogoGeneral {
     @Column(unique = true, nullable = false)
     private String clave = "DEFAULT";
     @OneToMany(mappedBy="catalogo", cascade=CascadeType.ALL, orphanRemoval=true)
-    private List<Item> ItemsDeCatalogo = new ArrayList<>();        //Guardo items comunes en el stock, No me interesa de quien lo compré en el stock creo
+    private List<Item> itemsDeCatalogo = new ArrayList<>();        //Guardo items comunes en el stock, No me interesa de quien lo compré en el stock creo
 
     //Constructor
     public CatalogoGeneral(){}
     //Setters y Getters
-    public String getId() {return clave;}
+    public String getClave() {return clave;}
     public void setId(String clave) {this.clave = clave;}
-    public List<Item> getItemsDeCatalogo() {return this.ItemsDeCatalogo;}
+    public List<Item> getItemsDeCatalogo() {return this.itemsDeCatalogo;}
 
 }

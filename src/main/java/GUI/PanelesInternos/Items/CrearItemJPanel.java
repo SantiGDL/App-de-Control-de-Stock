@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.UUID;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  *
@@ -282,14 +283,14 @@ public class CrearItemJPanel extends javax.swing.JPanel {
         String descripcion = DescripcionContenido.getText().trim();
         String imagen = ""; 
         if (nombre.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this, "El nombre es obligatorio");
+        JOptionPane.showMessageDialog(this, "El nombre es obligatorio");
         return;
         }
         try {
         // Copia la imagen elegida a la carpeta raíz (si el user eligió una)
         imagen = controller.cargarImagen(rutaImagenSeleccionada);
         } catch (IOException io) {
-        javax.swing.JOptionPane.showMessageDialog(this, "No se pudo copiar la imagen:\n" + io.getMessage());
+        JOptionPane.showMessageDialog(this, "No se pudo copiar la imagen:\n" + io.getMessage());
         return;
         }
         Item nuevo = new Item(nombre, descripcion, imagen);

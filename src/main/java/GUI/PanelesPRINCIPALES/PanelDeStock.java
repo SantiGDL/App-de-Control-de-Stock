@@ -7,6 +7,8 @@ package GUI.PanelesPRINCIPALES;
 import GUI.FramePrincipal;
 import GUI.PanelPrincipal;
 import GUI.PanelesInternos.Items.ComprarItem.ComprarItemJPanel;
+import ImagenesHelpers.RenderDeImagenEnTablas;
+import Persistencia.Clases.CatalogoGeneral;
 import Persistencia.Clases.Item;
 import Persistencia.Clases.ItemDeSTOCK;
 import Persistencia.FabricaEntityManager;
@@ -49,6 +51,12 @@ public class PanelDeStock extends javax.swing.JPanel {
     }
     TablaDeStock.setModel(modeloTabla);
     TablaDeStock.getTableHeader().setReorderingAllowed(false);
+    //REDERIZO LA IMAGEN DE LA TABLA
+    int colImagen = 3;
+    TablaDeStock.setRowHeight(120);
+    //RENDERIZO LA IMAGEN USANDO EL HELPER
+    TablaDeStock.getColumnModel().getColumn(colImagen)
+              .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
 
     
     }

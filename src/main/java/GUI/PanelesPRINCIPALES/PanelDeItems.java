@@ -8,6 +8,7 @@ import GUI.FramePrincipal;
 import GUI.PanelPrincipal;
 import GUI.PanelesInternos.Items.ComprarItem.ComprarItemJPanel;
 import GUI.PanelesInternos.Items.CrearItemJPanel;
+import GUI.PanelesInternos.Items.VenderItemJPanel;
 import GUI.PanelesInternosConfiguraciones.EliminarItemJPanel;
 import javax.swing.JPanel;
 
@@ -251,7 +252,9 @@ public class PanelDeItems extends javax.swing.JPanel {
     }//GEN-LAST:event_ComprarItemActionPerformed
 
     private void VenderItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VenderItemActionPerformed
-        // TODO add your handling code here:
+    JPanel venderItem = new VenderItemJPanel();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(venderItem);  
     }//GEN-LAST:event_VenderItemActionPerformed
 
     private void VenderItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VenderItem1ActionPerformed
