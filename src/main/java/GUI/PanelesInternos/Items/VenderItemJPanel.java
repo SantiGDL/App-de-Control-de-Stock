@@ -8,6 +8,7 @@ import GUI.FramePrincipal;
 import GUI.PanelPrincipal;
 import GUI.PanelesInternos.Items.ComprarItem.ComprarItemJPanel;
 import GUI.PanelesInternos.Items.ComprarItem.SeleccionarProveedorCompraJPanel;
+import ImagenesHelpers.PanelDeFondo;
 import ImagenesHelpers.RenderDeImagenEnTablas;
 import Persistencia.Clases.ItemDeSTOCK;
 import Persistencia.FabricaEntityManager;
@@ -147,7 +148,7 @@ public class VenderItemJPanel extends javax.swing.JPanel {
         Atras = new javax.swing.JButton();
         MenuSuperior = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        Contenido = new javax.swing.JPanel();
+        Contenido = new PanelDeFondo("/Imagenes/Fondo.png");
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaDeStock = new javax.swing.JTable();
 
@@ -286,7 +287,7 @@ public class VenderItemJPanel extends javax.swing.JPanel {
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContenidoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
         ContenidoLayout.setVerticalGroup(
@@ -305,7 +306,7 @@ public class VenderItemJPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(MenuSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)))
+                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)))
         );
         FondoLayout.setVerticalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

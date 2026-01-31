@@ -76,8 +76,8 @@
                       <Component id="jLabel1" min="-2" pref="165" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="Stock1" alignment="1" max="32767" attributes="0"/>
-                  <Component id="Stock2" alignment="1" max="32767" attributes="0"/>
+                  <Component id="Aumentar" alignment="1" max="32767" attributes="0"/>
+                  <Component id="Disminuir" alignment="1" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -104,9 +104,9 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="Atras" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="Stock1" min="-2" max="-2" attributes="0"/>
+                      <Component id="Aumentar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="Stock2" min="-2" max="-2" attributes="0"/>
+                      <Component id="Disminuir" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="164" max="-2" attributes="0"/>
                       <Component id="VenderItem1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
@@ -151,7 +151,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="VenderItem1ActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="Stock1">
+            <Component class="javax.swing.JButton" name="Aumentar">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="f3" green="3f" red="1d" type="rgb"/>
@@ -172,10 +172,10 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Stock1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AumentarActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="Stock2">
+            <Component class="javax.swing.JButton" name="Disminuir">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="f3" green="3f" red="1d" type="rgb"/>
@@ -196,7 +196,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Stock2ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DisminuirActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="Atras">
@@ -277,6 +277,9 @@
             </Property>
             <Property name="verifyInputWhenFocusTarget" type="boolean" value="false"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new PanelDeFondo(&quot;/Imagenes/Fondo.png&quot;)"/>
+          </AuxValues>
 
           <Layout>
             <DimensionLayout dim="0">

@@ -18,6 +18,7 @@ import GUI.PanelesInternos.Items.CrearItemJPanel;
 import GUI.PanelesInternos.Proveedores.CrearProveedorJPanel;
 import GUI.PanelesInternos.LoginJPanel;
 import GUI.PanelesInternos.Proveedores.ListaDeProveedoresJPanel;
+import ImagenesHelpers.PanelDeFondo;
 import javax.swing.JPanel;
 
 /**
@@ -51,7 +52,7 @@ public class PanelDeTODASLasFunciones extends javax.swing.JPanel {
         MenuPrincipal = new javax.swing.JButton();
         MenuSuperior = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        Contenido = new javax.swing.JPanel();
+        Contenido = new PanelDeFondo("/Imagenes/Fondo.png");
         menuItems = new javax.swing.JButton();
         menuProveedores = new javax.swing.JButton();
         editarProveedor = new javax.swing.JButton();

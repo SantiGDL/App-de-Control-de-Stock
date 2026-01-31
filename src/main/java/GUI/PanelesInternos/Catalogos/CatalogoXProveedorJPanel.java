@@ -9,6 +9,7 @@ import GUI.PanelPrincipal;
 import GUI.PanelesInternos.Items.ComprarItem.RellenarDatosCompraDefaultJPanel;
 import GUI.PanelesPRINCIPALES.PanelDeCatalogos;
 import GUI.PanelesPRINCIPALES.PanelDeItems;
+import ImagenesHelpers.PanelDeFondo;
 import ImagenesHelpers.RenderDeImagenEnTablas;
 import Persistencia.Clases.Item;
 import Persistencia.Clases.Proveedor;
@@ -142,7 +143,7 @@ public class CatalogoXProveedorJPanel extends javax.swing.JPanel {
         MenuSuperior = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        Contenido = new javax.swing.JPanel();
+        Contenido = new PanelDeFondo("/Imagenes/Fondo.png");
         jScrollPane1 = new javax.swing.JScrollPane();
         ListaDeProveedores = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();

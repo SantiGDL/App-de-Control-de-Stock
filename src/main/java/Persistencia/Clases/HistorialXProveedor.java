@@ -25,9 +25,16 @@ public class HistorialXProveedor {
     //Setters y Getters
     public Long getIdHistorialXProveedor() {return idHistorialXProveedor;}
     public void setIdHistorialXProveedor(Long id) {this.idHistorialXProveedor = id;}
-    public List<CompraItem> getcompras() {return this.compras;}
+    public List<CompraItem> getCompras() {return this.compras;}
     
-    public void addCompra(CompraItem compraNueva){this.compras.add(compraNueva);}
+    public void addCompra(CompraItem compraNueva){
+    this.compras.add(compraNueva);
+    compraNueva.setHistorialXProveedor(this);
+    }
+    public void removeCompra(CompraItem c){
+    this.compras.remove(c);
+    c.setHistorialXProveedor(null);
+    }
     
     public void setProveedor(Proveedor p){this.proveedorVinculado = p;}
     

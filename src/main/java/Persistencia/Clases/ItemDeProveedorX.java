@@ -24,6 +24,7 @@ public class ItemDeProveedorX{
     @ManyToOne
     @JoinColumn(name="catalogoXProv_id", nullable=false)
     private CatalogoXProveedor catXProv;
+    
     private Float precioItem;
     private Float costoFlete;
     private Float costoTotal;

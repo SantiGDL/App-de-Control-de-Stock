@@ -8,6 +8,9 @@ import GUI.FramePrincipal;
 import GUI.PanelPrincipal;
 import GUI.PanelesInternos.Catalogos.CatalogoGeneralJPanel;
 import GUI.PanelesInternos.Catalogos.CatalogoXProveedorJPanel;
+import ImagenesHelpers.ImagenesHelper;
+import ImagenesHelpers.PanelDeFondo;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
@@ -21,6 +24,27 @@ public class PanelDeCatalogos extends javax.swing.JPanel {
      */
     public PanelDeCatalogos() {
         initComponents();
+        
+        // 1) Armo grilla centrada (3 columnas)
+        ImagenesHelper.armarMenuEnGrilla(
+        Contenido,
+        new JButton[] {
+            CatalogoGeneralBoton, CatalogoXProveedorBoton
+        },
+        2,   // columnas
+        30,  // gap horizontal
+        30,  // gap vertical
+        25   // padding
+        );
+
+        // 2) Seteo tamaño consistente (opcional, pero queda muy pro)
+        ImagenesHelper.setTamanoTarjeta(CatalogoGeneralBoton, 220, 140);
+        ImagenesHelper.setTamanoTarjeta(CatalogoXProveedorBoton, 220, 140);
+
+        // 3) Iconos escalados + texto centrado
+        ImagenesHelper.configurarBotonTarjeta(CatalogoGeneralBoton, "Catalogo General", "/Imagenes/CatalogoBoton.png", 64, 64);
+        ImagenesHelper.configurarBotonTarjeta(CatalogoXProveedorBoton, "Catalogo por Proveedor", "/Imagenes/CatalogoBoton.png", 64, 64);
+        
     }
 
     /**
@@ -40,9 +64,9 @@ public class PanelDeCatalogos extends javax.swing.JPanel {
         Atras = new javax.swing.JButton();
         MenuSuperior = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        Contenido = new javax.swing.JPanel();
-        CatalogoGeneral = new javax.swing.JButton();
-        PROVEEDORES3 = new javax.swing.JButton();
+        Contenido = new PanelDeFondo("/Imagenes/Fondo.png");
+        CatalogoGeneralBoton = new javax.swing.JButton();
+        CatalogoXProveedorBoton = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -136,23 +160,23 @@ public class PanelDeCatalogos extends javax.swing.JPanel {
         Contenido.setPreferredSize(new java.awt.Dimension(700, 320));
         Contenido.setVerifyInputWhenFocusTarget(false);
 
-        CatalogoGeneral.setBackground(new java.awt.Color(255, 153, 153));
-        CatalogoGeneral.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        CatalogoGeneral.setForeground(new java.awt.Color(0, 0, 0));
-        CatalogoGeneral.setText("Catálogo General ");
-        CatalogoGeneral.setBorder(null);
-        CatalogoGeneral.setBorderPainted(false);
-        CatalogoGeneral.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CatalogoGeneral.addActionListener(this::CatalogoGeneralActionPerformed);
+        CatalogoGeneralBoton.setBackground(new java.awt.Color(255, 153, 153));
+        CatalogoGeneralBoton.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        CatalogoGeneralBoton.setForeground(new java.awt.Color(0, 0, 0));
+        CatalogoGeneralBoton.setText("Catálogo General ");
+        CatalogoGeneralBoton.setBorder(null);
+        CatalogoGeneralBoton.setBorderPainted(false);
+        CatalogoGeneralBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        CatalogoGeneralBoton.addActionListener(this::CatalogoGeneralBotonActionPerformed);
 
-        PROVEEDORES3.setBackground(new java.awt.Color(255, 153, 153));
-        PROVEEDORES3.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        PROVEEDORES3.setForeground(new java.awt.Color(0, 0, 0));
-        PROVEEDORES3.setText("Catálogo x Proveedor (NOK)");
-        PROVEEDORES3.setBorder(null);
-        PROVEEDORES3.setBorderPainted(false);
-        PROVEEDORES3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        PROVEEDORES3.addActionListener(this::PROVEEDORES3ActionPerformed);
+        CatalogoXProveedorBoton.setBackground(new java.awt.Color(255, 153, 153));
+        CatalogoXProveedorBoton.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        CatalogoXProveedorBoton.setForeground(new java.awt.Color(0, 0, 0));
+        CatalogoXProveedorBoton.setText("Catálogo x Proveedor ");
+        CatalogoXProveedorBoton.setBorder(null);
+        CatalogoXProveedorBoton.setBorderPainted(false);
+        CatalogoXProveedorBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        CatalogoXProveedorBoton.addActionListener(this::CatalogoXProveedorBotonActionPerformed);
 
         javax.swing.GroupLayout ContenidoLayout = new javax.swing.GroupLayout(Contenido);
         Contenido.setLayout(ContenidoLayout);
@@ -160,9 +184,9 @@ public class PanelDeCatalogos extends javax.swing.JPanel {
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContenidoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(CatalogoGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(CatalogoGeneralBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(66, 66, 66)
-                .addComponent(PROVEEDORES3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(CatalogoXProveedorBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(115, 115, 115))
         );
         ContenidoLayout.setVerticalGroup(
@@ -170,8 +194,8 @@ public class PanelDeCatalogos extends javax.swing.JPanel {
             .addGroup(ContenidoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CatalogoGeneral)
-                    .addComponent(PROVEEDORES3))
+                    .addComponent(CatalogoGeneralBoton)
+                    .addComponent(CatalogoXProveedorBoton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -203,17 +227,17 @@ public class PanelDeCatalogos extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_VenderItem1ActionPerformed
 
-    private void CatalogoGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CatalogoGeneralActionPerformed
+    private void CatalogoGeneralBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CatalogoGeneralBotonActionPerformed
    JPanel catalogoGeneral = new CatalogoGeneralJPanel();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(catalogoGeneral);
-    }//GEN-LAST:event_CatalogoGeneralActionPerformed
+    }//GEN-LAST:event_CatalogoGeneralBotonActionPerformed
 
-    private void PROVEEDORES3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PROVEEDORES3ActionPerformed
+    private void CatalogoXProveedorBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CatalogoXProveedorBotonActionPerformed
       JPanel catalogoXProveedor = new CatalogoXProveedorJPanel();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(catalogoXProveedor);
-    }//GEN-LAST:event_PROVEEDORES3ActionPerformed
+    }//GEN-LAST:event_CatalogoXProveedorBotonActionPerformed
 
     private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
         JPanel panelPrincipal = new PanelPrincipal();
@@ -224,13 +248,13 @@ public class PanelDeCatalogos extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Atras;
-    private javax.swing.JButton CatalogoGeneral;
+    private javax.swing.JButton CatalogoGeneralBoton;
+    private javax.swing.JButton CatalogoXProveedorBoton;
     private javax.swing.JPanel Contenido;
     private javax.swing.JPanel Fondo;
     private javax.swing.JLabel Logo;
     private javax.swing.JPanel MenuLateral;
     private javax.swing.JPanel MenuSuperior;
-    private javax.swing.JButton PROVEEDORES3;
     private javax.swing.JButton VenderItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;

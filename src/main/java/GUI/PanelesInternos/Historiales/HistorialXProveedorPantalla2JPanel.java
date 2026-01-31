@@ -10,8 +10,6 @@ import GUI.PanelesPRINCIPALES.PanelDeHistoriales;
 import ImagenesHelpers.PanelDeFondo;
 import ImagenesHelpers.RenderDeImagenEnTablas;
 import Persistencia.Clases.CompraItem;
-import Persistencia.Clases.HistorialGeneral;
-import Persistencia.Clases.Item;
 import Persistencia.FabricaEntityManager;
 import Persistencia.ManejadorDePersistencia;
 import jakarta.persistence.EntityManager;
@@ -22,61 +20,62 @@ import javax.swing.JPanel;
  *
  * @author Santi-kun
  */
-public class HistorialGeneralJPanel extends javax.swing.JPanel {
+public class HistorialXProveedorPantalla2JPanel extends javax.swing.JPanel {
+    Long proveedorId;
     private void cargarTablaHistorial() {
-    ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
-    EntityManager em = FabricaEntityManager.getEntityManager();
-    List<CompraItem> compras =  MDP.getTodasLasCompras();
-    // 2) Armo el modelo con columnas
-    javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
-        new Object[]{"ID", "NombreItem","Imagen Item ", "Nombre Proveedor" ,"Imagen Proveedor", 
-            "Cant Unidades","Precio X Unidad" , "Precio Total" , "Fecha" }, 0
-    ) {
-        @Override public boolean isCellEditable(int row, int column) { return false; }
-        
-    };
+        ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
+        EntityManager em = FabricaEntityManager.getEntityManager();
+        List<CompraItem> compras =  MDP.getComprasProveedorX(proveedorId);
+        // 2) Armo el modelo con columnas
+        javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
+            new Object[]{"ID", "NombreItem","Imagen Item ", "Nombre Proveedor" ,"Imagen Proveedor", 
+                "Cant Unidades","Precio X Unidad" , "Precio Total" , "Fecha" }, 0
+        ) {
+            @Override public boolean isCellEditable(int row, int column) { return false; }
 
-    // 3) Cargás filas
-    for (CompraItem ci : compras) {
-        modeloTabla.addRow(new Object[]{
-            ci.getId(),
-            ci.getNombreItem(),
-            ci.getImagenItem(),
-            ci.getNombreProveedor(),
-            ci.getImagenProveedor(),
-            ci.getCantUnidades(),
-            ci.getPrecioXunidad(),
-            ci.getPrecioTotal(),
-            ci.getFecha(),
+        };
 
-        });
-    }
-    HistorialGeneral.setModel(modeloTabla);
-    HistorialGeneral.getTableHeader().setReorderingAllowed(false);
-    // oculto ID (col 0)
-    HistorialGeneral.getColumnModel().getColumn(0).setMinWidth(0);
-    HistorialGeneral.getColumnModel().getColumn(0).setMaxWidth(0);
-    HistorialGeneral.getColumnModel().getColumn(0).setPreferredWidth(0);
-    //HAY QUE RENDERIZAR DESPUES DE SETEAR EL MODELO
-    int colImagenItem = 2;
-    int colImagenProveedor = 4;
-    HistorialGeneral.setRowHeight(120);
-    //RENDERIZO LA IMAGEN USANDO EL HELPER
-    HistorialGeneral.getColumnModel().getColumn(colImagenItem)
-              .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
-    
-    HistorialGeneral.setRowHeight(120);
-    //RENDERIZO LA IMAGEN USANDO EL HELPER
-    HistorialGeneral.getColumnModel().getColumn(colImagenProveedor)
-              .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
-    
-    }
+        // 3) Cargás filas
+        for (CompraItem ci : compras) {
+            modeloTabla.addRow(new Object[]{
+                ci.getId(),
+                ci.getNombreItem(),
+                ci.getImagenItem(),
+                ci.getNombreProveedor(),
+                ci.getImagenProveedor(),
+                ci.getCantUnidades(),
+                ci.getPrecioXunidad(),
+                ci.getPrecioTotal(),
+                ci.getFecha(),
 
+            });
+        }
+        HistorialXProveedor.setModel(modeloTabla);
+        HistorialXProveedor.getTableHeader().setReorderingAllowed(false);
+        // oculto ID (col 0)
+        HistorialXProveedor.getColumnModel().getColumn(0).setMinWidth(0);
+        HistorialXProveedor.getColumnModel().getColumn(0).setMaxWidth(0);
+        HistorialXProveedor.getColumnModel().getColumn(0).setPreferredWidth(0);
+        //HAY QUE RENDERIZAR DESPUES DE SETEAR EL MODELO
+        int colImagenItem = 2;
+        int colImagenProveedor = 4;
+        HistorialXProveedor.setRowHeight(120);
+        //RENDERIZO LA IMAGEN USANDO EL HELPER
+        HistorialXProveedor.getColumnModel().getColumn(colImagenItem)
+                  .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
+
+        HistorialXProveedor.setRowHeight(120);
+        //RENDERIZO LA IMAGEN USANDO EL HELPER
+        HistorialXProveedor.getColumnModel().getColumn(colImagenProveedor)
+                  .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
+
+        }
     /**
-     * Creates new form HistorialGeneralJPanel
+     * Creates new form HistorialXProveedorPantalla2JPanel
      */
-    public HistorialGeneralJPanel() {
+    public HistorialXProveedorPantalla2JPanel(Long proveedorId) {
         initComponents();
+        this.proveedorId = proveedorId;
         cargarTablaHistorial();
     }
 
@@ -94,15 +93,13 @@ public class HistorialGeneralJPanel extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         Contenido = new PanelDeFondo("/Imagenes/Fondo.png");
         jScrollPane1 = new javax.swing.JScrollPane();
-        HistorialGeneral = new javax.swing.JTable();
+        HistorialXProveedor = new javax.swing.JTable();
         MenuLateral = new javax.swing.JPanel();
         Logo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         VenderItem1 = new javax.swing.JButton();
         MenuPrincipal = new javax.swing.JButton();
         Atras1 = new javax.swing.JButton();
-
-        setLayout(new java.awt.BorderLayout());
 
         Fondo.setBackground(new java.awt.Color(255, 255, 255));
         Fondo.setPreferredSize(new java.awt.Dimension(800, 500));
@@ -113,16 +110,16 @@ public class HistorialGeneralJPanel extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("HISTORIAL GENERAL");
+        jLabel3.setText("HISTORIAL X PROVEEDOR");
 
         javax.swing.GroupLayout MenuSuperiorLayout = new javax.swing.GroupLayout(MenuSuperior);
         MenuSuperior.setLayout(MenuSuperiorLayout);
         MenuSuperiorLayout.setHorizontalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
-                .addContainerGap(164, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44))
+                .addContainerGap(99, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50))
         );
         MenuSuperiorLayout.setVerticalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,7 +133,7 @@ public class HistorialGeneralJPanel extends javax.swing.JPanel {
         Contenido.setPreferredSize(new java.awt.Dimension(700, 320));
         Contenido.setVerifyInputWhenFocusTarget(false);
 
-        HistorialGeneral.setModel(new javax.swing.table.DefaultTableModel(
+        HistorialXProveedor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -147,7 +144,7 @@ public class HistorialGeneralJPanel extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(HistorialGeneral);
+        jScrollPane1.setViewportView(HistorialXProveedor);
 
         javax.swing.GroupLayout ContenidoLayout = new javax.swing.GroupLayout(Contenido);
         Contenido.setLayout(ContenidoLayout);
@@ -229,7 +226,7 @@ public class HistorialGeneralJPanel extends javax.swing.JPanel {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(247, 247, 247)
                 .addComponent(VenderItem1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
             .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(MenuLateralLayout.createSequentialGroup()
                     .addGap(185, 185, 185)
@@ -255,11 +252,24 @@ public class HistorialGeneralJPanel extends javax.swing.JPanel {
             .addGroup(FondoLayout.createSequentialGroup()
                 .addComponent(MenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE))
-            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
+                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE))
+            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
         );
 
-        add(Fondo, java.awt.BorderLayout.CENTER);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 815, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(Fondo, javax.swing.GroupLayout.DEFAULT_SIZE, 815, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 423, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(Fondo, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void VenderItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VenderItem1ActionPerformed
@@ -283,7 +293,7 @@ public class HistorialGeneralJPanel extends javax.swing.JPanel {
     private javax.swing.JButton Atras1;
     private javax.swing.JPanel Contenido;
     private javax.swing.JPanel Fondo;
-    private javax.swing.JTable HistorialGeneral;
+    private javax.swing.JTable HistorialXProveedor;
     private javax.swing.JLabel Logo;
     private javax.swing.JPanel MenuLateral;
     private javax.swing.JButton MenuPrincipal;

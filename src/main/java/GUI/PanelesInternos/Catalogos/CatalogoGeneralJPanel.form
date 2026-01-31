@@ -109,6 +109,9 @@
             </Property>
             <Property name="verifyInputWhenFocusTarget" type="boolean" value="false"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new PanelDeFondo(&quot;/Imagenes/Fondo.png&quot;)"/>
+          </AuxValues>
 
           <Layout>
             <DimensionLayout dim="0">

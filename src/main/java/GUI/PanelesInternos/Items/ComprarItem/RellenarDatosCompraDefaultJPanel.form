@@ -304,6 +304,9 @@
                       <Color blue="f9" green="f9" red="bd" type="rgb"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new PanelDeFondo(&quot;/Imagenes/Fondo.png&quot;)"/>
+                  </AuxValues>
 
                   <Layout>
                     <DimensionLayout dim="0">
@@ -465,6 +468,9 @@
                       <Color blue="f9" green="f9" red="bd" type="rgb"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new PanelDeFondo(&quot;/Imagenes/Fondo.png&quot;)"/>
+                  </AuxValues>
 
                   <Layout>
                     <DimensionLayout dim="0">
@@ -609,6 +615,9 @@
                       <Color blue="f9" green="f9" red="bd" type="rgb"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new PanelDeFondo(&quot;/Imagenes/Fondo.png&quot;)"/>
+                  </AuxValues>
 
                   <Layout>
                     <DimensionLayout dim="0">

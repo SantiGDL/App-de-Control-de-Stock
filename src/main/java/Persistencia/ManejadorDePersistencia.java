@@ -454,56 +454,54 @@ public void AumentarSTOCK(ItemDeSTOCK nuevoItemDeStock){
     }
     */
     public void persistirCompra(CompraItem compra, Long proveedorId){    
-        EntityManager em = FabricaEntityManager.getEntityManager();
-        EntityTransaction et = em.getTransaction();
-        try{
-            et.begin();
-            
-            Proveedor p = em.find(Proveedor.class, proveedorId);
-             //------->HISOTIRAL GENERAL (UNICO PARA TODOS) <---------
-        HistorialGeneral histG = em.createQuery(
-                "SELECT h FROM HistorialGeneral h WHERE h.clave = :clave",
-                HistorialGeneral.class)
-                .setParameter("clave", "GENERAL")
-                .setMaxResults(1)
-                .getResultStream()
-                .findFirst()
-                .orElse(null);
-            // Si no existe, lo creo y persisto
-            if (histG == null) {
-                histG = new HistorialGeneral();
-                em.persist(histG);
-            }
-            histG.addCompra(compra);
-            
-            //------->HISOTIRAL X PROVEEDOR (UNO PARA CADA UNO) <---------
+    EntityManager em = FabricaEntityManager.getEntityManager();
+    EntityTransaction et = em.getTransaction();
+
+    try{
+        et.begin();
+
+        Proveedor p = em.find(Proveedor.class, proveedorId);
+
+        HistorialGeneral histG = em.find(HistorialGeneral.class, "GENERAL");
+        if (histG == null) {
+            histG = new HistorialGeneral();
+            em.persist(histG);
+        }
+
         HistorialXProveedor histP = em.createQuery(
                 "SELECT hp FROM HistorialXProveedor hp WHERE hp.proveedorVinculado.id = :pid",
                 HistorialXProveedor.class)
-                .setParameter("pid", proveedorId) //Seteo para que busque el historialXProveedor del proveedorDefalut
-                .setMaxResults(1)
-                .getResultStream()
-                .findFirst()
-                .orElse(null);
-            // Si no existe, lo creo y persisto
-            if (histP == null) {
-                histP = new HistorialXProveedor();
-                em.persist(histP);
-            } 
+            .setParameter("pid", proveedorId)
+            .setMaxResults(1)
+            .getResultStream()
+            .findFirst()
+            .orElse(null);
+
+        if (histP == null) {
+            histP = new HistorialXProveedor();
             histP.setProveedor(p);
-            histP.addCompra(compra);
-            
-            
-            //LE ASIGNO A LA COMPRA EL HISTORIAL AL QUE CORRESPONDE
-            compra.setHistorialGeneral(histG);
-            compra.setHistorialXProveedor(histP);
-            //PERSISTO LA COMPRA
-            em.persist(compra);
-            et.commit();
+            em.persist(histP);
+        } else {
+            histP.setProveedor(p);
         }
-        catch(Exception e) {if (et.isActive()) {et.rollback();}throw new PersistenceException("Error al persistir item", e);} 
-            finally {em.close();}
+
+        // seteo dueño de relaciones primero
+        compra.setHistorialXProveedor(histP);
+
+        // helper que también setea compra.historialGeneral
+        histG.addCompra(compra);
+        histP.addCompra(compra); // asegurate que haga backref también
+
+        em.persist(compra);
+
+        et.commit();
+    } catch(Exception e) {
+        if (et.isActive()) et.rollback();
+        throw new PersistenceException("Error al persistir compra", e);
+    } finally {
+        em.close();
     }
+}
     
     public List<CompraItem> getTodasLasCompras(HistorialGeneral historial){
         EntityManager em = FabricaEntityManager.getEntityManager();
@@ -546,24 +544,45 @@ public void AumentarSTOCK(ItemDeSTOCK nuevoItemDeStock){
     }
 }
     
-private CatalogoXProveedor getOrCreateCatalogoXProveedor(EntityManager em, Proveedor provRef) {
+    
+    public List<CompraItem> getComprasProveedorX(Long proveedorId) {
+    EntityManager em = FabricaEntityManager.getEntityManager();
+    try {
+        HistorialXProveedor h = em.createQuery(
+            "SELECT DISTINCT h FROM HistorialXProveedor h LEFT JOIN FETCH h.compras WHERE h.proveedorVinculado.id = :id",
+            HistorialXProveedor.class
+        )
+        .setParameter("id", proveedorId)
+        .getResultStream()
+        .findFirst()
+        .orElse(null);
+
+        if (h == null) return java.util.Collections.emptyList();
+
+    return new java.util.ArrayList<>(h.getCompras()); //Devulevo así para que no puedan modificarla
+    } catch (Exception e) {
+        throw new PersistenceException("Error al obtener compras", e);
+    } finally {
+        em.close();
+    }
+}
+    
+private CatalogoXProveedor getOrCreateCatalogoXProveedor(EntityManager em, Long proveedorId) {
     CatalogoXProveedor cat = em.createQuery(
-            "SELECT c FROM CatalogoXProveedor c WHERE c.proveedor.id = :pid",
-            CatalogoXProveedor.class
+        "SELECT p.catalogo FROM Proveedor p WHERE p.id = :pid",
+        CatalogoXProveedor.class
     )
-    .setParameter("pid", provRef.getId())
-    .setMaxResults(1)
+    .setParameter("pid", proveedorId)
     .getResultStream()
     .findFirst()
     .orElse(null);
 
     if (cat == null) {
-        cat = new CatalogoXProveedor();
-        // IMPORTANTE: asociarlo al proveedor (ajustá al nombre real de tu setter/campo)
-        cat.setProveedor(provRef);
+        Proveedor provRef = em.getReference(Proveedor.class, proveedorId);
 
-        em.persist(cat);
-        em.flush(); // para que agarre ID y evitar líos después
+        cat = new CatalogoXProveedor();
+        provRef.setCatalogo(cat);   
+        em.flush(); //fuerza insert/update ya
     }
     return cat;
 }
@@ -576,9 +595,8 @@ public ItemDeProveedorX getOrCreateItemDeProveedorX(ItemDeProveedorX itemPersist
         et.begin();
 
         Long proveedorId = itemPersistirODevolver.getProveedor().getId();
-        Long itemId = itemPersistirODevolver.getItem().getId();
+        Long itemId      = itemPersistirODevolver.getItem().getId();
 
-        // 1) Buscar si ya existe (por proveedor + item)
         ItemDeProveedorX item = em.createQuery(
                 "SELECT ip FROM ItemDeProveedorX ip " +
                 "WHERE ip.proveedor.id = :pid AND ip.item.id = :iid",
@@ -592,22 +610,19 @@ public ItemDeProveedorX getOrCreateItemDeProveedorX(ItemDeProveedorX itemPersist
         .orElse(null);
 
         if (item != null) {
-            // (Opcional) si querés actualizar precio/flete/tiempo:
             item.setPrecioItem(itemPersistirODevolver.getPrecioItem());
             item.setCostoFlete(itemPersistirODevolver.getCostoFlete());
             item.setCostoTotal(itemPersistirODevolver.getCostoTotal());
             item.setTiempoDeEnvio(itemPersistirODevolver.getTiempoDeEnvio());
-
             et.commit();
             return item;
         }
-
-        // 2) No existe: asegurá referencias MANAGED
-        Proveedor provRef = em.getReference(Proveedor.class, proveedorId);
-        Item itemRef = em.getReference(Item.class, itemId);
-
-        itemPersistirODevolver.setProveedor(provRef);
+        Item itemRef      = em.getReference(Item.class, itemId);
         itemPersistirODevolver.setItem(itemRef);
+
+        // CLAVE: catálogo correcto del proveedor
+        CatalogoXProveedor cat = getOrCreateCatalogoXProveedor(em, proveedorId);
+        itemPersistirODevolver.setCatXProv(cat); // <-- ESTO TE FALTABA (y que sea MANAGED)
 
         em.persist(itemPersistirODevolver);
 

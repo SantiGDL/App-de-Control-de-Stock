@@ -235,15 +235,18 @@
                 </Property>
                 <Property name="verifyInputWhenFocusTarget" type="boolean" value="false"/>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new PanelDeFondo(&quot;/Imagenes/Fondo.png&quot;)"/>
+              </AuxValues>
 
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                          <Component id="HistorialGeneral" max="32767" attributes="0"/>
+                          <Component id="HistorialGeneralBoton" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="110" max="-2" attributes="0"/>
-                          <Component id="HistorialXProveedor" max="32767" attributes="0"/>
+                          <Component id="HistorialXProveedorBoton" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -253,8 +256,8 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="HistorialGeneral" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="HistorialXProveedor" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="HistorialGeneralBoton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="HistorialXProveedorBoton" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -262,7 +265,7 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JButton" name="HistorialGeneral">
+                <Component class="javax.swing.JButton" name="HistorialGeneralBoton">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="cc" green="ff" red="ff" type="rgb"/>
@@ -283,10 +286,10 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="HistorialGeneralActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="HistorialGeneralBotonActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="HistorialXProveedor">
+                <Component class="javax.swing.JButton" name="HistorialXProveedorBoton">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="cc" green="ff" red="ff" type="rgb"/>
@@ -307,7 +310,7 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="HistorialXProveedorActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="HistorialXProveedorBotonActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>

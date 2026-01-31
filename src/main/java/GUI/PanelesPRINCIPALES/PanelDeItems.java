@@ -10,6 +10,9 @@ import GUI.PanelesInternos.Items.ComprarItem.ComprarItemJPanel;
 import GUI.PanelesInternos.Items.CrearItemJPanel;
 import GUI.PanelesInternos.Items.VenderItemJPanel;
 import GUI.PanelesInternosConfiguraciones.EliminarItemJPanel;
+import ImagenesHelpers.ImagenesHelper;
+import ImagenesHelpers.PanelDeFondo;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
@@ -23,6 +26,30 @@ public class PanelDeItems extends javax.swing.JPanel {
      */
     public PanelDeItems() {
         initComponents();
+        
+        // 1) Armo grilla centrada (3 columnas)
+        ImagenesHelper.armarMenuEnGrilla(
+        Contenido,
+        new JButton[] {
+            CrearItemBoton, ComprarItemBoton, VenderItemBoton, 
+        },
+        3,   // columnas
+        30,  // gap horizontal
+        30,  // gap vertical
+        25   // padding
+        );
+
+        // 2) Seteo tamaño consistente (opcional, pero queda muy pro)
+        ImagenesHelper.setTamanoTarjeta(CrearItemBoton, 220, 140);
+        ImagenesHelper.setTamanoTarjeta(ComprarItemBoton, 220, 140);
+        ImagenesHelper.setTamanoTarjeta(VenderItemBoton, 220, 140);
+
+
+        // 3) Iconos escalados + texto centrado
+        ImagenesHelper.configurarBotonTarjeta(CrearItemBoton, "Crear Item", "/Imagenes/ItemsBoton.png", 64, 64);
+        ImagenesHelper.configurarBotonTarjeta(ComprarItemBoton, "Comprar Item", "/Imagenes/ItemsBoton.png", 64, 64);
+        ImagenesHelper.configurarBotonTarjeta(VenderItemBoton, "Vender Item", "/Imagenes/ItemsBoton.png", 64, 64);
+        
     }
 
     /**
@@ -42,12 +69,10 @@ public class PanelDeItems extends javax.swing.JPanel {
         Atras = new javax.swing.JButton();
         MenuSuperior = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        Contenido = new javax.swing.JPanel();
-        CrearItem = new javax.swing.JButton();
-        ComprarItem = new javax.swing.JButton();
-        VenderItem = new javax.swing.JButton();
-        VenderItem2 = new javax.swing.JButton();
-        EliminarItem = new javax.swing.JButton();
+        Contenido = new PanelDeFondo("/Imagenes/Fondo.png");
+        CrearItemBoton = new javax.swing.JButton();
+        ComprarItemBoton = new javax.swing.JButton();
+        VenderItemBoton = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -141,50 +166,32 @@ public class PanelDeItems extends javax.swing.JPanel {
         Contenido.setPreferredSize(new java.awt.Dimension(700, 320));
         Contenido.setVerifyInputWhenFocusTarget(false);
 
-        CrearItem.setBackground(new java.awt.Color(204, 102, 255));
-        CrearItem.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        CrearItem.setForeground(new java.awt.Color(0, 0, 0));
-        CrearItem.setText("Crear Item");
-        CrearItem.setBorder(null);
-        CrearItem.setBorderPainted(false);
-        CrearItem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CrearItem.addActionListener(this::CrearItemActionPerformed);
+        CrearItemBoton.setBackground(new java.awt.Color(204, 102, 255));
+        CrearItemBoton.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        CrearItemBoton.setForeground(new java.awt.Color(0, 0, 0));
+        CrearItemBoton.setText("Crear Item");
+        CrearItemBoton.setBorder(null);
+        CrearItemBoton.setBorderPainted(false);
+        CrearItemBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        CrearItemBoton.addActionListener(this::CrearItemBotonActionPerformed);
 
-        ComprarItem.setBackground(new java.awt.Color(204, 102, 255));
-        ComprarItem.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        ComprarItem.setForeground(new java.awt.Color(0, 0, 0));
-        ComprarItem.setText("Comprar Item ");
-        ComprarItem.setBorder(null);
-        ComprarItem.setBorderPainted(false);
-        ComprarItem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        ComprarItem.addActionListener(this::ComprarItemActionPerformed);
+        ComprarItemBoton.setBackground(new java.awt.Color(204, 102, 255));
+        ComprarItemBoton.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        ComprarItemBoton.setForeground(new java.awt.Color(0, 0, 0));
+        ComprarItemBoton.setText("Comprar Item ");
+        ComprarItemBoton.setBorder(null);
+        ComprarItemBoton.setBorderPainted(false);
+        ComprarItemBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ComprarItemBoton.addActionListener(this::ComprarItemBotonActionPerformed);
 
-        VenderItem.setBackground(new java.awt.Color(204, 102, 255));
-        VenderItem.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        VenderItem.setForeground(new java.awt.Color(0, 0, 0));
-        VenderItem.setText("Vender Item");
-        VenderItem.setBorder(null);
-        VenderItem.setBorderPainted(false);
-        VenderItem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        VenderItem.addActionListener(this::VenderItemActionPerformed);
-
-        VenderItem2.setBackground(new java.awt.Color(204, 102, 255));
-        VenderItem2.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        VenderItem2.setForeground(new java.awt.Color(0, 0, 0));
-        VenderItem2.setText("Editar Item (NOK)");
-        VenderItem2.setBorder(null);
-        VenderItem2.setBorderPainted(false);
-        VenderItem2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        VenderItem2.addActionListener(this::VenderItem2ActionPerformed);
-
-        EliminarItem.setBackground(new java.awt.Color(204, 102, 255));
-        EliminarItem.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        EliminarItem.setForeground(new java.awt.Color(0, 0, 0));
-        EliminarItem.setText("Eliminar Item (NOK)");
-        EliminarItem.setBorder(null);
-        EliminarItem.setBorderPainted(false);
-        EliminarItem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        EliminarItem.addActionListener(this::EliminarItemActionPerformed);
+        VenderItemBoton.setBackground(new java.awt.Color(204, 102, 255));
+        VenderItemBoton.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        VenderItemBoton.setForeground(new java.awt.Color(0, 0, 0));
+        VenderItemBoton.setText("Vender Item");
+        VenderItemBoton.setBorder(null);
+        VenderItemBoton.setBorderPainted(false);
+        VenderItemBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        VenderItemBoton.addActionListener(this::VenderItemBotonActionPerformed);
 
         javax.swing.GroupLayout ContenidoLayout = new javax.swing.GroupLayout(Contenido);
         Contenido.setLayout(ContenidoLayout);
@@ -192,31 +199,21 @@ public class PanelDeItems extends javax.swing.JPanel {
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContenidoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(CrearItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(CrearItemBoton, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(ComprarItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ComprarItemBoton, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(VenderItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(VenderItemBoton, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
                 .addGap(50, 50, 50))
-            .addGroup(ContenidoLayout.createSequentialGroup()
-                .addGap(96, 96, 96)
-                .addComponent(VenderItem2, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53)
-                .addComponent(EliminarItem, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         ContenidoLayout.setVerticalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContenidoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CrearItem)
-                    .addComponent(ComprarItem)
-                    .addComponent(VenderItem))
-                .addGap(93, 93, 93)
-                .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(VenderItem2)
-                    .addComponent(EliminarItem))
+                    .addComponent(CrearItemBoton)
+                    .addComponent(ComprarItemBoton)
+                    .addComponent(VenderItemBoton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -244,23 +241,23 @@ public class PanelDeItems extends javax.swing.JPanel {
         add(Fondo, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void CrearItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearItemActionPerformed
+    private void CrearItemBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearItemBotonActionPerformed
         JPanel crearItemPanel = new CrearItemJPanel();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(crearItemPanel);
-    }//GEN-LAST:event_CrearItemActionPerformed
+    }//GEN-LAST:event_CrearItemBotonActionPerformed
 
-    private void ComprarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComprarItemActionPerformed
+    private void ComprarItemBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComprarItemBotonActionPerformed
         JPanel  comprarItem = new ComprarItemJPanel();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(comprarItem);
-    }//GEN-LAST:event_ComprarItemActionPerformed
+    }//GEN-LAST:event_ComprarItemBotonActionPerformed
 
-    private void VenderItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VenderItemActionPerformed
+    private void VenderItemBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VenderItemBotonActionPerformed
     JPanel venderItem = new VenderItemJPanel();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(venderItem);  
-    }//GEN-LAST:event_VenderItemActionPerformed
+    }//GEN-LAST:event_VenderItemBotonActionPerformed
 
     private void VenderItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VenderItem1ActionPerformed
         // TODO add your handling code here:
@@ -272,30 +269,18 @@ public class PanelDeItems extends javax.swing.JPanel {
         frame.cambiarFondo(panelPrincipal);
     }//GEN-LAST:event_AtrasActionPerformed
 
-    private void EliminarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarItemActionPerformed
-        JPanel eliminarItems = new EliminarItemJPanel();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(eliminarItems);
-    }//GEN-LAST:event_EliminarItemActionPerformed
-
-    private void VenderItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VenderItem2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_VenderItem2ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Atras;
-    private javax.swing.JButton ComprarItem;
+    private javax.swing.JButton ComprarItemBoton;
     private javax.swing.JPanel Contenido;
-    private javax.swing.JButton CrearItem;
-    private javax.swing.JButton EliminarItem;
+    private javax.swing.JButton CrearItemBoton;
     private javax.swing.JPanel Fondo;
     private javax.swing.JLabel Logo;
     private javax.swing.JPanel MenuLateral;
     private javax.swing.JPanel MenuSuperior;
-    private javax.swing.JButton VenderItem;
     private javax.swing.JButton VenderItem1;
-    private javax.swing.JButton VenderItem2;
+    private javax.swing.JButton VenderItemBoton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables

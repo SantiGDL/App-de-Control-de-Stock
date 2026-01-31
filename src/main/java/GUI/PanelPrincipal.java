@@ -13,7 +13,9 @@ import GUI.PanelesPRINCIPALES.PanelDeHistoriales;
 import GUI.PanelesPRINCIPALES.PanelDeStock;
 import GUI.PanelesPRINCIPALES.PanelDeTODASLasFunciones;
 import ImagenesHelpers.ImagenesHelper;
+import ImagenesHelpers.PanelDeFondo;
 import java.awt.BorderLayout;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
@@ -26,7 +28,40 @@ public class PanelPrincipal extends javax.swing.JPanel {
      * Creates new form PanelPrincipal
      */
     public PanelPrincipal() {
+        JPanel fondo = new PanelDeFondo("/Imagenes/Fondo.png");
+        fondo.setLayout(new BorderLayout()); // o el layout que uses
         initComponents();
+        
+        // 1) Armo grilla centrada (3 columnas)
+        ImagenesHelper.armarMenuEnGrilla(
+        Contenido,
+        new JButton[] {
+            StockBotonGrande, ITEMS1, PROVEEDORES1,
+            menuCatalogos1, Historial1, Configuracion1
+        },
+        3,   // columnas
+        30,  // gap horizontal
+        30,  // gap vertical
+        25   // padding
+        );
+
+        // 2) Seteo tamaño consistente (opcional, pero queda muy pro)
+        ImagenesHelper.setTamanoTarjeta(StockBotonGrande, 220, 140);
+        ImagenesHelper.setTamanoTarjeta(ITEMS1, 220, 140);
+        ImagenesHelper.setTamanoTarjeta(PROVEEDORES1, 220, 140);
+        ImagenesHelper.setTamanoTarjeta(menuCatalogos1, 220, 140);
+        ImagenesHelper.setTamanoTarjeta(Historial1, 220, 140);
+        ImagenesHelper.setTamanoTarjeta(Configuracion1, 220, 140);
+
+        // 3) Iconos escalados + texto centrado
+        ImagenesHelper.configurarBotonTarjeta(StockBotonGrande, "STOCK", "/Imagenes/StockBoton.png", 64, 64);
+        ImagenesHelper.configurarBotonTarjeta(ITEMS1, "ITEMS", "/Imagenes/ItemsBoton.png", 64, 64);
+        ImagenesHelper.configurarBotonTarjeta(PROVEEDORES1, "PROVEEDORES", "/Imagenes/ProveedoresBoton.png", 64, 64);
+        ImagenesHelper.configurarBotonTarjeta(menuCatalogos1, "CATÁLOGOS", "/Imagenes/CatalogoBoton.png", 64, 64);
+        ImagenesHelper.configurarBotonTarjeta(Historial1, "HISTORIAL", "/Imagenes/HistorialBoton.png", 64, 64);
+        ImagenesHelper.configurarBotonTarjeta(Configuracion1, "CONFIGURACIÓN", "/Imagenes/ConfiguracionBoton.png", 64, 64);
+    }
+        
         /*
         JPanel fondoMenu = ImagenesHelper.envolverConFondoEscalable(Contenido, "/Imagenes/Fondo.png");
         Fondo.remove(Contenido);    
@@ -34,9 +69,61 @@ public class PanelPrincipal extends javax.swing.JPanel {
         Fondo.add(fondoMenu, BorderLayout.CENTER);
         Fondo.revalidate();
         Fondo.repaint();
-        */
+        
     }
-    
+    private void configurarContenidoCentrado() {
+        // 1) El panel que ya tenés (Contenido) lo dejamos como contenedor principal
+        Contenido.removeAll();
+        Contenido.setOpaque(false); // clave si Contenido tiene fondo pintado por tu PanelDeFondo
+        Contenido.setLayout(new java.awt.GridBagLayout());
+
+        // 2) Panel "grilla" transparente que contiene los botones
+        javax.swing.JPanel grilla = new javax.swing.JPanel(new java.awt.GridBagLayout());
+        grilla.setOpaque(false);
+
+        java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
+        c.insets = new java.awt.Insets(20, 20, 20, 20); // separación entre botones
+        c.fill = java.awt.GridBagConstraints.NONE;      // no estirar botones
+        c.anchor = java.awt.GridBagConstraints.CENTER;
+
+        // tamaño fijo tipo “tarjeta”
+        java.awt.Dimension card = new java.awt.Dimension(220, 120);
+        aplicarTamanioCard(StockBotonGrande, card);
+        aplicarTamanioCard(ITEMSBotonGrande, card);
+        aplicarTamanioCard(PROVEEDORES1, card);
+        aplicarTamanioCard(CatalogosBotonGrande, card);
+        aplicarTamanioCard(HistorialBotonGrande, card);
+        aplicarTamanioCard(ConfiguracionBotonGrande, card);
+
+        // fila 0
+        c.gridx = 0; c.gridy = 0; grilla.add(StockBotonGrande, c);
+        c.gridx = 1; c.gridy = 0; grilla.add(ITEMSBotonGrande, c);
+        c.gridx = 2; c.gridy = 0; grilla.add(PROVEEDORES1, c);
+
+        // fila 1
+        c.gridx = 0; c.gridy = 1; grilla.add(CatalogosBotonGrande, c);
+        c.gridx = 1; c.gridy = 1; grilla.add(HistorialBotonGrande, c);
+        c.gridx = 2; c.gridy = 1; grilla.add(ConfiguracionBotonGrande, c);
+
+        // 3) Meter la grilla centrada dentro de Contenido
+        java.awt.GridBagConstraints wrap = new java.awt.GridBagConstraints();
+        wrap.weightx = 1.0;
+        wrap.weighty = 1.0;
+        wrap.anchor = java.awt.GridBagConstraints.CENTER;
+        Contenido.add(grilla, wrap);
+
+        Contenido.revalidate();
+        Contenido.repaint();
+    }
+
+    private void aplicarTamanioCard(javax.swing.JButton b, java.awt.Dimension d) {
+        b.setPreferredSize(d);
+        b.setMinimumSize(d);
+        b.setMaximumSize(d); // evita que GroupLayout/GridBag lo agrande
+        b.setFocusPainted(false);
+        b.setBorderPainted(false);
+    }
+    */
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -60,8 +147,8 @@ public class PanelPrincipal extends javax.swing.JPanel {
         Stock = new javax.swing.JButton();
         MenuSuperior = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        Contenido = new javax.swing.JPanel();
-        Stock1 = new javax.swing.JButton();
+        Contenido = new PanelDeFondo("/Imagenes/Fondo.png");
+        StockBotonGrande = new javax.swing.JButton();
         ITEMS1 = new javax.swing.JButton();
         PROVEEDORES1 = new javax.swing.JButton();
         Historial1 = new javax.swing.JButton();
@@ -189,7 +276,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
                 .addComponent(Configuracion)
                 .addGap(94, 94, 94)
                 .addComponent(VenderItem1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(92, Short.MAX_VALUE))
         );
 
         MenuSuperior.setBackground(new java.awt.Color(0, 102, 255));
@@ -220,14 +307,14 @@ public class PanelPrincipal extends javax.swing.JPanel {
         Contenido.setPreferredSize(new java.awt.Dimension(700, 320));
         Contenido.setVerifyInputWhenFocusTarget(false);
 
-        Stock1.setBackground(new java.awt.Color(29, 63, 243));
-        Stock1.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
-        Stock1.setForeground(new java.awt.Color(255, 255, 255));
-        Stock1.setText("STOCK");
-        Stock1.setBorder(null);
-        Stock1.setBorderPainted(false);
-        Stock1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Stock1.addActionListener(this::Stock1ActionPerformed);
+        StockBotonGrande.setBackground(new java.awt.Color(29, 63, 243));
+        StockBotonGrande.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        StockBotonGrande.setForeground(new java.awt.Color(255, 255, 255));
+        StockBotonGrande.setText("STOCK");
+        StockBotonGrande.setBorder(null);
+        StockBotonGrande.setBorderPainted(false);
+        StockBotonGrande.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        StockBotonGrande.addActionListener(this::StockBotonGrandeActionPerformed);
 
         ITEMS1.setBackground(new java.awt.Color(204, 102, 255));
         ITEMS1.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
@@ -282,7 +369,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(menuCatalogos1, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
-                    .addComponent(Stock1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(StockBotonGrande, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(Historial1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
@@ -299,7 +386,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(ContenidoLayout.createSequentialGroup()
-                        .addComponent(Stock1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(StockBotonGrande, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(ITEMS1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(PROVEEDORES1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -328,8 +415,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
             .addGroup(FondoLayout.createSequentialGroup()
                 .addComponent(MenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE))
         );
 
         add(Fondo, java.awt.BorderLayout.CENTER);
@@ -375,29 +461,41 @@ public class PanelPrincipal extends javax.swing.JPanel {
         frame.cambiarFondo(stockPanel);
     }//GEN-LAST:event_StockActionPerformed
 
-    private void Stock1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Stock1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Stock1ActionPerformed
-
-    private void ITEMS1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ITEMS1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ITEMS1ActionPerformed
-
-    private void PROVEEDORES1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PROVEEDORES1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PROVEEDORES1ActionPerformed
-
-    private void Historial1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Historial1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Historial1ActionPerformed
+    private void Configuracion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Configuracion1ActionPerformed
+        JPanel configuracionPanel = new PanelDeConfiguracion();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(configuracionPanel);
+    }//GEN-LAST:event_Configuracion1ActionPerformed
 
     private void menuCatalogos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCatalogos1ActionPerformed
-        // TODO add your handling code here:
+        JPanel  menuCatalogos = new PanelDeCatalogos();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(menuCatalogos);
     }//GEN-LAST:event_menuCatalogos1ActionPerformed
 
-    private void Configuracion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Configuracion1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Configuracion1ActionPerformed
+    private void Historial1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Historial1ActionPerformed
+        JPanel  menuHistoriales = new PanelDeHistoriales();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(menuHistoriales);
+    }//GEN-LAST:event_Historial1ActionPerformed
+
+    private void PROVEEDORES1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PROVEEDORES1ActionPerformed
+        JPanel  menuProveedores = new PanelDeProveedores();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(menuProveedores);
+    }//GEN-LAST:event_PROVEEDORES1ActionPerformed
+
+    private void ITEMS1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ITEMS1ActionPerformed
+        JPanel  menuItems = new PanelDeItems();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(menuItems);
+    }//GEN-LAST:event_ITEMS1ActionPerformed
+
+    private void StockBotonGrandeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StockBotonGrandeActionPerformed
+        JPanel  stockPanel = new PanelDeStock();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(stockPanel);
+    }//GEN-LAST:event_StockBotonGrandeActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -415,7 +513,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
     private javax.swing.JButton PROVEEDORES;
     private javax.swing.JButton PROVEEDORES1;
     private javax.swing.JButton Stock;
-    private javax.swing.JButton Stock1;
+    private javax.swing.JButton StockBotonGrande;
     private javax.swing.JButton VenderItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;

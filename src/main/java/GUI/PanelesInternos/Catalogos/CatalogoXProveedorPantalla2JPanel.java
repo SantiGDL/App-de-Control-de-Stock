@@ -7,6 +7,7 @@ package GUI.PanelesInternos.Catalogos;
 import GUI.FramePrincipal;
 import GUI.PanelPrincipal;
 import GUI.PanelesPRINCIPALES.PanelDeCatalogos;
+import ImagenesHelpers.PanelDeFondo;
 import ImagenesHelpers.RenderDeImagenEnTablas;
 import Persistencia.Clases.Item;
 import Persistencia.Clases.ItemDeProveedorX;
@@ -84,7 +85,7 @@ public class CatalogoXProveedorPantalla2JPanel extends javax.swing.JPanel {
         Fondo = new javax.swing.JPanel();
         MenuSuperior = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        Contenido = new javax.swing.JPanel();
+        Contenido = new PanelDeFondo("/Imagenes/Fondo.png");
         jScrollPane1 = new javax.swing.JScrollPane();
         CatalogoXProveedor = new javax.swing.JTable();
         MenuLateral = new javax.swing.JPanel();
@@ -112,7 +113,7 @@ public class CatalogoXProveedorPantalla2JPanel extends javax.swing.JPanel {
         MenuSuperiorLayout.setHorizontalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
-                .addGap(0, 46, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         MenuSuperiorLayout.setVerticalGroup(
@@ -239,7 +240,7 @@ public class CatalogoXProveedorPantalla2JPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(MenuSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)))
+                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)))
         );
         FondoLayout.setVerticalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

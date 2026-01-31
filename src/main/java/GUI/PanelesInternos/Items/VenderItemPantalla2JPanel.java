@@ -8,6 +8,7 @@ import GUI.FramePrincipal;
 import GUI.GUIController;
 import GUI.PanelPrincipal;
 import GUI.PanelesPRINCIPALES.PanelDeItems;
+import ImagenesHelpers.PanelDeFondo;
 import Persistencia.Clases.ItemDeSTOCK;
 import Persistencia.DTOs.DTItem;
 import Persistencia.ManejadorDePersistencia;
@@ -64,8 +65,8 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
         menuPrincipal = new javax.swing.JButton();
         Atras = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        Contenido = new javax.swing.JPanel();
-        ContenedorDatosItem = new javax.swing.JPanel();
+        Contenido = new PanelDeFondo("/Imagenes/Fondo.png");
+        ContenedorDatosItem = new PanelDeFondo("/Imagenes/Fondo.png");
         NombreItemLbl = new javax.swing.JLabel();
         NombreItem = new javax.swing.JTextField();
         DescripcionItemLbl = new javax.swing.JLabel();
@@ -74,7 +75,7 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
         ImagenItem = new javax.swing.JPanel();
         RellenoImagenItem = new javax.swing.JLabel();
         TituloDatosItem = new javax.swing.JLabel();
-        ContenidoDatosCompra = new javax.swing.JPanel();
+        ContenidoDatosCompra = new PanelDeFondo("/Imagenes/Fondo.png");
         TituloDatosVenta = new javax.swing.JLabel();
         CantUniLbl = new javax.swing.JLabel();
         cantUnidadesAVender = new javax.swing.JTextField();
@@ -195,6 +196,7 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
         Contenido.setVerifyInputWhenFocusTarget(false);
 
         ContenedorDatosItem.setBackground(new java.awt.Color(189, 249, 249));
+        ContenedorDatosItem.setOpaque(false);
 
         NombreItemLbl.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         NombreItemLbl.setForeground(new java.awt.Color(0, 0, 0));
@@ -240,9 +242,9 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
         ContenedorDatosItemLayout.setHorizontalGroup(
             ContenedorDatosItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContenedorDatosItemLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(ContenedorDatosItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(ContenedorDatosItemLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(ContenedorDatosItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(ContenedorDatosItemLayout.createSequentialGroup()
                                 .addComponent(NombreItemLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -254,7 +256,6 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
                             .addComponent(DescripcionItem, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                             .addComponent(NombreItem)))
                     .addGroup(ContenedorDatosItemLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(ImagenItemLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(ImagenItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -285,6 +286,7 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
         );
 
         ContenidoDatosCompra.setBackground(new java.awt.Color(189, 249, 249));
+        ContenidoDatosCompra.setOpaque(false);
 
         TituloDatosVenta.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
         TituloDatosVenta.setForeground(new java.awt.Color(0, 0, 0));

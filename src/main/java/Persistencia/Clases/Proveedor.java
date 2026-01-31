@@ -93,5 +93,4 @@ public class Proveedor {
     }
     
     public List<ItemDeProveedorX> getListaItems(){return this.listaItemsVendidos;}
-
 }

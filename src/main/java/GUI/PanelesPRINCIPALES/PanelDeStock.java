@@ -7,6 +7,8 @@ package GUI.PanelesPRINCIPALES;
 import GUI.FramePrincipal;
 import GUI.PanelPrincipal;
 import GUI.PanelesInternos.Items.ComprarItem.ComprarItemJPanel;
+import GUI.PanelesInternos.Items.VenderItemJPanel;
+import ImagenesHelpers.PanelDeFondo;
 import ImagenesHelpers.RenderCantidadConAlerta;
 import ImagenesHelpers.RenderDeImagenEnTablas;
 import Persistencia.Clases.CatalogoGeneral;
@@ -93,12 +95,12 @@ TablaDeStock.getColumnModel().getColumn(colEstado).setPreferredWidth(0);
         Logo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         VenderItem1 = new javax.swing.JButton();
-        Stock1 = new javax.swing.JButton();
-        Stock2 = new javax.swing.JButton();
+        Aumentar = new javax.swing.JButton();
+        Disminuir = new javax.swing.JButton();
         Atras = new javax.swing.JButton();
         MenuSuperior = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        Contenido = new javax.swing.JPanel();
+        Contenido = new PanelDeFondo("/Imagenes/Fondo.png");
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaDeStock = new javax.swing.JTable();
 
@@ -125,23 +127,23 @@ TablaDeStock.getColumnModel().getColumn(colEstado).setPreferredWidth(0);
         VenderItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         VenderItem1.addActionListener(this::VenderItem1ActionPerformed);
 
-        Stock1.setBackground(new java.awt.Color(29, 63, 243));
-        Stock1.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        Stock1.setForeground(new java.awt.Color(0, 0, 0));
-        Stock1.setText("Aumentar(comprar item)");
-        Stock1.setBorder(null);
-        Stock1.setBorderPainted(false);
-        Stock1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Stock1.addActionListener(this::Stock1ActionPerformed);
+        Aumentar.setBackground(new java.awt.Color(29, 63, 243));
+        Aumentar.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        Aumentar.setForeground(new java.awt.Color(0, 0, 0));
+        Aumentar.setText("Aumentar(comprar item)");
+        Aumentar.setBorder(null);
+        Aumentar.setBorderPainted(false);
+        Aumentar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Aumentar.addActionListener(this::AumentarActionPerformed);
 
-        Stock2.setBackground(new java.awt.Color(29, 63, 243));
-        Stock2.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        Stock2.setForeground(new java.awt.Color(0, 0, 0));
-        Stock2.setText("Disminuir (vender)");
-        Stock2.setBorder(null);
-        Stock2.setBorderPainted(false);
-        Stock2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Stock2.addActionListener(this::Stock2ActionPerformed);
+        Disminuir.setBackground(new java.awt.Color(29, 63, 243));
+        Disminuir.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        Disminuir.setForeground(new java.awt.Color(0, 0, 0));
+        Disminuir.setText("Disminuir (vender)");
+        Disminuir.setBorder(null);
+        Disminuir.setBorderPainted(false);
+        Disminuir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Disminuir.addActionListener(this::DisminuirActionPerformed);
 
         Atras.setBackground(new java.awt.Color(153, 255, 255));
         Atras.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
@@ -159,8 +161,8 @@ TablaDeStock.getColumnModel().getColumn(colEstado).setPreferredWidth(0);
             .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(Stock1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(Stock2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Aumentar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Disminuir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,9 +184,9 @@ TablaDeStock.getColumnModel().getColumn(colEstado).setPreferredWidth(0);
                 .addGap(18, 18, 18)
                 .addComponent(Atras)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Stock1)
+                .addComponent(Aumentar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Stock2)
+                .addComponent(Disminuir)
                 .addGap(164, 164, 164)
                 .addComponent(VenderItem1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -275,15 +277,17 @@ TablaDeStock.getColumnModel().getColumn(colEstado).setPreferredWidth(0);
         // TODO add your handling code here:
     }//GEN-LAST:event_VenderItem1ActionPerformed
 
-    private void Stock1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Stock1ActionPerformed
+    private void AumentarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AumentarActionPerformed
      JPanel  comprarItem = new ComprarItemJPanel();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(comprarItem);
-    }//GEN-LAST:event_Stock1ActionPerformed
+    }//GEN-LAST:event_AumentarActionPerformed
 
-    private void Stock2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Stock2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Stock2ActionPerformed
+    private void DisminuirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DisminuirActionPerformed
+    JPanel venderItem = new VenderItemJPanel();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(venderItem);
+    }//GEN-LAST:event_DisminuirActionPerformed
 
     private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
         JPanel panelPrincipal = new PanelPrincipal();
@@ -294,13 +298,13 @@ TablaDeStock.getColumnModel().getColumn(colEstado).setPreferredWidth(0);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Atras;
+    private javax.swing.JButton Aumentar;
     private javax.swing.JPanel Contenido;
+    private javax.swing.JButton Disminuir;
     private javax.swing.JPanel Fondo;
     private javax.swing.JLabel Logo;
     private javax.swing.JPanel MenuLateral;
     private javax.swing.JPanel MenuSuperior;
-    private javax.swing.JButton Stock1;
-    private javax.swing.JButton Stock2;
     private javax.swing.JTable TablaDeStock;
     private javax.swing.JButton VenderItem1;
     private javax.swing.JLabel jLabel1;

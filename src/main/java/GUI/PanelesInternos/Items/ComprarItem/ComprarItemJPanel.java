@@ -11,6 +11,7 @@ import GUI.PanelesInternos.Proveedores.CrearProveedorJPanel;
 import GUI.PanelesInternos.LoginJPanel;
 import GUI.PanelesPRINCIPALES.PanelDeConfiguracion;
 import GUI.PanelesPRINCIPALES.PanelDeItems;
+import ImagenesHelpers.PanelDeFondo;
 import ImagenesHelpers.RenderDeImagenEnTablas;
 import Persistencia.Clases.CatalogoGeneral;
 import Persistencia.Clases.Item;
@@ -145,7 +146,7 @@ public class ComprarItemJPanel extends javax.swing.JPanel {
         MenuSuperior = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        Contenido = new javax.swing.JPanel();
+        Contenido = new PanelDeFondo("/Imagenes/Fondo.png");
         jScrollPane1 = new javax.swing.JScrollPane();
         CatalogoGeneral = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();

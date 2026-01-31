@@ -11,6 +11,7 @@ import GUI.PanelPrincipal;
 import GUI.PanelesPRINCIPALES.PanelDeConfiguracion;
 import GUI.PanelesPRINCIPALES.PanelDeItems;
 import GUI.PanelesPRINCIPALES.PanelDeProveedores;
+import ImagenesHelpers.PanelDeFondo;
 import Persistencia.Clases.Item;
 import Persistencia.ManejadorDePersistencia;
 import javax.swing.JPanel;
@@ -49,7 +50,7 @@ public class CrearItemJPanel extends javax.swing.JPanel {
         MenuSuperior = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        Contenido = new javax.swing.JPanel();
+        Contenido = new PanelDeFondo("/Imagenes/Fondo.png");
         NombreLbl = new javax.swing.JLabel();
         DescrpcionLbl = new javax.swing.JLabel();
         DescripcionContenido = new javax.swing.JTextField();

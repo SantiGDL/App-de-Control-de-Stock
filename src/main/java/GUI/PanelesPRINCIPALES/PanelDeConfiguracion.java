@@ -5,11 +5,33 @@ import GUI.PanelPrincipal;
 import GUI.PanelesInternos.LoginJPanel;
 import GUI.PanelesInternosConfiguraciones.ConfigurarAlertasJPanel;
 import GUI.PanelesInternosConfiguraciones.EliminarItemJPanel;
+import ImagenesHelpers.ImagenesHelper;
+import ImagenesHelpers.PanelDeFondo;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 public class PanelDeConfiguracion extends javax.swing.JPanel {
     GUIController controller = new GUIController();
     public PanelDeConfiguracion() {
         initComponents();
+        
+        // 1) Armo grilla centrada (3 columnas)
+        ImagenesHelper.armarMenuEnGrilla(
+        Contenido,
+        new JButton[] {
+            ConfigurarAlertasBoton
+        },
+        1,   // columnas
+        30,  // gap horizontal
+        30,  // gap vertical
+        25   // padding
+        );
+
+        // 2) Seteo tamaño consistente (opcional, pero queda muy pro)
+        ImagenesHelper.setTamanoTarjeta(ConfigurarAlertasBoton, 220, 140);
+
+        // 3) Iconos escalados + texto centrado
+        ImagenesHelper.configurarBotonTarjeta(ConfigurarAlertasBoton, "Configurar Alertas", "/Imagenes/ConfiguracionBoton.png", 64, 64);
+        
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -22,8 +44,8 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         MenuSuperior = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        Contenido = new javax.swing.JPanel();
-        ConfigurarAlertas = new javax.swing.JButton();
+        Contenido = new PanelDeFondo("/Imagenes/Fondo.png");
+        ConfigurarAlertasBoton = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setName(""); // NOI18N
@@ -104,14 +126,14 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
         Contenido.setPreferredSize(new java.awt.Dimension(700, 320));
         Contenido.setVerifyInputWhenFocusTarget(false);
 
-        ConfigurarAlertas.setBackground(new java.awt.Color(102, 102, 255));
-        ConfigurarAlertas.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
-        ConfigurarAlertas.setForeground(new java.awt.Color(0, 0, 0));
-        ConfigurarAlertas.setText("Configurar Alertas (NOK)");
-        ConfigurarAlertas.setBorder(null);
-        ConfigurarAlertas.setBorderPainted(false);
-        ConfigurarAlertas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        ConfigurarAlertas.addActionListener(this::ConfigurarAlertasActionPerformed);
+        ConfigurarAlertasBoton.setBackground(new java.awt.Color(102, 102, 255));
+        ConfigurarAlertasBoton.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        ConfigurarAlertasBoton.setForeground(new java.awt.Color(0, 0, 0));
+        ConfigurarAlertasBoton.setText("Configurar Alertas ");
+        ConfigurarAlertasBoton.setBorder(null);
+        ConfigurarAlertasBoton.setBorderPainted(false);
+        ConfigurarAlertasBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ConfigurarAlertasBoton.addActionListener(this::ConfigurarAlertasBotonActionPerformed);
 
         javax.swing.GroupLayout ContenidoLayout = new javax.swing.GroupLayout(Contenido);
         Contenido.setLayout(ContenidoLayout);
@@ -119,14 +141,14 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContenidoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(ConfigurarAlertas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ConfigurarAlertasBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(445, 445, 445))
         );
         ContenidoLayout.setVerticalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContenidoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(ConfigurarAlertas)
+                .addComponent(ConfigurarAlertasBoton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -205,11 +227,11 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
    
     
     
-    private void ConfigurarAlertasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfigurarAlertasActionPerformed
+    private void ConfigurarAlertasBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfigurarAlertasBotonActionPerformed
         JPanel configurarAlertas = new ConfigurarAlertasJPanel();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(configurarAlertas);
-    }//GEN-LAST:event_ConfigurarAlertasActionPerformed
+    }//GEN-LAST:event_ConfigurarAlertasBotonActionPerformed
 
     private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
         JPanel panelPrincipal = new PanelPrincipal();
@@ -220,7 +242,7 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Atras;
-    private javax.swing.JButton ConfigurarAlertas;
+    private javax.swing.JButton ConfigurarAlertasBoton;
     private javax.swing.JPanel Contenido;
     private javax.swing.JPanel Fondo;
     private javax.swing.JLabel Logo;

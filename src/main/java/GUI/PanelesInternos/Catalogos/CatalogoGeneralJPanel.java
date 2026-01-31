@@ -7,6 +7,7 @@ package GUI.PanelesInternos.Catalogos;
 import GUI.FramePrincipal;
 import GUI.PanelPrincipal;
 import GUI.PanelesPRINCIPALES.PanelDeCatalogos;
+import ImagenesHelpers.PanelDeFondo;
 import ImagenesHelpers.RenderDeImagenEnTablas;
 import Persistencia.Clases.Item;
 import Persistencia.FabricaEntityManager;
@@ -87,7 +88,7 @@ private void cargarTablaItems() {
         Fondo = new javax.swing.JPanel();
         MenuSuperior = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        Contenido = new javax.swing.JPanel();
+        Contenido = new PanelDeFondo("/Imagenes/Fondo.png");
         jScrollPane1 = new javax.swing.JScrollPane();
         CatalogoGeneral = new javax.swing.JTable();
         MenuLateral = new javax.swing.JPanel();

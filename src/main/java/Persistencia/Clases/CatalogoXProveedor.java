@@ -33,5 +33,6 @@ public class CatalogoXProveedor {
         if (prov != null && prov.getCatalogo() != this) {
             prov.setCatalogo(this);
     }
-}
+    }
+    
 }

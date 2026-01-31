@@ -9,6 +9,9 @@ import GUI.PanelPrincipal;
 import GUI.PanelesInternos.Catalogos.CatalogoGeneralJPanel;
 import GUI.PanelesInternos.Historiales.HistorialGeneralJPanel;
 import GUI.PanelesInternos.Historiales.HistorialXProveedorJPanel;
+import ImagenesHelpers.ImagenesHelper;
+import ImagenesHelpers.PanelDeFondo;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
@@ -22,6 +25,26 @@ public class PanelDeHistoriales extends javax.swing.JPanel {
      */
     public PanelDeHistoriales() {
         initComponents();
+        
+        // 1) Armo grilla centrada (3 columnas)
+        ImagenesHelper.armarMenuEnGrilla(
+        Contenido,
+        new JButton[] {
+            HistorialGeneralBoton, HistorialXProveedorBoton
+        },
+        2,   // columnas
+        30,  // gap horizontal
+        30,  // gap vertical
+        25   // padding
+        );
+
+        // 2) Seteo tamaño consistente (opcional, pero queda muy pro)
+        ImagenesHelper.setTamanoTarjeta(HistorialGeneralBoton, 220, 140);
+        ImagenesHelper.setTamanoTarjeta(HistorialXProveedorBoton, 220, 140);
+
+        // 3) Iconos escalados + texto centrado
+        ImagenesHelper.configurarBotonTarjeta(HistorialGeneralBoton, "Historial Genera", "/Imagenes/HistorialBoton.png", 64, 64);
+        ImagenesHelper.configurarBotonTarjeta(HistorialXProveedorBoton, "Historial Por Proveedor", "/Imagenes/HistorialBoton.png", 64, 64);
     }
 
     /**
@@ -42,9 +65,9 @@ public class PanelDeHistoriales extends javax.swing.JPanel {
         Atras = new javax.swing.JButton();
         MenuSuperior = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        Contenido = new javax.swing.JPanel();
-        HistorialGeneral = new javax.swing.JButton();
-        HistorialXProveedor = new javax.swing.JButton();
+        Contenido = new PanelDeFondo("/Imagenes/Fondo.png");
+        HistorialGeneralBoton = new javax.swing.JButton();
+        HistorialXProveedorBoton = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -140,23 +163,23 @@ public class PanelDeHistoriales extends javax.swing.JPanel {
         Contenido.setPreferredSize(new java.awt.Dimension(700, 320));
         Contenido.setVerifyInputWhenFocusTarget(false);
 
-        HistorialGeneral.setBackground(new java.awt.Color(255, 255, 204));
-        HistorialGeneral.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        HistorialGeneral.setForeground(new java.awt.Color(0, 0, 0));
-        HistorialGeneral.setText("Historial General");
-        HistorialGeneral.setBorder(null);
-        HistorialGeneral.setBorderPainted(false);
-        HistorialGeneral.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        HistorialGeneral.addActionListener(this::HistorialGeneralActionPerformed);
+        HistorialGeneralBoton.setBackground(new java.awt.Color(255, 255, 204));
+        HistorialGeneralBoton.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        HistorialGeneralBoton.setForeground(new java.awt.Color(0, 0, 0));
+        HistorialGeneralBoton.setText("Historial General");
+        HistorialGeneralBoton.setBorder(null);
+        HistorialGeneralBoton.setBorderPainted(false);
+        HistorialGeneralBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        HistorialGeneralBoton.addActionListener(this::HistorialGeneralBotonActionPerformed);
 
-        HistorialXProveedor.setBackground(new java.awt.Color(255, 255, 204));
-        HistorialXProveedor.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        HistorialXProveedor.setForeground(new java.awt.Color(0, 0, 0));
-        HistorialXProveedor.setText("Historial X Proveedor");
-        HistorialXProveedor.setBorder(null);
-        HistorialXProveedor.setBorderPainted(false);
-        HistorialXProveedor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        HistorialXProveedor.addActionListener(this::HistorialXProveedorActionPerformed);
+        HistorialXProveedorBoton.setBackground(new java.awt.Color(255, 255, 204));
+        HistorialXProveedorBoton.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        HistorialXProveedorBoton.setForeground(new java.awt.Color(0, 0, 0));
+        HistorialXProveedorBoton.setText("Historial X Proveedor");
+        HistorialXProveedorBoton.setBorder(null);
+        HistorialXProveedorBoton.setBorderPainted(false);
+        HistorialXProveedorBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        HistorialXProveedorBoton.addActionListener(this::HistorialXProveedorBotonActionPerformed);
 
         javax.swing.GroupLayout ContenidoLayout = new javax.swing.GroupLayout(Contenido);
         Contenido.setLayout(ContenidoLayout);
@@ -164,9 +187,9 @@ public class PanelDeHistoriales extends javax.swing.JPanel {
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContenidoLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(HistorialGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(HistorialGeneralBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(110, 110, 110)
-                .addComponent(HistorialXProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(HistorialXProveedorBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(62, 62, 62))
         );
         ContenidoLayout.setVerticalGroup(
@@ -174,8 +197,8 @@ public class PanelDeHistoriales extends javax.swing.JPanel {
             .addGroup(ContenidoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(HistorialGeneral)
-                    .addComponent(HistorialXProveedor))
+                    .addComponent(HistorialGeneralBoton)
+                    .addComponent(HistorialXProveedorBoton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -209,17 +232,17 @@ public class PanelDeHistoriales extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_VenderItem1ActionPerformed
 
-    private void HistorialGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HistorialGeneralActionPerformed
+    private void HistorialGeneralBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HistorialGeneralBotonActionPerformed
         JPanel historialGeneral = new HistorialGeneralJPanel();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(historialGeneral);
-    }//GEN-LAST:event_HistorialGeneralActionPerformed
+    }//GEN-LAST:event_HistorialGeneralBotonActionPerformed
 
-    private void HistorialXProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HistorialXProveedorActionPerformed
+    private void HistorialXProveedorBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HistorialXProveedorBotonActionPerformed
       JPanel historialXProveedor = new HistorialXProveedorJPanel();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(historialXProveedor); 
-    }//GEN-LAST:event_HistorialXProveedorActionPerformed
+    }//GEN-LAST:event_HistorialXProveedorBotonActionPerformed
 
     private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
         JPanel panelPrincipal = new PanelPrincipal();
@@ -232,8 +255,8 @@ public class PanelDeHistoriales extends javax.swing.JPanel {
     private javax.swing.JButton Atras;
     private javax.swing.JPanel Contenido;
     private javax.swing.JPanel Fondo;
-    private javax.swing.JButton HistorialGeneral;
-    private javax.swing.JButton HistorialXProveedor;
+    private javax.swing.JButton HistorialGeneralBoton;
+    private javax.swing.JButton HistorialXProveedorBoton;
     private javax.swing.JLabel Logo;
     private javax.swing.JPanel MenuLateral;
     private javax.swing.JPanel MenuSuperior;

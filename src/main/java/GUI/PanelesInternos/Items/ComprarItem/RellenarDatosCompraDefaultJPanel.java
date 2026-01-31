@@ -12,6 +12,7 @@ import GUI.PanelesInternos.Proveedores.CrearProveedorJPanel;
 import GUI.PanelesInternos.LoginJPanel;
 import GUI.PanelesPRINCIPALES.PanelDeConfiguracion;
 import GUI.PanelesPRINCIPALES.PanelDeItems;
+import ImagenesHelpers.PanelDeFondo;
 import Persistencia.Clases.CompraItemAProveedorDefault;
 import Persistencia.Clases.CompraItemAProveedorX;
 import Persistencia.Clases.HistorialGeneral;
@@ -202,7 +203,7 @@ private void recalcularTotal() {
         Atras = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         Contenido = new javax.swing.JPanel();
-        ContenedorDatosItem = new javax.swing.JPanel();
+        ContenedorDatosItem = new PanelDeFondo("/Imagenes/Fondo.png");
         NombreItemLbl = new javax.swing.JLabel();
         NombreItem = new javax.swing.JTextField();
         DescripcionItemLbl = new javax.swing.JLabel();
@@ -211,7 +212,7 @@ private void recalcularTotal() {
         ImagenItem = new javax.swing.JPanel();
         RellenoImagenItem = new javax.swing.JLabel();
         TituloDatosItem = new javax.swing.JLabel();
-        ContenidoDatosCompra = new javax.swing.JPanel();
+        ContenidoDatosCompra = new PanelDeFondo("/Imagenes/Fondo.png");
         TituloDatosCompra = new javax.swing.JLabel();
         PrecioUniLbl = new javax.swing.JLabel();
         CantUniLbl = new javax.swing.JLabel();
@@ -220,7 +221,7 @@ private void recalcularTotal() {
         cantUnidades = new javax.swing.JTextField();
         PrecioTotal = new javax.swing.JTextField();
         Comprar = new javax.swing.JButton();
-        ContenidoDatosProveedor = new javax.swing.JPanel();
+        ContenidoDatosProveedor = new PanelDeFondo("/Imagenes/Fondo.png");
         ImagenProveedorLbl = new javax.swing.JLabel();
         DescripcionProvLbl = new javax.swing.JLabel();
         ContactoProvLbl = new javax.swing.JLabel();
