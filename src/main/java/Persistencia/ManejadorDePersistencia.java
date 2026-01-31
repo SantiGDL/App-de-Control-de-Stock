@@ -1,12 +1,14 @@
 package Persistencia;
 
 import Persistencia.Clases.CatalogoGeneral;
+import Persistencia.Clases.CatalogoXProveedor;
 import Persistencia.Clases.CompraItem;
 import Persistencia.Clases.CompraItemAProveedorDefault;
 import Persistencia.Clases.CompraItemAProveedorX;
 import Persistencia.Clases.HistorialGeneral;
 import Persistencia.Clases.HistorialXProveedor;
 import Persistencia.Clases.Item;
+import Persistencia.Clases.ItemDeProveedorX;
 import Persistencia.Clases.ItemDeSTOCK;
 import Persistencia.Clases.Proveedor;
 import Persistencia.Clases.Stock;
@@ -65,18 +67,26 @@ public class ManejadorDePersistencia {
     }
     
     
-    public void persistirProveedor(Proveedor nuevoProveedor){    
-        EntityManager em = FabricaEntityManager.getEntityManager();
-        EntityTransaction et = em.getTransaction();
-        try{
-            et.begin();
-            // 4) Persisto el item
-            em.persist(nuevoProveedor);
-            et.commit();
-        }
-        catch(Exception e) {if (et.isActive()) {et.rollback();}throw new PersistenceException("Error al persistir proveedor", e);} 
-            finally {em.close();}
+   public void persistirProveedor(Proveedor nuevoProveedor){    
+    EntityManager em = FabricaEntityManager.getEntityManager();
+    EntityTransaction et = em.getTransaction();
+    try{
+        et.begin();
+
+        // asegurás que exista catálogo y estén linkeados ambos lados
+        nuevoProveedor.asegurarCatalogo();
+
+        // con cascade ALL, esto persiste proveedor + catálogo
+        em.persist(nuevoProveedor);
+
+        et.commit();
+    } catch(Exception e) {
+        if (et.isActive()) et.rollback();
+        throw new PersistenceException("Error al persistir proveedor", e);
+    } finally {
+        em.close();
     }
+}
     
     public Proveedor getOrCreateProveedorDefault() {
     EntityManager em = FabricaEntityManager.getEntityManager();
@@ -98,15 +108,28 @@ public class ManejadorDePersistencia {
                 "DEFAULT",
                 "-", "-", 
                 "Seleccione este proveedor cuando no quiera especificar dónde lo compró",
-                "/resources/Imagenes/UsuarioDefault.png"
+                "/Imagenes/UsuarioDefault.png"
             );
+
+            // IMPORTANTÍSIMO: crearle catálogo (por nullable=false)
+            p.asegurarCatalogo();
+
             em.persist(p);
+        } else {
+            // si existía de antes (o de una DB vieja) y quedó sin catálogo, lo arreglás
+            if (p.getCatalogo() == null) {
+                p.asegurarCatalogo();
+                // como p ya es managed, con commit alcanza
+            } else if (p.getCatalogo().getProveedor() == null) {
+                p.getCatalogo().setProveedor(p);
+            }
         }
 
         tx.commit();
         return p;
     } catch (Exception e) {
-        if (tx.isActive()) tx.rollback();throw e;
+        if (tx.isActive()) tx.rollback();
+        throw e;
     } finally {
         em.close();
     }
@@ -455,7 +478,7 @@ public void AumentarSTOCK(ItemDeSTOCK nuevoItemDeStock){
             
             //------->HISOTIRAL X PROVEEDOR (UNO PARA CADA UNO) <---------
         HistorialXProveedor histP = em.createQuery(
-                "SELECT hp FROM HistorialXProveedor hp WHERE hp.proveedor.id = :pid",
+                "SELECT hp FROM HistorialXProveedor hp WHERE hp.proveedorVinculado.id = :pid",
                 HistorialXProveedor.class)
                 .setParameter("pid", proveedorId) //Seteo para que busque el historialXProveedor del proveedorDefalut
                 .setMaxResults(1)
@@ -522,10 +545,136 @@ public void AumentarSTOCK(ItemDeSTOCK nuevoItemDeStock){
         em.close();
     }
 }
+    
+private CatalogoXProveedor getOrCreateCatalogoXProveedor(EntityManager em, Proveedor provRef) {
+    CatalogoXProveedor cat = em.createQuery(
+            "SELECT c FROM CatalogoXProveedor c WHERE c.proveedor.id = :pid",
+            CatalogoXProveedor.class
+    )
+    .setParameter("pid", provRef.getId())
+    .setMaxResults(1)
+    .getResultStream()
+    .findFirst()
+    .orElse(null);
+
+    if (cat == null) {
+        cat = new CatalogoXProveedor();
+        // IMPORTANTE: asociarlo al proveedor (ajustá al nombre real de tu setter/campo)
+        cat.setProveedor(provRef);
+
+        em.persist(cat);
+        em.flush(); // para que agarre ID y evitar líos después
+    }
+    return cat;
+}
+
+public ItemDeProveedorX getOrCreateItemDeProveedorX(ItemDeProveedorX itemPersistirODevolver) {
+    EntityManager em = FabricaEntityManager.getEntityManager();
+    EntityTransaction et = em.getTransaction();
+
+    try {
+        et.begin();
+
+        Long proveedorId = itemPersistirODevolver.getProveedor().getId();
+        Long itemId = itemPersistirODevolver.getItem().getId();
+
+        // 1) Buscar si ya existe (por proveedor + item)
+        ItemDeProveedorX item = em.createQuery(
+                "SELECT ip FROM ItemDeProveedorX ip " +
+                "WHERE ip.proveedor.id = :pid AND ip.item.id = :iid",
+                ItemDeProveedorX.class
+        )
+        .setParameter("pid", proveedorId)
+        .setParameter("iid", itemId)
+        .setMaxResults(1)
+        .getResultStream()
+        .findFirst()
+        .orElse(null);
+
+        if (item != null) {
+            // (Opcional) si querés actualizar precio/flete/tiempo:
+            item.setPrecioItem(itemPersistirODevolver.getPrecioItem());
+            item.setCostoFlete(itemPersistirODevolver.getCostoFlete());
+            item.setCostoTotal(itemPersistirODevolver.getCostoTotal());
+            item.setTiempoDeEnvio(itemPersistirODevolver.getTiempoDeEnvio());
+
+            et.commit();
+            return item;
+        }
+
+        // 2) No existe: asegurá referencias MANAGED
+        Proveedor provRef = em.getReference(Proveedor.class, proveedorId);
+        Item itemRef = em.getReference(Item.class, itemId);
+
+        itemPersistirODevolver.setProveedor(provRef);
+        itemPersistirODevolver.setItem(itemRef);
+
+        em.persist(itemPersistirODevolver);
+
+        et.commit();
+        return itemPersistirODevolver;
+
+    } catch (Exception e) {
+        if (et.isActive()) et.rollback();
+        throw new jakarta.persistence.PersistenceException("Error en getOrCreateItemDeProveedorX", e);
+    } finally {
+        em.close();
+    }
+}
+
+public List<ItemDeProveedorX> getListaItemsProveedorXAPartirDeId(Long proveedorId){
+    EntityManager em = FabricaEntityManager.getEntityManager();
+    try {
+        return em.createQuery(
+            "SELECT it FROM ItemDeProveedorX it WHERE it.proveedor.id = :id ORDER BY it.id",
+            ItemDeProveedorX.class
+        )
+        .setParameter("id", proveedorId)
+        .getResultList();
+    } finally {
+        em.close();
+    }
+}
 
 
+
+public void editarAlertas(Long itemId, Integer umbralAmarillo, Integer umbralRojo) {
+    EntityManager em = FabricaEntityManager.getEntityManager();
+    EntityTransaction et = em.getTransaction();
+
+    try {
+        et.begin();
+        ItemDeSTOCK item = em.find(ItemDeSTOCK.class, itemId);
+        if (item == null) {
+            throw new PersistenceException("No existe ItemDeSTOCK con id=" + itemId);
+        }
+        // Validaciones
+        if (umbralAmarillo == null || umbralRojo == null) {
+            throw new PersistenceException("Los umbrales no pueden ser null");
+        }
+        if (umbralAmarillo < 0 || umbralRojo < 0) {
+            throw new PersistenceException("Los umbrales no pueden ser negativos");
+        }
+        // Ejemplo de regla: rojo <= amarillo
+        if (umbralRojo > umbralAmarillo) {
+            throw new PersistenceException("umbralRojo no puede ser mayor que umbralAmarillo");
+        }
+        item.setUmbralAmarillo(umbralAmarillo);
+        item.setUmbralRojo(umbralRojo);
+
+        // No hace falta persist/merge si item está managed
+        et.commit();
+
+    } catch (Exception e) {
+        if (et.isActive()) et.rollback();
+        throw new PersistenceException("Error al editar alertas", e);
+    } finally {
+        em.close();
+    }
+}
 
 }
-    
+
+
     
 

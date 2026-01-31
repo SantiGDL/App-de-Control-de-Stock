@@ -2,14 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package GUI.PanelesInternos.Proveedores;
+package GUI.PanelesInternos.Catalogos;
 
 import GUI.FramePrincipal;
 import GUI.PanelPrincipal;
-import GUI.PanelesPRINCIPALES.PanelDeProveedores;
+import GUI.PanelesPRINCIPALES.PanelDeCatalogos;
 import ImagenesHelpers.RenderDeImagenEnTablas;
 import Persistencia.Clases.Item;
-import Persistencia.Clases.Proveedor;
+import Persistencia.Clases.ItemDeProveedorX;
 import Persistencia.FabricaEntityManager;
 import Persistencia.ManejadorDePersistencia;
 import jakarta.persistence.EntityManager;
@@ -20,56 +20,57 @@ import javax.swing.JPanel;
  *
  * @author Santi-kun
  */
-public class ListaDeProveedoresJPanel extends javax.swing.JPanel {
-
-    private void cargarTablaProveedores() {
-    ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
-    FabricaEntityManager FEM = new FabricaEntityManager();
-    EntityManager em = FEM.getEntityManager();
-    //Los ordeno por nombre
-    List<Proveedor> proveedores = MDP.obtenerTodosLosProveedoresOrderByNombre(em);
-    // 2) Armo el modelo con columnas
-    javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
-        new Object[]{"ID", "Nombre", "Contacto", "Ubicacion", "Descripcion", "Imagen"}, 0
-    ) {
-        @Override public boolean isCellEditable(int row, int column) { return false; }
-        
-    };
-
-    // 3) Cargás filas
-    for (Proveedor p : proveedores) {
-        modeloTabla.addRow(new Object[]{
-            p.getId(),
-            p.getNombre(),
-            p.getContacto(),
-            p.getUbicacion(),
-            p.getDescripcion(),
-            p.getImagen(),
-        });
-    }
-    ListaDeProveedores.setModel(modeloTabla);
-    ListaDeProveedores.getTableHeader().setReorderingAllowed(false);
-     // oculto ID (col 0)
-    ListaDeProveedores.getColumnModel().getColumn(0).setMinWidth(0);
-    ListaDeProveedores.getColumnModel().getColumn(0).setMaxWidth(0);
-    ListaDeProveedores.getColumnModel().getColumn(0).setPreferredWidth(0);
-    //HAY QUE RENDERIZAR DESPUES DE SETEAR EL MODELO
-    int colImagen = 5;
-    ListaDeProveedores.setRowHeight(120);
-    //RENDERIZO LA IMAGEN USANDO EL HELPER
-    ListaDeProveedores.getColumnModel().getColumn(colImagen)
-              .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
-
+public class CatalogoXProveedorPantalla2JPanel extends javax.swing.JPanel {
+    private Long proveedorId;
     
-    }
-    
-    /**
-     * Creates new form ListaDeProveedoresJPanel
-     */
-    public ListaDeProveedoresJPanel() {
-        initComponents();
-        cargarTablaProveedores();
-    }
+    private void cargarTablaItems() {
+        // Llamo al manejador de persistencia que tiene la funcion de traerme los items
+        ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
+        //invoco el entity manager para trabajar
+        FabricaEntityManager FEM = new FabricaEntityManager();
+        EntityManager em = FEM.getEntityManager();
+        //Uso la funcion del manejador de persistencia que hice
+        List<ItemDeProveedorX> items = MDP.getListaItemsProveedorXAPartirDeId(proveedorId);
+        // 2) Armo el modelo con columnas
+        javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
+            new Object[]{"ID", "Nombre", "Descripcion", "Imagen"}, 0
+        ) {
+            @Override public boolean isCellEditable(int row, int column) { return false; }
+
+        };
+
+        // 3) Cargás filas
+        for (ItemDeProveedorX it : items) {
+            modeloTabla.addRow(new Object[]{
+                it.getId(),
+                it.getNombre(),
+                it.getDescripcion(),
+                it.getImagen(),
+            });
+        }
+        CatalogoXProveedor.setModel(modeloTabla);
+        CatalogoXProveedor.getTableHeader().setReorderingAllowed(false);
+        // oculto ID (col 0)
+        CatalogoXProveedor.getColumnModel().getColumn(0).setMinWidth(0);
+        CatalogoXProveedor.getColumnModel().getColumn(0).setMaxWidth(0);
+        CatalogoXProveedor.getColumnModel().getColumn(0).setPreferredWidth(0);
+        //HAY QUE RENDERIZAR DESPUES DE SETEAR EL MODELO
+        int colImagen = 3;
+        CatalogoXProveedor.setRowHeight(120);
+        //RENDERIZO LA IMAGEN USANDO EL HELPER
+        CatalogoXProveedor.getColumnModel().getColumn(colImagen)
+                  .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
+
+
+        }
+        /**
+         * Creates new form CatalogoXProveedorPantalla2JPanel
+         */
+        public CatalogoXProveedorPantalla2JPanel(Long proveedorId) {
+            initComponents();
+            this.proveedorId = proveedorId;
+            cargarTablaItems();
+        }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -85,13 +86,13 @@ public class ListaDeProveedoresJPanel extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         Contenido = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        ListaDeProveedores = new javax.swing.JTable();
+        CatalogoXProveedor = new javax.swing.JTable();
         MenuLateral = new javax.swing.JPanel();
         Logo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         VenderItem1 = new javax.swing.JButton();
+        MenuPrincipal = new javax.swing.JButton();
         Atras = new javax.swing.JButton();
-        Atras1 = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -104,30 +105,29 @@ public class ListaDeProveedoresJPanel extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("LISTA DE PROVEEDORES");
+        jLabel3.setText("CATALOGO X PROVEEDOR");
 
         javax.swing.GroupLayout MenuSuperiorLayout = new javax.swing.GroupLayout(MenuSuperior);
         MenuSuperior.setLayout(MenuSuperiorLayout);
         MenuSuperiorLayout.setHorizontalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(MenuSuperiorLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(68, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
+                .addGap(0, 46, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         MenuSuperiorLayout.setVerticalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuSuperiorLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(19, 19, 19)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         Contenido.setBackground(new java.awt.Color(204, 204, 204));
         Contenido.setPreferredSize(new java.awt.Dimension(700, 320));
         Contenido.setVerifyInputWhenFocusTarget(false);
 
-        ListaDeProveedores.setModel(new javax.swing.table.DefaultTableModel(
+        CatalogoXProveedor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -138,7 +138,7 @@ public class ListaDeProveedoresJPanel extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(ListaDeProveedores);
+        jScrollPane1.setViewportView(CatalogoXProveedor);
 
         javax.swing.GroupLayout ContenidoLayout = new javax.swing.GroupLayout(Contenido);
         Contenido.setLayout(ContenidoLayout);
@@ -173,23 +173,23 @@ public class ListaDeProveedoresJPanel extends javax.swing.JPanel {
         VenderItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         VenderItem1.addActionListener(this::VenderItem1ActionPerformed);
 
-        Atras.setBackground(new java.awt.Color(153, 255, 255));
+        MenuPrincipal.setBackground(new java.awt.Color(153, 255, 255));
+        MenuPrincipal.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        MenuPrincipal.setForeground(new java.awt.Color(0, 0, 0));
+        MenuPrincipal.setText("MENU PRINCIPAL");
+        MenuPrincipal.setBorder(null);
+        MenuPrincipal.setBorderPainted(false);
+        MenuPrincipal.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        MenuPrincipal.addActionListener(this::MenuPrincipalActionPerformed);
+
+        Atras.setBackground(new java.awt.Color(255, 153, 153));
         Atras.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         Atras.setForeground(new java.awt.Color(0, 0, 0));
-        Atras.setText("MENU PRINCIPAL");
+        Atras.setText("ATRAS");
         Atras.setBorder(null);
         Atras.setBorderPainted(false);
         Atras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Atras.addActionListener(this::AtrasActionPerformed);
-
-        Atras1.setBackground(new java.awt.Color(153, 255, 153));
-        Atras1.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        Atras1.setForeground(new java.awt.Color(0, 0, 0));
-        Atras1.setText("ATRAS");
-        Atras1.setBorder(null);
-        Atras1.setBorderPainted(false);
-        Atras1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Atras1.addActionListener(this::Atras1ActionPerformed);
 
         javax.swing.GroupLayout MenuLateralLayout = new javax.swing.GroupLayout(MenuLateral);
         MenuLateral.setLayout(MenuLateralLayout);
@@ -209,8 +209,8 @@ public class ListaDeProveedoresJPanel extends javax.swing.JPanel {
                         .addComponent(VenderItem1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(63, 63, 63))))
             .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(Atras, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
-                .addComponent(Atras1, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
+                .addComponent(MenuPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
+                .addComponent(Atras, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
         );
         MenuLateralLayout.setVerticalGroup(
             MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,9 +224,9 @@ public class ListaDeProveedoresJPanel extends javax.swing.JPanel {
             .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(MenuLateralLayout.createSequentialGroup()
                     .addGap(185, 185, 185)
-                    .addComponent(Atras)
+                    .addComponent(MenuPrincipal)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(Atras1)
+                    .addComponent(Atras)
                     .addContainerGap(186, Short.MAX_VALUE)))
         );
 
@@ -239,7 +239,7 @@ public class ListaDeProveedoresJPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(MenuSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 558, Short.MAX_VALUE)))
+                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)))
         );
         FondoLayout.setVerticalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,27 +257,27 @@ public class ListaDeProveedoresJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_VenderItem1ActionPerformed
 
-    private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
+    private void MenuPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuPrincipalActionPerformed
         JPanel panelPrincipal = new PanelPrincipal();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(panelPrincipal);
-    }//GEN-LAST:event_AtrasActionPerformed
+    }//GEN-LAST:event_MenuPrincipalActionPerformed
 
-    private void Atras1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Atras1ActionPerformed
-        JPanel panelDeProveedores = new PanelDeProveedores();
+    private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
+        JPanel panelDeCatalogos = new PanelDeCatalogos();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(panelDeProveedores);
-    }//GEN-LAST:event_Atras1ActionPerformed
+        frame.cambiarFondo(panelDeCatalogos);
+    }//GEN-LAST:event_AtrasActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Atras;
-    private javax.swing.JButton Atras1;
+    private javax.swing.JTable CatalogoXProveedor;
     private javax.swing.JPanel Contenido;
     private javax.swing.JPanel Fondo;
-    private javax.swing.JTable ListaDeProveedores;
     private javax.swing.JLabel Logo;
     private javax.swing.JPanel MenuLateral;
+    private javax.swing.JButton MenuPrincipal;
     private javax.swing.JPanel MenuSuperior;
     private javax.swing.JButton VenderItem1;
     private javax.swing.JLabel jLabel1;

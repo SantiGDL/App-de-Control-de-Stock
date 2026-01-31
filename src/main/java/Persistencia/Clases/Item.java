@@ -18,12 +18,15 @@ public class Item {
     private String nombre;
     private String descripcion;
     private String imagen;
+    
+    
+    
     @ManyToOne
     @JoinColumn(name="catalogo", nullable=false)
     private CatalogoGeneral catalogo;
 
     //Vinculo con ItemDeProveedorX, UN item a MUCHOS ITEMS DE PROVEEDORX
-    @OneToMany(mappedBy="ItemDeProveedor", cascade=CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(mappedBy="item", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<ItemDeProveedorX> listaDeItemsDeProveedorX = new ArrayList<>();;   //Serian todos los Item de Proveedor que se crean a partir de un solo Item
     
     //Vinculo con CompraItemAProveedorDefault, UN item a MUCHAS COMPRAS

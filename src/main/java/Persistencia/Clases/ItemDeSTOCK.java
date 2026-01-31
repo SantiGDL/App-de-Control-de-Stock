@@ -12,9 +12,13 @@ import jakarta.persistence.*;
         private String descripcion;
         private String imagen;
         private Integer cantUnidades;
-        private EstadoAlerta estadoAlerta = EstadoAlerta.GRIS;
+        //LOS UMBRALES DE LAS ALERTAS
+        @Column(nullable = true)
+        private Integer umbralRojo;
+        @Column(nullable = true)
+        private Integer umbralAmarillo;
         @ManyToOne
-        @JoinColumn(name="stock_id", nullable=false)
+        @JoinColumn(name="stock_id", nullable=true)
         private Stock stock;
         //Constructor
         public ItemDeSTOCK() {}
@@ -47,5 +51,22 @@ import jakarta.persistence.*;
                 this.cantUnidades = this.cantUnidades - cantUni;
             }
         } //tendria que ver lo de los nuemro negativos
-
+        
+        //Seters y geters de umbrales de alertas
+        public Integer getUmbralAmarillo(){return this.umbralAmarillo;}
+        public void setUmbralAmarillo(Integer valor){this.umbralAmarillo = valor;}
+        public Integer getUmbralRojo(){return this.umbralRojo;}
+        public void setUmbralRojo(Integer valor){this.umbralRojo = valor;}
+        
+        
+       @Transient
+        public EstadoAlerta getEstadoAlerta() {
+        if (umbralRojo == null || umbralAmarillo == null) return EstadoAlerta.GRIS;
+        Integer cant = (cantUnidades == null) ? 0 : cantUnidades;
+        if (cant <= umbralRojo) return EstadoAlerta.ROJO;
+        if (cant <= umbralAmarillo) return EstadoAlerta.AMARILLO;
+        //Si no es menor al umbral rojo ni amarillo es porque es mayor, o sea verrde
+        return EstadoAlerta.VERDE;
+}
+        
 }

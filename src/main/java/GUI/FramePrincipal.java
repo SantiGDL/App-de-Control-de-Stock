@@ -37,6 +37,8 @@ public class FramePrincipal extends javax.swing.JFrame {
         //Al inicializal el frame principal le pido que cargue el Panel Principal tambien
         JPanel PanelPrincipal = new PanelPrincipal();
         controller.cambiarPanelGeneral(Fondo, PanelPrincipal);
+        ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
+        Proveedor proveedorDefault = MDP.getOrCreateProveedorDefault();
     }
     //FUNCIONES
     public void cambiarFondo(JPanel panelNuevo){

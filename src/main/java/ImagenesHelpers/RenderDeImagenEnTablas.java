@@ -1,8 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ImagenesHelpers;
+
 import java.awt.Component;
 import java.awt.Image;
 import java.util.HashMap;
@@ -12,15 +9,11 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import static javax.swing.SwingConstants.CENTER;
 import javax.swing.table.DefaultTableCellRenderer;
-/**
- *
- * @author Santi-kun
- */
+
 public class RenderDeImagenEnTablas extends DefaultTableCellRenderer {
     private final int anchoMiniatura;
     private final int altoMiniatura;
 
-    // Cache: ruta -> icono ya escalado
     private final Map<String, ImageIcon> cacheIconos = new HashMap<>();
 
     public RenderDeImagenEnTablas(int anchoMiniatura, int altoMiniatura) {
@@ -46,9 +39,21 @@ public class RenderDeImagenEnTablas extends DefaultTableCellRenderer {
 
         ImageIcon icono = cacheIconos.get(ruta);
         if (icono == null) {
-            ImageIcon original = new ImageIcon(ruta);
 
-            // Si no cargó (ruta inválida)
+            ImageIcon original;
+
+            // ✅ FIX: resource vs archivo
+            if (ruta.startsWith("/")) {
+                java.net.URL url = getClass().getResource(ruta);
+                if (url == null) {
+                    lbl.setIcon(null);
+                    return lbl;
+                }
+                original = new ImageIcon(url);
+            } else {
+                original = new ImageIcon(ruta);
+            }
+
             if (original.getIconWidth() <= 0) {
                 lbl.setIcon(null);
                 return lbl;
@@ -65,4 +70,3 @@ public class RenderDeImagenEnTablas extends DefaultTableCellRenderer {
         return lbl;
     }
 }
-

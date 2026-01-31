@@ -1,27 +1,111 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
-package GUI.PanelesPRINCIPALES;
+package GUI.PanelesInternosConfiguraciones;
 
 import GUI.FramePrincipal;
 import GUI.PanelPrincipal;
-import GUI.PanelesInternos.Catalogos.CatalogoGeneralJPanel;
-import GUI.PanelesInternos.Historiales.HistorialGeneralJPanel;
-import GUI.PanelesInternos.Historiales.HistorialXProveedorJPanel;
+import GUI.PanelesInternos.Catalogos.CatalogoXProveedorPantalla2JPanel;
+import ImagenesHelpers.RenderDeImagenEnTablas;
+import Persistencia.Clases.ItemDeSTOCK;
+import Persistencia.FabricaEntityManager;
+import Persistencia.ManejadorDePersistencia;
+import jakarta.persistence.EntityManager;
+import java.util.List;
 import javax.swing.JPanel;
+import static javax.swing.SwingConstants.CENTER;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
  * @author Santi-kun
  */
-public class PanelDeHistoriales extends javax.swing.JPanel {
+public class ConfigurarAlertasJPanel extends javax.swing.JPanel {
+    private Long itemId;
+    private void irAConfigurarAlertasPantalla2(Long itemId){
+        JPanel pantalla2 = new ConfigurarAlertasPantalla2JPanel(itemId);
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(pantalla2);
+    }   
+    private void cargarTablaItemsSTOCK() {
+       // Llamo al manejador de persistencia que tiene la funcion de traerme los items
+       ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
+       //invoco el entity manager para trabajar
+       FabricaEntityManager FEM = new FabricaEntityManager();
+       EntityManager em = FEM.getEntityManager();
+       //Uso la funcion del manejador de persistencia que hice
+       List<ItemDeSTOCK> itemsDeStock = MDP.getItemsDeStock(em);
+       // 2) Armo el modelo con columnas
+       javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
+           new Object[]{"ID", "Nombre", "Descripcion", "Imagen", "cantUnidades", "Seleccionar"}, 0
+       ) {
+           @Override public boolean isCellEditable(int row, int column) { return false; }
 
+       };
+
+       // 3) Cargás filas
+       for (ItemDeSTOCK it : itemsDeStock) {
+           modeloTabla.addRow(new Object[]{
+               it.getId(),
+               it.getNombre(),
+               it.getDescripcion(),
+               it.getImagen(),
+               it.getCantUnidades(),
+               ">"
+           });
+       }
+       TablaDeStock.setModel(modeloTabla);
+       TablaDeStock.getTableHeader().setReorderingAllowed(false);
+       //REDERIZO LA IMAGEN DE LA TABLA
+       int colImagen = 3;
+       TablaDeStock.setRowHeight(120);
+       //RENDERIZO LA IMAGEN USANDO EL HELPER
+       TablaDeStock.getColumnModel().getColumn(colImagen)
+                 .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
+
+        //AHORA EL BOTON PARA APRETAR PARA SELECCIONAR PROVEEDOR
+       Integer columnaInteraccion = 5;
+       TablaDeStock.getColumnModel().getColumn(columnaInteraccion).setCellRenderer(new DefaultTableCellRenderer() {
+       @Override
+       public java.awt.Component getTableCellRendererComponent(
+               javax.swing.JTable table, Object value, boolean isSelected,
+               boolean hasFocus, int row, int column) {
+
+           var c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+           setHorizontalAlignment(CENTER);
+           setFont(getFont().deriveFont(java.awt.Font.BOLD, 18f));
+           setForeground(java.awt.Color.WHITE);
+           setBackground(new java.awt.Color(0, 102, 255)); // azul
+           return c;
+       }
+       });
+       TablaDeStock.getColumnModel().getColumn(columnaInteraccion).setMaxWidth(45);
+       TablaDeStock.getColumnModel().getColumn(columnaInteraccion).setMinWidth(45);
+
+       //AHORA DETECTAR LA INTERACCION CON LA COLOUMNA 4
+
+       TablaDeStock.addMouseListener(new java.awt.event.MouseAdapter() {
+       @Override
+       public void mouseClicked(java.awt.event.MouseEvent e) {
+           int viewRow = TablaDeStock.rowAtPoint(e.getPoint());
+           int viewCol = TablaDeStock.columnAtPoint(e.getPoint());
+           if (viewRow == -1 || viewCol == -1) return;
+
+           int colAccion = columnaInteraccion; // la de "<"
+           if (viewCol != colAccion) return;
+
+           int modelRow = TablaDeStock.convertRowIndexToModel(viewRow);
+           Object idObj = TablaDeStock.getModel().getValueAt(modelRow, 0);
+           Long it = Long.valueOf(idObj.toString());
+           itemId = it; 
+            //seteo la variable id 
+           irAConfigurarAlertasPantalla2(itemId);
+       }
+   });
+       }
     /**
-     * Creates new form PanelDeHistoriales
+     * Creates new form ConfigurarAlertas
      */
-    public PanelDeHistoriales() {
+    public ConfigurarAlertasJPanel() {
         initComponents();
+        cargarTablaItemsSTOCK();
     }
 
     /**
@@ -33,22 +117,19 @@ public class PanelDeHistoriales extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
         Fondo = new javax.swing.JPanel();
         MenuLateral = new javax.swing.JPanel();
         Logo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         VenderItem1 = new javax.swing.JButton();
-        Atras = new javax.swing.JButton();
+        MenuPrincipal = new javax.swing.JButton();
         MenuSuperior = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         Contenido = new javax.swing.JPanel();
-        HistorialGeneral = new javax.swing.JButton();
-        HistorialXProveedor = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TablaDeStock = new javax.swing.JTable();
 
         setLayout(new java.awt.BorderLayout());
-
-        jPanel1.setLayout(new java.awt.BorderLayout());
 
         Fondo.setBackground(new java.awt.Color(255, 255, 255));
         Fondo.setPreferredSize(new java.awt.Dimension(800, 500));
@@ -71,14 +152,14 @@ public class PanelDeHistoriales extends javax.swing.JPanel {
         VenderItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         VenderItem1.addActionListener(this::VenderItem1ActionPerformed);
 
-        Atras.setBackground(new java.awt.Color(153, 255, 255));
-        Atras.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
-        Atras.setForeground(new java.awt.Color(0, 0, 0));
-        Atras.setText("MENU PRINCIPAL");
-        Atras.setBorder(null);
-        Atras.setBorderPainted(false);
-        Atras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Atras.addActionListener(this::AtrasActionPerformed);
+        MenuPrincipal.setBackground(new java.awt.Color(153, 255, 255));
+        MenuPrincipal.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        MenuPrincipal.setForeground(new java.awt.Color(0, 0, 0));
+        MenuPrincipal.setText("MENU PRINCIPAL");
+        MenuPrincipal.setBorder(null);
+        MenuPrincipal.setBorderPainted(false);
+        MenuPrincipal.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        MenuPrincipal.addActionListener(this::MenuPrincipalActionPerformed);
 
         javax.swing.GroupLayout MenuLateralLayout = new javax.swing.GroupLayout(MenuLateral);
         MenuLateral.setLayout(MenuLateralLayout);
@@ -97,7 +178,7 @@ public class PanelDeHistoriales extends javax.swing.JPanel {
                         .addGap(89, 89, 89)
                         .addComponent(VenderItem1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(63, 63, 63))))
-            .addComponent(Atras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(MenuPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         MenuLateralLayout.setVerticalGroup(
             MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -106,10 +187,10 @@ public class PanelDeHistoriales extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(Atras)
-                .addGap(207, 207, 207)
+                .addComponent(MenuPrincipal)
+                .addGap(216, 216, 216)
                 .addComponent(VenderItem1)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         MenuSuperior.setBackground(new java.awt.Color(0, 102, 255));
@@ -117,66 +198,56 @@ public class PanelDeHistoriales extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("MENU HISTORIALES");
+        jLabel3.setText("CONFIGURAR ALERTAS");
 
         javax.swing.GroupLayout MenuSuperiorLayout = new javax.swing.GroupLayout(MenuSuperior);
         MenuSuperior.setLayout(MenuSuperiorLayout);
         MenuSuperiorLayout.setHorizontalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
-                .addContainerGap(46, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(90, 90, 90))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(21, 21, 21))
         );
         MenuSuperiorLayout.setVerticalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuSuperiorLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jLabel3)
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addGap(46, 46, 46)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         Contenido.setBackground(new java.awt.Color(204, 204, 204));
         Contenido.setPreferredSize(new java.awt.Dimension(700, 320));
         Contenido.setVerifyInputWhenFocusTarget(false);
 
-        HistorialGeneral.setBackground(new java.awt.Color(255, 255, 204));
-        HistorialGeneral.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        HistorialGeneral.setForeground(new java.awt.Color(0, 0, 0));
-        HistorialGeneral.setText("Historial General");
-        HistorialGeneral.setBorder(null);
-        HistorialGeneral.setBorderPainted(false);
-        HistorialGeneral.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        HistorialGeneral.addActionListener(this::HistorialGeneralActionPerformed);
-
-        HistorialXProveedor.setBackground(new java.awt.Color(255, 255, 204));
-        HistorialXProveedor.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        HistorialXProveedor.setForeground(new java.awt.Color(0, 0, 0));
-        HistorialXProveedor.setText("Historial X Proveedor");
-        HistorialXProveedor.setBorder(null);
-        HistorialXProveedor.setBorderPainted(false);
-        HistorialXProveedor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        HistorialXProveedor.addActionListener(this::HistorialXProveedorActionPerformed);
+        TablaDeStock.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(TablaDeStock);
 
         javax.swing.GroupLayout ContenidoLayout = new javax.swing.GroupLayout(Contenido);
         Contenido.setLayout(ContenidoLayout);
         ContenidoLayout.setHorizontalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContenidoLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(HistorialGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(110, 110, 110)
-                .addComponent(HistorialXProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(62, 62, 62))
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
+                .addContainerGap())
         );
         ContenidoLayout.setVerticalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContenidoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(HistorialGeneral)
-                    .addComponent(HistorialXProveedor))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout FondoLayout = new javax.swing.GroupLayout(Fondo);
@@ -188,58 +259,43 @@ public class PanelDeHistoriales extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(MenuSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 524, Short.MAX_VALUE)))
+                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)))
         );
         FondoLayout.setVerticalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
+            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
             .addGroup(FondoLayout.createSequentialGroup()
                 .addComponent(MenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
+                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jPanel1.add(Fondo, java.awt.BorderLayout.CENTER);
-
-        add(jPanel1, java.awt.BorderLayout.CENTER);
+        add(Fondo, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void VenderItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VenderItem1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_VenderItem1ActionPerformed
 
-    private void HistorialGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HistorialGeneralActionPerformed
-        JPanel historialGeneral = new HistorialGeneralJPanel();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(historialGeneral);
-    }//GEN-LAST:event_HistorialGeneralActionPerformed
-
-    private void HistorialXProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HistorialXProveedorActionPerformed
-      JPanel historialXProveedor = new HistorialXProveedorJPanel();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(historialXProveedor); 
-    }//GEN-LAST:event_HistorialXProveedorActionPerformed
-
-    private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
+    private void MenuPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuPrincipalActionPerformed
         JPanel panelPrincipal = new PanelPrincipal();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(panelPrincipal);
-    }//GEN-LAST:event_AtrasActionPerformed
+    }//GEN-LAST:event_MenuPrincipalActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Atras;
     private javax.swing.JPanel Contenido;
     private javax.swing.JPanel Fondo;
-    private javax.swing.JButton HistorialGeneral;
-    private javax.swing.JButton HistorialXProveedor;
     private javax.swing.JLabel Logo;
     private javax.swing.JPanel MenuLateral;
+    private javax.swing.JButton MenuPrincipal;
     private javax.swing.JPanel MenuSuperior;
+    private javax.swing.JTable TablaDeStock;
     private javax.swing.JButton VenderItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

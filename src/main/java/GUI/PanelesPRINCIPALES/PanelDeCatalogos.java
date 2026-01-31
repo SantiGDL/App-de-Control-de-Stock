@@ -7,6 +7,7 @@ package GUI.PanelesPRINCIPALES;
 import GUI.FramePrincipal;
 import GUI.PanelPrincipal;
 import GUI.PanelesInternos.Catalogos.CatalogoGeneralJPanel;
+import GUI.PanelesInternos.Catalogos.CatalogoXProveedorJPanel;
 import javax.swing.JPanel;
 
 /**
@@ -36,12 +37,12 @@ public class PanelDeCatalogos extends javax.swing.JPanel {
         Logo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         VenderItem1 = new javax.swing.JButton();
-        CatalogoGeneral = new javax.swing.JButton();
-        PROVEEDORES3 = new javax.swing.JButton();
         Atras = new javax.swing.JButton();
         MenuSuperior = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         Contenido = new javax.swing.JPanel();
+        CatalogoGeneral = new javax.swing.JButton();
+        PROVEEDORES3 = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -66,28 +67,10 @@ public class PanelDeCatalogos extends javax.swing.JPanel {
         VenderItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         VenderItem1.addActionListener(this::VenderItem1ActionPerformed);
 
-        CatalogoGeneral.setBackground(new java.awt.Color(255, 153, 153));
-        CatalogoGeneral.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        CatalogoGeneral.setForeground(new java.awt.Color(0, 0, 0));
-        CatalogoGeneral.setText("Catálogo General (OK)");
-        CatalogoGeneral.setBorder(null);
-        CatalogoGeneral.setBorderPainted(false);
-        CatalogoGeneral.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CatalogoGeneral.addActionListener(this::CatalogoGeneralActionPerformed);
-
-        PROVEEDORES3.setBackground(new java.awt.Color(255, 153, 153));
-        PROVEEDORES3.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        PROVEEDORES3.setForeground(new java.awt.Color(0, 0, 0));
-        PROVEEDORES3.setText("Catálogo x Proveedor (NOK)");
-        PROVEEDORES3.setBorder(null);
-        PROVEEDORES3.setBorderPainted(false);
-        PROVEEDORES3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        PROVEEDORES3.addActionListener(this::PROVEEDORES3ActionPerformed);
-
         Atras.setBackground(new java.awt.Color(153, 255, 255));
         Atras.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         Atras.setForeground(new java.awt.Color(0, 0, 0));
-        Atras.setText("Atrás");
+        Atras.setText("MENU PRINCIPAL");
         Atras.setBorder(null);
         Atras.setBorderPainted(false);
         Atras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -100,8 +83,6 @@ public class PanelDeCatalogos extends javax.swing.JPanel {
             .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(CatalogoGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(PROVEEDORES3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -122,11 +103,7 @@ public class PanelDeCatalogos extends javax.swing.JPanel {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(Atras)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CatalogoGeneral)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PROVEEDORES3)
-                .addGap(161, 161, 161)
+                .addGap(207, 207, 207)
                 .addComponent(VenderItem1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -159,15 +136,43 @@ public class PanelDeCatalogos extends javax.swing.JPanel {
         Contenido.setPreferredSize(new java.awt.Dimension(700, 320));
         Contenido.setVerifyInputWhenFocusTarget(false);
 
+        CatalogoGeneral.setBackground(new java.awt.Color(255, 153, 153));
+        CatalogoGeneral.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        CatalogoGeneral.setForeground(new java.awt.Color(0, 0, 0));
+        CatalogoGeneral.setText("Catálogo General ");
+        CatalogoGeneral.setBorder(null);
+        CatalogoGeneral.setBorderPainted(false);
+        CatalogoGeneral.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        CatalogoGeneral.addActionListener(this::CatalogoGeneralActionPerformed);
+
+        PROVEEDORES3.setBackground(new java.awt.Color(255, 153, 153));
+        PROVEEDORES3.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        PROVEEDORES3.setForeground(new java.awt.Color(0, 0, 0));
+        PROVEEDORES3.setText("Catálogo x Proveedor (NOK)");
+        PROVEEDORES3.setBorder(null);
+        PROVEEDORES3.setBorderPainted(false);
+        PROVEEDORES3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        PROVEEDORES3.addActionListener(this::PROVEEDORES3ActionPerformed);
+
         javax.swing.GroupLayout ContenidoLayout = new javax.swing.GroupLayout(Contenido);
         Contenido.setLayout(ContenidoLayout);
         ContenidoLayout.setHorizontalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(ContenidoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(CatalogoGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(66, 66, 66)
+                .addComponent(PROVEEDORES3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(115, 115, 115))
         );
         ContenidoLayout.setVerticalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(ContenidoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(CatalogoGeneral)
+                    .addComponent(PROVEEDORES3))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout FondoLayout = new javax.swing.GroupLayout(Fondo);
@@ -205,7 +210,9 @@ public class PanelDeCatalogos extends javax.swing.JPanel {
     }//GEN-LAST:event_CatalogoGeneralActionPerformed
 
     private void PROVEEDORES3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PROVEEDORES3ActionPerformed
-        // TODO add your handling code here:
+      JPanel catalogoXProveedor = new CatalogoXProveedorJPanel();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(catalogoXProveedor);
     }//GEN-LAST:event_PROVEEDORES3ActionPerformed
 
     private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed

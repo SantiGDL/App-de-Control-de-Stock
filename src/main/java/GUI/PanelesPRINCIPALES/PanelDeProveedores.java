@@ -37,14 +37,14 @@ public class PanelDeProveedores extends javax.swing.JPanel {
         Logo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         VenderItem1 = new javax.swing.JButton();
-        ListaDeProveedores = new javax.swing.JButton();
-        CrearProveedor1 = new javax.swing.JButton();
-        ConfigurarAlertas1 = new javax.swing.JButton();
-        ConfigurarAlertas2 = new javax.swing.JButton();
         Atras = new javax.swing.JButton();
         MenuSuperior = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         Contenido = new javax.swing.JPanel();
+        CrearProveedor1 = new javax.swing.JButton();
+        ListaDeProveedores = new javax.swing.JButton();
+        ConfigurarAlertas1 = new javax.swing.JButton();
+        ConfigurarAlertas2 = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -69,46 +69,10 @@ public class PanelDeProveedores extends javax.swing.JPanel {
         VenderItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         VenderItem1.addActionListener(this::VenderItem1ActionPerformed);
 
-        ListaDeProveedores.setBackground(new java.awt.Color(153, 255, 153));
-        ListaDeProveedores.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        ListaDeProveedores.setForeground(new java.awt.Color(0, 0, 0));
-        ListaDeProveedores.setText("Lista de Proveedores (OK)");
-        ListaDeProveedores.setBorder(null);
-        ListaDeProveedores.setBorderPainted(false);
-        ListaDeProveedores.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        ListaDeProveedores.addActionListener(this::ListaDeProveedoresActionPerformed);
-
-        CrearProveedor1.setBackground(new java.awt.Color(153, 255, 153));
-        CrearProveedor1.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        CrearProveedor1.setForeground(new java.awt.Color(0, 0, 0));
-        CrearProveedor1.setText("Crear Proveedor (OK)");
-        CrearProveedor1.setBorder(null);
-        CrearProveedor1.setBorderPainted(false);
-        CrearProveedor1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CrearProveedor1.addActionListener(this::CrearProveedor1ActionPerformed);
-
-        ConfigurarAlertas1.setBackground(new java.awt.Color(153, 255, 153));
-        ConfigurarAlertas1.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        ConfigurarAlertas1.setForeground(new java.awt.Color(0, 0, 0));
-        ConfigurarAlertas1.setText("Editar Proveedor (NOK)");
-        ConfigurarAlertas1.setBorder(null);
-        ConfigurarAlertas1.setBorderPainted(false);
-        ConfigurarAlertas1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        ConfigurarAlertas1.addActionListener(this::ConfigurarAlertas1ActionPerformed);
-
-        ConfigurarAlertas2.setBackground(new java.awt.Color(153, 255, 153));
-        ConfigurarAlertas2.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        ConfigurarAlertas2.setForeground(new java.awt.Color(0, 0, 0));
-        ConfigurarAlertas2.setText("Eliminar Proveedor (NOK)");
-        ConfigurarAlertas2.setBorder(null);
-        ConfigurarAlertas2.setBorderPainted(false);
-        ConfigurarAlertas2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        ConfigurarAlertas2.addActionListener(this::ConfigurarAlertas2ActionPerformed);
-
         Atras.setBackground(new java.awt.Color(153, 255, 255));
         Atras.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         Atras.setForeground(new java.awt.Color(0, 0, 0));
-        Atras.setText("ATRAS");
+        Atras.setText("MENU PRINCIPAL");
         Atras.setBorder(null);
         Atras.setBorderPainted(false);
         Atras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -121,8 +85,6 @@ public class PanelDeProveedores extends javax.swing.JPanel {
             .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(ListaDeProveedores, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(CrearProveedor1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,8 +96,6 @@ public class PanelDeProveedores extends javax.swing.JPanel {
                         .addComponent(VenderItem1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(63, 63, 63))))
             .addComponent(Atras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(ConfigurarAlertas1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(ConfigurarAlertas2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         MenuLateralLayout.setVerticalGroup(
             MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,17 +105,9 @@ public class PanelDeProveedores extends javax.swing.JPanel {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Atras)
-                .addGap(5, 5, 5)
-                .addComponent(CrearProveedor1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ListaDeProveedores)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ConfigurarAlertas1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ConfigurarAlertas2)
-                .addGap(123, 123, 123)
+                .addGap(214, 214, 214)
                 .addComponent(VenderItem1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(99, Short.MAX_VALUE))
         );
 
         MenuSuperior.setBackground(new java.awt.Color(0, 102, 255));
@@ -186,15 +138,78 @@ public class PanelDeProveedores extends javax.swing.JPanel {
         Contenido.setPreferredSize(new java.awt.Dimension(700, 320));
         Contenido.setVerifyInputWhenFocusTarget(false);
 
+        CrearProveedor1.setBackground(new java.awt.Color(153, 255, 153));
+        CrearProveedor1.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        CrearProveedor1.setForeground(new java.awt.Color(0, 0, 0));
+        CrearProveedor1.setText("Crear Proveedor");
+        CrearProveedor1.setBorder(null);
+        CrearProveedor1.setBorderPainted(false);
+        CrearProveedor1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        CrearProveedor1.addActionListener(this::CrearProveedor1ActionPerformed);
+
+        ListaDeProveedores.setBackground(new java.awt.Color(153, 255, 153));
+        ListaDeProveedores.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        ListaDeProveedores.setForeground(new java.awt.Color(0, 0, 0));
+        ListaDeProveedores.setText("Lista de Proveedores");
+        ListaDeProveedores.setBorder(null);
+        ListaDeProveedores.setBorderPainted(false);
+        ListaDeProveedores.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ListaDeProveedores.addActionListener(this::ListaDeProveedoresActionPerformed);
+
+        ConfigurarAlertas1.setBackground(new java.awt.Color(153, 255, 153));
+        ConfigurarAlertas1.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        ConfigurarAlertas1.setForeground(new java.awt.Color(0, 0, 0));
+        ConfigurarAlertas1.setText("Editar Proveedor (NOK)");
+        ConfigurarAlertas1.setBorder(null);
+        ConfigurarAlertas1.setBorderPainted(false);
+        ConfigurarAlertas1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ConfigurarAlertas1.addActionListener(this::ConfigurarAlertas1ActionPerformed);
+
+        ConfigurarAlertas2.setBackground(new java.awt.Color(153, 255, 153));
+        ConfigurarAlertas2.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        ConfigurarAlertas2.setForeground(new java.awt.Color(0, 0, 0));
+        ConfigurarAlertas2.setText("Eliminar Proveedor (NOK)");
+        ConfigurarAlertas2.setBorder(null);
+        ConfigurarAlertas2.setBorderPainted(false);
+        ConfigurarAlertas2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ConfigurarAlertas2.addActionListener(this::ConfigurarAlertas2ActionPerformed);
+
         javax.swing.GroupLayout ContenidoLayout = new javax.swing.GroupLayout(Contenido);
         Contenido.setLayout(ContenidoLayout);
         ContenidoLayout.setHorizontalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(ContenidoLayout.createSequentialGroup()
+                .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(ContenidoLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(ConfigurarAlertas1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(ContenidoLayout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(CrearProveedor1, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)))
+                .addGap(220, 220, 220)
+                .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ContenidoLayout.createSequentialGroup()
+                        .addComponent(ListaDeProveedores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(45, 45, 45))
+                    .addGroup(ContenidoLayout.createSequentialGroup()
+                        .addComponent(ConfigurarAlertas2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         ContenidoLayout.setVerticalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(ContenidoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(CrearProveedor1)
+                    .addComponent(ListaDeProveedores))
+                .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ContenidoLayout.createSequentialGroup()
+                        .addGap(69, 69, 69)
+                        .addComponent(ConfigurarAlertas1))
+                    .addGroup(ContenidoLayout.createSequentialGroup()
+                        .addGap(80, 80, 80)
+                        .addComponent(ConfigurarAlertas2)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout FondoLayout = new javax.swing.GroupLayout(Fondo);

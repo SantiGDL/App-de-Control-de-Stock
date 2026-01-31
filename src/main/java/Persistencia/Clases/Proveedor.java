@@ -3,6 +3,7 @@ package Persistencia.Clases;
 import Persistencia.DTOs.DTProveedor;
 import Persistencia.DTOs.DTUsuario;
 import jakarta.persistence.*;
+import java.util.ArrayList;
 
 import java.util.List;
 
@@ -18,11 +19,16 @@ public class Proveedor {
     private String ubicacion;
     private String descripcion;
     private String imagen;
+    //Vinculo entre el proveedor y su catalogo
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name="catalogo_id", nullable=false, unique=true)
+    private CatalogoXProveedor catalogo;
+    
     @ManyToOne
     @JoinColumn(name = "stock_id")
     private Stock stock;
-    @OneToMany(mappedBy = "Proveedor", cascade=CascadeType.ALL, orphanRemoval=true)
-    private List<ItemDeProveedorX> listaItemsVendidos;
+    @OneToMany(mappedBy = "proveedor", cascade=CascadeType.ALL, orphanRemoval=true)
+    private List<ItemDeProveedorX> listaItemsVendidos = new ArrayList<>();
     //-------> Acá hago el JOIN entre UN Proveedor y UN Historial X Proveedor <---------
     @OneToOne (mappedBy = "proveedorVinculado")
     private HistorialXProveedor historialXProveedor;
@@ -66,5 +72,26 @@ public class Proveedor {
     
     
     public Long getHistorialXProveedorId(){return this.historialXProveedor.getIdHistorialXProveedor();}
+    
+    public CatalogoXProveedor getCatalogo() { return catalogo; }
+
+    public void setCatalogo(CatalogoXProveedor catalogo) {
+        this.catalogo = catalogo;
+        if (catalogo != null && catalogo.getProveedor() != this) {
+            catalogo.setProveedor(this);
+        }
+    }
+    
+    public void asegurarCatalogo() {
+        if (this.catalogo == null) {
+            CatalogoXProveedor cat = new CatalogoXProveedor();
+            this.catalogo = cat;
+            cat.setProveedor(this); // mantener ambos lados
+        } else if (this.catalogo.getProveedor() == null) {
+            this.catalogo.setProveedor(this);
+        }
+    }
+    
+    public List<ItemDeProveedorX> getListaItems(){return this.listaItemsVendidos;}
 
 }

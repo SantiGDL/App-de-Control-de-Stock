@@ -3,6 +3,7 @@ import GUI.FramePrincipal;
 import GUI.GUIController;
 import GUI.PanelPrincipal;
 import GUI.PanelesInternos.LoginJPanel;
+import GUI.PanelesInternosConfiguraciones.ConfigurarAlertasJPanel;
 import GUI.PanelesInternosConfiguraciones.EliminarItemJPanel;
 import javax.swing.JPanel;
 public class PanelDeConfiguracion extends javax.swing.JPanel {
@@ -16,13 +17,13 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
 
         Fondo = new javax.swing.JPanel();
         MenuLateral = new javax.swing.JPanel();
-        ConfigurarAlertas = new javax.swing.JButton();
         Logo = new javax.swing.JLabel();
         Atras = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         MenuSuperior = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         Contenido = new javax.swing.JPanel();
+        ConfigurarAlertas = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setName(""); // NOI18N
@@ -35,21 +36,12 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
         MenuLateral.setPreferredSize(new java.awt.Dimension(200, 500));
         MenuLateral.setRequestFocusEnabled(false);
 
-        ConfigurarAlertas.setBackground(new java.awt.Color(102, 102, 255));
-        ConfigurarAlertas.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
-        ConfigurarAlertas.setForeground(new java.awt.Color(0, 0, 0));
-        ConfigurarAlertas.setText("Configurar Alertas (NOK)");
-        ConfigurarAlertas.setBorder(null);
-        ConfigurarAlertas.setBorderPainted(false);
-        ConfigurarAlertas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        ConfigurarAlertas.addActionListener(this::ConfigurarAlertasActionPerformed);
-
         Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/TelecomLogo.png"))); // NOI18N
 
         Atras.setBackground(new java.awt.Color(153, 255, 255));
         Atras.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         Atras.setForeground(new java.awt.Color(0, 0, 0));
-        Atras.setText("Atrás");
+        Atras.setText("MENU PRINCIPAL");
         Atras.setBorder(null);
         Atras.setBorderPainted(false);
         Atras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -64,7 +56,6 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
         MenuLateral.setLayout(MenuLateralLayout);
         MenuLateralLayout.setHorizontalGroup(
             MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ConfigurarAlertas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(Atras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -82,9 +73,7 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Atras)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ConfigurarAlertas)
-                .addContainerGap(207, Short.MAX_VALUE))
+                .addContainerGap(232, Short.MAX_VALUE))
         );
 
         MenuSuperior.setBackground(new java.awt.Color(0, 102, 255));
@@ -115,15 +104,30 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
         Contenido.setPreferredSize(new java.awt.Dimension(700, 320));
         Contenido.setVerifyInputWhenFocusTarget(false);
 
+        ConfigurarAlertas.setBackground(new java.awt.Color(102, 102, 255));
+        ConfigurarAlertas.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        ConfigurarAlertas.setForeground(new java.awt.Color(0, 0, 0));
+        ConfigurarAlertas.setText("Configurar Alertas (NOK)");
+        ConfigurarAlertas.setBorder(null);
+        ConfigurarAlertas.setBorderPainted(false);
+        ConfigurarAlertas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ConfigurarAlertas.addActionListener(this::ConfigurarAlertasActionPerformed);
+
         javax.swing.GroupLayout ContenidoLayout = new javax.swing.GroupLayout(Contenido);
         Contenido.setLayout(ContenidoLayout);
         ContenidoLayout.setHorizontalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(ContenidoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ConfigurarAlertas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(445, 445, 445))
         );
         ContenidoLayout.setVerticalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(ContenidoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ConfigurarAlertas)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout FondoLayout = new javax.swing.GroupLayout(Fondo);
@@ -202,8 +206,9 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
     
     
     private void ConfigurarAlertasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfigurarAlertasActionPerformed
-        //JPanel configAlertas = new ConfigurarAlertasJPanel();
-        //cambiarContenido(configAlertas);
+        JPanel configurarAlertas = new ConfigurarAlertasJPanel();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(configurarAlertas);
     }//GEN-LAST:event_ConfigurarAlertasActionPerformed
 
     private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed

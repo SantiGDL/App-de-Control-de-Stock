@@ -22,5 +22,7 @@ public class CompraItemAProveedorX  extends CompraItem{
         this.itemDeProveedor = itemDeProveedor;
     }
 //Getters y Setters
-    public ItemDeProveedorX getItemComprado(){return this.itemDeProveedor;} 
+    public ItemDeProveedorX getItemDeProveedor() { return itemDeProveedor; }
+    public void setItemDeProveedor(ItemDeProveedorX itemDeProveedor) { this.itemDeProveedor = itemDeProveedor; }
+    
 }  

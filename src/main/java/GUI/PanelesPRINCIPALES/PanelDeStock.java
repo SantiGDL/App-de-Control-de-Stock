@@ -7,6 +7,7 @@ package GUI.PanelesPRINCIPALES;
 import GUI.FramePrincipal;
 import GUI.PanelPrincipal;
 import GUI.PanelesInternos.Items.ComprarItem.ComprarItemJPanel;
+import ImagenesHelpers.RenderCantidadConAlerta;
 import ImagenesHelpers.RenderDeImagenEnTablas;
 import Persistencia.Clases.CatalogoGeneral;
 import Persistencia.Clases.Item;
@@ -33,7 +34,7 @@ public class PanelDeStock extends javax.swing.JPanel {
     List<ItemDeSTOCK> itemsDeStock = MDP.getItemsDeStock(em);
     // 2) Armo el modelo con columnas
     javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
-        new Object[]{"ID", "Nombre", "Descripcion", "Imagen", "cantUnidades"}, 0
+        new Object[]{"ID", "Nombre", "Descripcion", "Imagen", "cantUnidades", "Estado"}, 0
     ) {
         @Override public boolean isCellEditable(int row, int column) { return false; }
         
@@ -47,6 +48,7 @@ public class PanelDeStock extends javax.swing.JPanel {
             it.getDescripcion(),
             it.getImagen(),
             it.getCantUnidades(),
+            it.getEstadoAlerta(),
         });
     }
     TablaDeStock.setModel(modeloTabla);
@@ -57,7 +59,16 @@ public class PanelDeStock extends javax.swing.JPanel {
     //RENDERIZO LA IMAGEN USANDO EL HELPER
     TablaDeStock.getColumnModel().getColumn(colImagen)
               .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
+    // Cantidad pintada según estado
+    int colCant = 4;      // cantUnidades
+    int colEstado = 5;    // EstadoAlerta en el modelo
+    TablaDeStock.getColumnModel().getColumn(colCant)
+            .setCellRenderer(new RenderCantidadConAlerta(colEstado));
 
+// (Opcional) ocultar columna Estado
+TablaDeStock.getColumnModel().getColumn(colEstado).setMinWidth(0);
+TablaDeStock.getColumnModel().getColumn(colEstado).setMaxWidth(0);
+TablaDeStock.getColumnModel().getColumn(colEstado).setPreferredWidth(0);
     
     }
     /**
@@ -135,7 +146,7 @@ public class PanelDeStock extends javax.swing.JPanel {
         Atras.setBackground(new java.awt.Color(153, 255, 255));
         Atras.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         Atras.setForeground(new java.awt.Color(0, 0, 0));
-        Atras.setText("ATRAS");
+        Atras.setText("MENU PRINCIPAL");
         Atras.setBorder(null);
         Atras.setBorderPainted(false);
         Atras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));

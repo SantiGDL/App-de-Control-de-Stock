@@ -163,10 +163,12 @@ private void recalcularTotal() {
         
         
 //------->GENERO LA COMPRA PARA PROVEEDOR X  <-----------                   
-            ItemDeProveedorX itemProveedroX =  new ItemDeProveedorX(itemComprado,proveedorSeleccionado, precioUnidad, precioFlete, precioTotal, tiempoEnvio);
+            ItemDeProveedorX itemProveedorX =  new ItemDeProveedorX(itemComprado,proveedorSeleccionado, precioUnidad, precioFlete, precioTotal, tiempoEnvio);
+            //Verifico si existe o no el itemDeProveedorX este, si no existe lo creo, sino lo obtengo para no repetir
+            ItemDeProveedorX itemProveedorXVerificado = MDP.getOrCreateItemDeProveedorX(itemProveedorX);
             CompraItemAProveedorX compraProveedorX = new CompraItemAProveedorX(
                     dtItem.getNombre(), 
-                    itemProveedroX,
+                    itemProveedorXVerificado,
                     itemComprado.getImagen(),
                     proveedorSeleccionado.getNombre(),
                     proveedorSeleccionado.getImagen(),
@@ -175,8 +177,11 @@ private void recalcularTotal() {
                     precioTotal, 
                     LocalDate.now());
             
-//------->persito la compra de proveedor X   <-----------             
+//------->persito la compra de proveedor X   <-----------
+            
+
             MDP.persistirCompra(compraProveedorX, proveedorId);
+            JOptionPane.showMessageDialog(null, "Se persistio la compra");
         
 
 

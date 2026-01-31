@@ -14,6 +14,8 @@ public class Stock {
     //le pase el mismo stock que cree previamente da lo mismo, o sea Usuario admin = new Usuario(stock1) -> Ahí le paso el stock1 asi que da igual el id, siempre va
     //a pasarle el id del primer stock que cree.
     private Long id;
+    @Column(unique = true, nullable = false)
+    private String clave = "DEFAULT";
     @OneToMany(mappedBy="stock", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<ItemDeSTOCK> itemsDeStock = new ArrayList<>(); //Guardo items comunes en el stock, No me interesa de quien lo compré en el stock creo
 
