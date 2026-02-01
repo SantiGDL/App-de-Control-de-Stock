@@ -46,9 +46,9 @@ public class PanelDeItems extends javax.swing.JPanel {
 
 
         // 3) Iconos escalados + texto centrado
-        ImagenesHelper.configurarBotonTarjeta(CrearItemBoton, "Crear Item", "/Imagenes/ItemsBoton.png", 64, 64);
-        ImagenesHelper.configurarBotonTarjeta(ComprarItemBoton, "Comprar Item", "/Imagenes/ItemsBoton.png", 64, 64);
-        ImagenesHelper.configurarBotonTarjeta(VenderItemBoton, "Vender Item", "/Imagenes/ItemsBoton.png", 64, 64);
+        ImagenesHelper.configurarBotonTarjeta(CrearItemBoton, "Crear Item", "/Imagenes/CrearItemBoton.png", 64, 64);
+        ImagenesHelper.configurarBotonTarjeta(ComprarItemBoton, "Comprar Item", "/Imagenes/ComprarItemBoton.png", 64, 64);
+        ImagenesHelper.configurarBotonTarjeta(VenderItemBoton, "Vender Item", "/Imagenes/VenderItemBoton.png", 64, 64);
         
     }
 
@@ -167,29 +167,26 @@ public class PanelDeItems extends javax.swing.JPanel {
         Contenido.setVerifyInputWhenFocusTarget(false);
 
         CrearItemBoton.setBackground(new java.awt.Color(204, 102, 255));
-        CrearItemBoton.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        CrearItemBoton.setForeground(new java.awt.Color(0, 0, 0));
+        CrearItemBoton.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        CrearItemBoton.setForeground(new java.awt.Color(255, 255, 255));
         CrearItemBoton.setText("Crear Item");
-        CrearItemBoton.setBorder(null);
-        CrearItemBoton.setBorderPainted(false);
+        CrearItemBoton.setBorder(new javax.swing.border.MatteBorder(null));
         CrearItemBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         CrearItemBoton.addActionListener(this::CrearItemBotonActionPerformed);
 
         ComprarItemBoton.setBackground(new java.awt.Color(204, 102, 255));
-        ComprarItemBoton.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        ComprarItemBoton.setForeground(new java.awt.Color(0, 0, 0));
+        ComprarItemBoton.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        ComprarItemBoton.setForeground(new java.awt.Color(255, 255, 255));
         ComprarItemBoton.setText("Comprar Item ");
-        ComprarItemBoton.setBorder(null);
-        ComprarItemBoton.setBorderPainted(false);
+        ComprarItemBoton.setBorder(new javax.swing.border.MatteBorder(null));
         ComprarItemBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         ComprarItemBoton.addActionListener(this::ComprarItemBotonActionPerformed);
 
         VenderItemBoton.setBackground(new java.awt.Color(204, 102, 255));
-        VenderItemBoton.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        VenderItemBoton.setForeground(new java.awt.Color(0, 0, 0));
+        VenderItemBoton.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        VenderItemBoton.setForeground(new java.awt.Color(255, 255, 255));
         VenderItemBoton.setText("Vender Item");
-        VenderItemBoton.setBorder(null);
-        VenderItemBoton.setBorderPainted(false);
+        VenderItemBoton.setBorder(new javax.swing.border.MatteBorder(null));
         VenderItemBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         VenderItemBoton.addActionListener(this::VenderItemBotonActionPerformed);
 

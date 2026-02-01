@@ -1,5 +1,6 @@
 package Persistencia.Clases;
 import Persistencia.DTOs.DTItem;
+import Persistencia.DTOs.DTItemDeSTOCK;
 import jakarta.persistence.*;
 
 @Entity
@@ -68,5 +69,11 @@ import jakarta.persistence.*;
         //Si no es menor al umbral rojo ni amarillo es porque es mayor, o sea verrde
         return EstadoAlerta.VERDE;
 }
+
+   public DTItemDeSTOCK crearDTItemDeSTOCK(){
+        DTItemDeSTOCK dt = new DTItemDeSTOCK(this.nombre, this.descripcion, this.imagen, this.cantUnidades,
+        this.umbralAmarillo, this.umbralRojo, this.stock);
+        return dt;
+    }
         
 }

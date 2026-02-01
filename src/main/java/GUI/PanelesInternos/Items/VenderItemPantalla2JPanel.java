@@ -11,6 +11,7 @@ import GUI.PanelesPRINCIPALES.PanelDeItems;
 import ImagenesHelpers.PanelDeFondo;
 import Persistencia.Clases.ItemDeSTOCK;
 import Persistencia.DTOs.DTItem;
+import Persistencia.DTOs.DTItemDeSTOCK;
 import Persistencia.ManejadorDePersistencia;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -22,12 +23,12 @@ import javax.swing.JPanel;
 public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
     private Long itemSeleccionadoId;
     GUIController controller = new GUIController();
-    private DTItem dtItem;
+    private DTItemDeSTOCK dtItem;
     
     public VenderItemPantalla2JPanel(Long itemId) {
         initComponents();
         this.itemSeleccionadoId =  itemId;
-        dtItem = controller.recuperarDTItemDeId(itemId);
+        dtItem = controller.recuperarDTItemDeSTOCKDeId(itemId);
         cargarDatos();
     }
     
@@ -57,7 +58,6 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
         Fondo = new javax.swing.JPanel();
         MenuSuperior2 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
         MenuLateral2 = new javax.swing.JPanel();
         Logo3 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -92,34 +92,23 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
         jLabel8.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("Seleccion de Proveedor");
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("<html> <div style:'text-alignment:center'>seleccione uno de los proveedores disponibles <br> o cree uno nuevo</html>");
+        jLabel8.setText("VENDER ITEM");
 
         javax.swing.GroupLayout MenuSuperior2Layout = new javax.swing.GroupLayout(MenuSuperior2);
         MenuSuperior2.setLayout(MenuSuperior2Layout);
         MenuSuperior2Layout.setHorizontalGroup(
             MenuSuperior2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperior2Layout.createSequentialGroup()
-                .addContainerGap(125, Short.MAX_VALUE)
-                .addGroup(MenuSuperior2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperior2Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(110, 110, 110))
-                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(160, 160, 160))
+                .addContainerGap(295, Short.MAX_VALUE)
+                .addComponent(jLabel8)
+                .addGap(270, 270, 270))
         );
         MenuSuperior2Layout.setVerticalGroup(
             MenuSuperior2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuSuperior2Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
 
         MenuLateral2.setBackground(new java.awt.Color(51, 153, 255));
@@ -342,9 +331,9 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
         ContenidoLayout.setHorizontalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContenidoLayout.createSequentialGroup()
-                .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(ContenidoDatosCompra, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ContenedorDatosItem, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ContenidoDatosCompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ContenedorDatosItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(186, 186, 186))
         );
         ContenidoLayout.setVerticalGroup(
@@ -444,7 +433,6 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
     private javax.swing.JTextField cantUnidadesAVender;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton menuPrincipal;
     // End of variables declaration//GEN-END:variables

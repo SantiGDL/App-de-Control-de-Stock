@@ -43,8 +43,8 @@ public class PanelDeHistoriales extends javax.swing.JPanel {
         ImagenesHelper.setTamanoTarjeta(HistorialXProveedorBoton, 220, 140);
 
         // 3) Iconos escalados + texto centrado
-        ImagenesHelper.configurarBotonTarjeta(HistorialGeneralBoton, "Historial Genera", "/Imagenes/HistorialBoton.png", 64, 64);
-        ImagenesHelper.configurarBotonTarjeta(HistorialXProveedorBoton, "Historial Por Proveedor", "/Imagenes/HistorialBoton.png", 64, 64);
+        ImagenesHelper.configurarBotonTarjeta(HistorialGeneralBoton, "Historial Genera", "/Imagenes/HistorialGeneralBoton.png", 64, 64);
+        ImagenesHelper.configurarBotonTarjeta(HistorialXProveedorBoton, "Historial Por Proveedor", "/Imagenes/HistorialXProveedorBoton.png", 64, 64);
     }
 
     /**

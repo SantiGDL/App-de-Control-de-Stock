@@ -72,7 +72,7 @@ public class VenderItemJPanel extends javax.swing.JPanel {
                   .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
 
         //AHORA EL BOTON PARA APRETAR PARA SELECCIONAR ITEM Y VENDDERLO
-        Integer columnaBoton = 5;
+        int columnaBoton = 5;
         TablaDeStock.getColumnModel().getColumn(columnaBoton).setCellRenderer(new DefaultTableCellRenderer() {
         @Override
         public java.awt.Component getTableCellRendererComponent(
@@ -143,8 +143,6 @@ public class VenderItemJPanel extends javax.swing.JPanel {
         Logo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         VenderItem1 = new javax.swing.JButton();
-        Stock1 = new javax.swing.JButton();
-        Stock2 = new javax.swing.JButton();
         Atras = new javax.swing.JButton();
         MenuSuperior = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -175,24 +173,6 @@ public class VenderItemJPanel extends javax.swing.JPanel {
         VenderItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         VenderItem1.addActionListener(this::VenderItem1ActionPerformed);
 
-        Stock1.setBackground(new java.awt.Color(29, 63, 243));
-        Stock1.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        Stock1.setForeground(new java.awt.Color(0, 0, 0));
-        Stock1.setText("Aumentar(comprar item)");
-        Stock1.setBorder(null);
-        Stock1.setBorderPainted(false);
-        Stock1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Stock1.addActionListener(this::Stock1ActionPerformed);
-
-        Stock2.setBackground(new java.awt.Color(29, 63, 243));
-        Stock2.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        Stock2.setForeground(new java.awt.Color(0, 0, 0));
-        Stock2.setText("Disminuir (vender)");
-        Stock2.setBorder(null);
-        Stock2.setBorderPainted(false);
-        Stock2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Stock2.addActionListener(this::Stock2ActionPerformed);
-
         Atras.setBackground(new java.awt.Color(153, 255, 255));
         Atras.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         Atras.setForeground(new java.awt.Color(0, 0, 0));
@@ -209,8 +189,6 @@ public class VenderItemJPanel extends javax.swing.JPanel {
             .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(Stock1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(Stock2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,11 +209,7 @@ public class VenderItemJPanel extends javax.swing.JPanel {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(Atras)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Stock1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Stock2)
-                .addGap(164, 164, 164)
+                .addGap(216, 216, 216)
                 .addComponent(VenderItem1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -245,7 +219,7 @@ public class VenderItemJPanel extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("STOCK");
+        jLabel3.setText("VENDER ITEM");
 
         javax.swing.GroupLayout MenuSuperiorLayout = new javax.swing.GroupLayout(MenuSuperior);
         MenuSuperior.setLayout(MenuSuperiorLayout);
@@ -287,7 +261,7 @@ public class VenderItemJPanel extends javax.swing.JPanel {
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContenidoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
                 .addContainerGap())
         );
         ContenidoLayout.setVerticalGroup(
@@ -306,7 +280,7 @@ public class VenderItemJPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(MenuSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)))
+                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)))
         );
         FondoLayout.setVerticalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -325,16 +299,6 @@ public class VenderItemJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_VenderItem1ActionPerformed
 
-    private void Stock1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Stock1ActionPerformed
-        JPanel  comprarItem = new ComprarItemJPanel();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(comprarItem);
-    }//GEN-LAST:event_Stock1ActionPerformed
-
-    private void Stock2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Stock2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Stock2ActionPerformed
-
     private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
         JPanel panelPrincipal = new PanelPrincipal();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
@@ -349,8 +313,6 @@ public class VenderItemJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel Logo;
     private javax.swing.JPanel MenuLateral;
     private javax.swing.JPanel MenuSuperior;
-    private javax.swing.JButton Stock1;
-    private javax.swing.JButton Stock2;
     private javax.swing.JTable TablaDeStock;
     private javax.swing.JButton VenderItem1;
     private javax.swing.JLabel jLabel1;

@@ -30,7 +30,7 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
         ImagenesHelper.setTamanoTarjeta(ConfigurarAlertasBoton, 220, 140);
 
         // 3) Iconos escalados + texto centrado
-        ImagenesHelper.configurarBotonTarjeta(ConfigurarAlertasBoton, "Configurar Alertas", "/Imagenes/ConfiguracionBoton.png", 64, 64);
+        ImagenesHelper.configurarBotonTarjeta(ConfigurarAlertasBoton, "Configurar Alertas", "/Imagenes/ConfigurarAlertasBoton.png", 64, 64);
         
     }
     @SuppressWarnings("unchecked")

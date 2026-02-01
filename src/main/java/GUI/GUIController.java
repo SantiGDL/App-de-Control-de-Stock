@@ -2,6 +2,7 @@ package GUI;
 import ImagenesHelpers.ImagenesHelper;
 import Persistencia.Clases.Item;
 import Persistencia.DTOs.DTItem;
+import Persistencia.DTOs.DTItemDeSTOCK;
 import Persistencia.DTOs.DTProveedor;
 import Persistencia.FabricaEntityManager;
 import Persistencia.ManejadorDePersistencia;
@@ -58,6 +59,14 @@ public class GUIController {
         ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
         EntityManager em = FabricaEntityManager.getEntityManager();
         DTItem dt = MDP.getDTItem(em, itemId);
+        return dt;
+     }
+     
+     public DTItemDeSTOCK recuperarDTItemDeSTOCKDeId(Long itemId){
+        //Primero llamo al manejado de persistencia para obtener la insantncia de Item a partir de la id
+        ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
+        EntityManager em = FabricaEntityManager.getEntityManager();
+        DTItemDeSTOCK dt = MDP.getDTItemDeSTOCK(em, itemId);
         return dt;
      }
      

@@ -42,8 +42,8 @@ public class PanelDeCatalogos extends javax.swing.JPanel {
         ImagenesHelper.setTamanoTarjeta(CatalogoXProveedorBoton, 220, 140);
 
         // 3) Iconos escalados + texto centrado
-        ImagenesHelper.configurarBotonTarjeta(CatalogoGeneralBoton, "Catalogo General", "/Imagenes/CatalogoBoton.png", 64, 64);
-        ImagenesHelper.configurarBotonTarjeta(CatalogoXProveedorBoton, "Catalogo por Proveedor", "/Imagenes/CatalogoBoton.png", 64, 64);
+        ImagenesHelper.configurarBotonTarjeta(CatalogoGeneralBoton, "Catalogo General", "/Imagenes/CatalogoGeneralBoton.png", 64, 64);
+        ImagenesHelper.configurarBotonTarjeta(CatalogoXProveedorBoton, "Catalogo por Proveedor", "/Imagenes/CatalogoXProveedorBoton.png", 64, 64);
         
     }
 

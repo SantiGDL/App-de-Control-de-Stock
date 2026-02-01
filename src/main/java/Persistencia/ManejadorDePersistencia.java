@@ -13,6 +13,7 @@ import Persistencia.Clases.ItemDeSTOCK;
 import Persistencia.Clases.Proveedor;
 import Persistencia.Clases.Stock;
 import Persistencia.DTOs.DTItem;
+import Persistencia.DTOs.DTItemDeSTOCK;
 import Persistencia.DTOs.DTProveedor;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -209,6 +210,20 @@ public DTItem getDTItem(EntityManager em, Long itemId) {
     return dt;
 }
 
+public DTItemDeSTOCK getDTItemDeSTOCK(EntityManager em, Long itemId) {
+    ItemDeSTOCK it = em.createQuery(
+        "SELECT DISTINCT it FROM ItemDeSTOCK it " +
+        "WHERE it.id = :id",
+        ItemDeSTOCK.class
+    )
+    .setParameter("id", itemId)
+    .getSingleResult();
+    
+    DTItemDeSTOCK dt = it.crearDTItemDeSTOCK();
+    return dt;
+}
+
+
 //------> AUMENTAR STOCK <-------- 
     public void AumentarStock(ItemDeSTOCK nuevoItemDeStock){    
         EntityManager em = FabricaEntityManager.getEntityManager();
@@ -263,27 +278,24 @@ public DTItem getDTItem(EntityManager em, Long itemId) {
         try{
             et.begin();
             // 1) Busco el catálogo general existente (hay 1 solo)
-            Stock stock = em.createQuery("SELECT s FROM Stock s LEFT JOIN FETCH s.itemsDeStock", 
+            Stock stock = em.createQuery("SELECT s FROM Stock s LEFT JOIN FETCH s.itemsDeStock WHERE s.clave = :clave", 
                 Stock.class)
-                .setMaxResults(1)
-                .getResultStream()
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("No existe Stock en la BD"));
+                .setParameter("clave", "DEFAULT")
+                .getSingleResult();
          
             boolean yaExiste = false;
             //Obtengo la lista de items de stock para revisarla
             List<ItemDeSTOCK> itemsDeStock = stock.getItemsDeSTOCK();
             for (ItemDeSTOCK it: itemsDeStock){
-            if(ItemAReducir.getNombre().equals(it.getNombre())){  //ACA PODRIA VER SI TAMBIEN TIENE QUE SER IGUAL LA DESCRIPCION O CON QUE LE NOMBRE LO SEA YA NO LO PERSISTO
+            if(ItemAReducir.getId().equals(it.getId())){  //ACA PODRIA VER SI TAMBIEN TIENE QUE SER IGUAL LA DESCRIPCION O CON QUE LE NOMBRE LO SEA YA NO LO PERSISTO
                 //Si ya existe lo pongo en true para que no entre al otro if y le aumento el stock sin crear un ItemDeSTOCK nuevo
                 yaExiste = true;
                 it.reducirStock(cantUnidades);
                 break;
                 }
-            
+            }
             if (!yaExiste) {
                 throw new IllegalArgumentException("El item no existe en el stock: " + ItemAReducir.getNombre());
-            }
             }
              et.commit(); // <-- acá se persiste el UPDATE
     } catch (Exception e) {
@@ -327,51 +339,7 @@ public DTItem getDTItem(EntityManager em, Long itemId) {
 }
     
     
-public void AumentarSTOCK(ItemDeSTOCK nuevoItemDeStock){    
-        EntityManager em = FabricaEntityManager.getEntityManager();
-        EntityTransaction et = em.getTransaction();
-        try{
-            et.begin();
-            // 1) Busco el catálogo general existente (hay 1 solo)
-            List<Stock> listaStocks = em.createQuery("SELECT s FROM Stock s LEFT JOIN FETCH s.itemsDeStock", 
-                Stock.class)
-                .setMaxResults(1)
-                .getResultList();
-        
-            Stock stock;
-            if (listaStocks.isEmpty()){
-                stock = null;
-            }
-            else{
-                stock = listaStocks.get(0);
-            }
-            //La expresion de arriba es equivalente a esta:
-            //Stock stock = listaStocks.isEmpty() ? null : listaStocks.get(0);
-            // Si no existe, lo creo y persisto
-            if (stock == null) {
-                stock = new Stock();
-                em.persist(stock);
-            }
-            boolean yaExiste = false;
-            //Obtengo la lista de items de stock para revisarla
-            List<ItemDeSTOCK> itemsDeStock = stock.getItemsDeSTOCK();
-            for (ItemDeSTOCK it: itemsDeStock){
-            if(nuevoItemDeStock.getNombre().equals(it.getNombre())){  //ACA PODRIA VER SI TAMBIEN TIENE QUE SER IGUAL LA DESCRIPCION O CON QUE LE NOMBRE LO SEA YA NO LO PERSISTO
-                //Si ya existe lo pongo en true para que no entre al otro if y le aumento el stock sin crear un ItemDeSTOCK nuevo
-                yaExiste = true;
-                it.aumentarStock(nuevoItemDeStock.getCantUnidades());
-                }
-            }
-            //Si luego de salir del for nunca entre a que son iguales es porque no existe asi que lo persisto,  sino se aumenta
-            if (yaExiste == false){
-                nuevoItemDeStock.setStock(stock);
-                em.persist(nuevoItemDeStock);      
-            }
-            et.commit();
-        }
-        catch(Exception e) {if (et.isActive()) {et.rollback();}throw new PersistenceException("Error al persistir item de Stock", e);} 
-            finally {em.close();}
-    }
+
 
 
     public Item getItemAPartirDeId(Long itemId){
@@ -683,6 +651,27 @@ public void editarAlertas(Long itemId, Integer umbralAmarillo, Integer umbralRoj
     } catch (Exception e) {
         if (et.isActive()) et.rollback();
         throw new PersistenceException("Error al editar alertas", e);
+    } finally {
+        em.close();
+    }
+}
+
+public void desactivarItem(Long itemId) {
+    EntityManager em = FabricaEntityManager.getEntityManager();
+    EntityTransaction et = em.getTransaction();
+    try {
+        et.begin();
+
+        Item item = em.find(Item.class, itemId);
+        if (item == null) throw new IllegalArgumentException("Item no existe");
+
+        item.setActivo(false);
+        em.merge(item);
+
+        et.commit();
+    } catch (Exception e) {
+        if (et.isActive()) et.rollback();
+        throw new PersistenceException("Error al desactivar item", e);
     } finally {
         em.close();
     }

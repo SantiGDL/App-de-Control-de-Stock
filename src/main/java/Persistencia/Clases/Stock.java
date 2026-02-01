@@ -29,11 +29,13 @@ public class Stock {
     public List<ItemDeSTOCK> getItemsDeSTOCK() {return this.itemsDeStock;}
 //Funciones
    
-    public void addItemDeStock(ItemDeSTOCK item) {
-        itemsDeStock.add(item);
-    }
+   public void addItemDeStock(ItemDeSTOCK item) {
+    itemsDeStock.add(item);
+    item.setStock(this);
+}
 
-    public void removeItemDeStock(ItemDeSTOCK item){
-        itemsDeStock.remove(item);
-    }
+public void removeItemDeStock(ItemDeSTOCK item){
+    itemsDeStock.remove(item);
+    item.setStock(null);
+}
 }
