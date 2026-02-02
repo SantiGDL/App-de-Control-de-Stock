@@ -29,6 +29,7 @@ public class ItemDeProveedorX{
     private Float costoFlete;
     private Float costoTotal;
     private String tiempoDeEnvio;
+    private boolean activo = true;
 
     //Constructor
     public ItemDeProveedorX() {}

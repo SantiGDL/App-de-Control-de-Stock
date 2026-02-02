@@ -189,8 +189,8 @@
                       </Group>
                   </Group>
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                      <Component id="Atras" alignment="0" pref="171" max="32767" attributes="0"/>
-                      <Component id="Atras1" alignment="0" pref="171" max="32767" attributes="0"/>
+                      <Component id="INICIO" alignment="0" pref="171" max="32767" attributes="0"/>
+                      <Component id="ATRAS" alignment="0" pref="171" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -207,9 +207,9 @@
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="185" max="-2" attributes="0"/>
-                          <Component id="Atras" min="-2" max="-2" attributes="0"/>
+                          <Component id="INICIO" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="Atras1" min="-2" max="-2" attributes="0"/>
+                          <Component id="ATRAS" min="-2" max="-2" attributes="0"/>
                           <EmptySpace pref="186" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -253,7 +253,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="VenderItem1ActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="Atras">
+            <Component class="javax.swing.JButton" name="INICIO">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="99" type="rgb"/>
@@ -264,7 +264,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="0" green="0" red="0" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="MENU PRINCIPAL"/>
+                <Property name="text" type="java.lang.String" value="INICIO"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="null"/>
                 </Property>
@@ -274,10 +274,10 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AtrasActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="INICIOActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="Atras1">
+            <Component class="javax.swing.JButton" name="ATRAS">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="99" green="ff" red="99" type="rgb"/>
@@ -298,7 +298,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Atras1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ATRASActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

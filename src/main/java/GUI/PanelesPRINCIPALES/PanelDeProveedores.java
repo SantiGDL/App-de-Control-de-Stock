@@ -7,31 +7,86 @@ package GUI.PanelesPRINCIPALES;
 import GUI.FramePrincipal;
 import GUI.PanelPrincipal;
 import GUI.PanelesInternos.Proveedores.CrearProveedorJPanel;
+import GUI.PanelesInternos.Proveedores.EliminarProveedorJPanel;
 import GUI.PanelesInternos.Proveedores.ListaDeProveedoresJPanel;
 import ImagenesHelpers.ImagenesHelper;
 import ImagenesHelpers.PanelDeFondo;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
  * @author Santi-kun
  */
 public class PanelDeProveedores extends javax.swing.JPanel {
+    private void montarMenuLateralReutilizable() {
+        MenuLateral.removeAll();
+        MenuLateral.setLayout(new BorderLayout());
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
 
+        PanelLateral lateral = new PanelLateral();   // tu menú reusable real
+        MenuLateral.add(lateral, BorderLayout.CENTER);
+
+        MenuLateral.revalidate();
+        MenuLateral.repaint();
+    }
     /**
      * Creates new form PanelDeProveedores
      */
     public PanelDeProveedores() {
         initComponents();
+        //CONFIGURACION DEL MENU LATERAL
+        int anchoMenuLateral = 220; 
+        MenuLateral.setPreferredSize(new java.awt.Dimension(anchoMenuLateral, 0));
+        MenuLateral.setMinimumSize(new java.awt.Dimension(anchoMenuLateral, 0));
+        montarMenuLateralReutilizable();
+        //CONFIURO EL FONDO PARA QUE SE VEA TODO JUNTO SIN SEPARACION
+        Fondo.removeAll();
+        Fondo.setLayout(new BorderLayout(0, 0));
+        Fondo.setBorder(new EmptyBorder(0,0,0,0));
+
+        MenuLateral.setBorder(new EmptyBorder(0,0,0,0));
+        MenuSuperior.setBorder(new EmptyBorder(0,0,0,0));
+        Integer alturaMenuSuperior = 100;
+        MenuSuperior.setPreferredSize(new java.awt.Dimension(0, alturaMenuSuperior)); // probá 120..160
+        MenuSuperior.setMinimumSize(new java.awt.Dimension(0, alturaMenuSuperior));
+        MenuSuperior.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, alturaMenuSuperior));
+        Contenido.setBorder(new EmptyBorder(0,0,0,0));
+        int grosor = 2;
+
+        MenuSuperior.setBorder(BorderFactory.createMatteBorder(0, 0, grosor, 0, java.awt.Color.BLACK));
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, grosor, java.awt.Color.BLACK)); // importante para que no se duplique
+
+        Contenido.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, java.awt.Color.BLACK));
+        Fondo.add(MenuLateral, BorderLayout.WEST);
+
+        JPanel derecha = new JPanel(new BorderLayout(0, 0));
+        derecha.setBorder(new EmptyBorder(0,0,0,0));
+        derecha.add(MenuSuperior, BorderLayout.NORTH);
+        derecha.add(Contenido, BorderLayout.CENTER);
         
+
+        Fondo.add(derecha, BorderLayout.CENTER);
+
+        Fondo.revalidate();
+        Fondo.repaint();
+
+        // Centrar título
+        MenuSuperior.removeAll();
+        MenuSuperior.setLayout(new BorderLayout());
+        MenuSuperior.add(TextoMenuSuperior, BorderLayout.CENTER);
+        TextoMenuSuperior.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         // 1) Armo grilla centrada (3 columnas)
         ImagenesHelper.armarMenuEnGrilla(
         Contenido,
         new JButton[] {
-            CrearProveedorBoton, ListaDeProveedoresBoton
+            CrearProveedorBoton, ListaDeProveedoresBoton, EliminarProveedor
         },
-        2,   // columnas
+        3,   // columnas
         30,  // gap horizontal
         30,  // gap vertical
         25   // padding
@@ -40,11 +95,13 @@ public class PanelDeProveedores extends javax.swing.JPanel {
         // 2) Seteo tamaño consistente (opcional, pero queda muy pro)
         ImagenesHelper.setTamanoTarjeta(CrearProveedorBoton, 220, 140);
         ImagenesHelper.setTamanoTarjeta(ListaDeProveedoresBoton, 220, 140);
+        ImagenesHelper.setTamanoTarjeta(EliminarProveedor, 220, 140);
         
         // 3) Iconos escalados + texto centrado
         ImagenesHelper.configurarBotonTarjeta(CrearProveedorBoton, "Crear Proveedor", "/Imagenes/CrearProveedorBoton.png", 64, 64);
         ImagenesHelper.configurarBotonTarjeta(ListaDeProveedoresBoton, "Lista De Proveedores", "/Imagenes/ListaProveedoresBoton.png", 64, 64);
-        
+        ImagenesHelper.configurarBotonTarjeta(EliminarProveedor, "Eliminar Proveedor", "/Imagenes/EliminarProveedorBoton.png", 64, 64);
+
     }
 
     /**
@@ -57,22 +114,14 @@ public class PanelDeProveedores extends javax.swing.JPanel {
     private void initComponents() {
 
         Fondo = new javax.swing.JPanel();
-        MenuLateral = new javax.swing.JPanel();
-        Logo = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        VenderItem1 = new javax.swing.JButton();
-        Atras = new javax.swing.JButton();
-        Stock = new javax.swing.JButton();
-        ITEMS = new javax.swing.JButton();
-        PROVEEDORES = new javax.swing.JButton();
-        HISTORIAL = new javax.swing.JButton();
-        CATALOGOS = new javax.swing.JButton();
-        CONFIGURACION = new javax.swing.JButton();
         MenuSuperior = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        TextoMenuSuperior = new javax.swing.JLabel();
         Contenido = new PanelDeFondo("/Imagenes/Fondo.png");
         CrearProveedorBoton = new javax.swing.JButton();
         ListaDeProveedoresBoton = new javax.swing.JButton();
+        EliminarProveedor = new javax.swing.JButton();
+        MenuLateral = new PanelLateral();
+        VenderItem1 = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -80,157 +129,27 @@ public class PanelDeProveedores extends javax.swing.JPanel {
         Fondo.setPreferredSize(new java.awt.Dimension(800, 500));
         Fondo.setRequestFocusEnabled(false);
 
-        MenuLateral.setBackground(new java.awt.Color(51, 153, 255));
-        MenuLateral.setPreferredSize(new java.awt.Dimension(200, 500));
-        MenuLateral.setRequestFocusEnabled(false);
-
-        Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/TelecomLogo.png"))); // NOI18N
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("ACCIONES");
-
-        VenderItem1.setForeground(new java.awt.Color(0, 0, 0));
-        VenderItem1.setBorder(null);
-        VenderItem1.setBorderPainted(false);
-        VenderItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        VenderItem1.addActionListener(this::VenderItem1ActionPerformed);
-
-        Atras.setBackground(new java.awt.Color(153, 255, 255));
-        Atras.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        Atras.setForeground(new java.awt.Color(0, 0, 0));
-        Atras.setText("MENU PRINCIPAL");
-        Atras.setBorder(null);
-        Atras.setBorderPainted(false);
-        Atras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Atras.addActionListener(this::AtrasActionPerformed);
-
-        Stock.setBackground(new java.awt.Color(29, 63, 243));
-        Stock.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        Stock.setForeground(new java.awt.Color(0, 0, 0));
-        Stock.setText("STOCK");
-        Stock.setBorder(null);
-        Stock.setBorderPainted(false);
-        Stock.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Stock.addActionListener(this::StockActionPerformed);
-
-        ITEMS.setBackground(new java.awt.Color(204, 102, 255));
-        ITEMS.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        ITEMS.setForeground(new java.awt.Color(0, 0, 0));
-        ITEMS.setText("ITEMS");
-        ITEMS.setBorder(null);
-        ITEMS.setBorderPainted(false);
-        ITEMS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        ITEMS.addActionListener(this::ITEMSActionPerformed);
-
-        PROVEEDORES.setBackground(new java.awt.Color(153, 255, 153));
-        PROVEEDORES.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        PROVEEDORES.setForeground(new java.awt.Color(0, 0, 0));
-        PROVEEDORES.setText("PROVEEDORES");
-        PROVEEDORES.setBorder(null);
-        PROVEEDORES.setBorderPainted(false);
-        PROVEEDORES.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        PROVEEDORES.addActionListener(this::PROVEEDORESActionPerformed);
-
-        HISTORIAL.setBackground(new java.awt.Color(255, 255, 204));
-        HISTORIAL.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        HISTORIAL.setForeground(new java.awt.Color(0, 0, 0));
-        HISTORIAL.setText("HISTORIAL");
-        HISTORIAL.setBorder(null);
-        HISTORIAL.setBorderPainted(false);
-        HISTORIAL.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        HISTORIAL.addActionListener(this::HISTORIALActionPerformed);
-
-        CATALOGOS.setBackground(new java.awt.Color(255, 153, 153));
-        CATALOGOS.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        CATALOGOS.setForeground(new java.awt.Color(0, 0, 0));
-        CATALOGOS.setText("CATÁLOGOS");
-        CATALOGOS.setBorder(null);
-        CATALOGOS.setBorderPainted(false);
-        CATALOGOS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CATALOGOS.addActionListener(this::CATALOGOSActionPerformed);
-
-        CONFIGURACION.setBackground(new java.awt.Color(153, 255, 255));
-        CONFIGURACION.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        CONFIGURACION.setForeground(new java.awt.Color(0, 0, 0));
-        CONFIGURACION.setText("CONFIGURACIÓN");
-        CONFIGURACION.setBorder(null);
-        CONFIGURACION.setBorderPainted(false);
-        CONFIGURACION.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CONFIGURACION.addActionListener(this::CONFIGURACIONActionPerformed);
-
-        javax.swing.GroupLayout MenuLateralLayout = new javax.swing.GroupLayout(MenuLateral);
-        MenuLateral.setLayout(MenuLateralLayout);
-        MenuLateralLayout.setHorizontalGroup(
-            MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(MenuLateralLayout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(MenuLateralLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(MenuLateralLayout.createSequentialGroup()
-                        .addComponent(Logo)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuLateralLayout.createSequentialGroup()
-                        .addGap(89, 89, 89)
-                        .addComponent(VenderItem1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(63, 63, 63))
-                    .addComponent(Atras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(CONFIGURACION, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ITEMS, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(PROVEEDORES, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(HISTORIAL, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(CATALOGOS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Stock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
-        MenuLateralLayout.setVerticalGroup(
-            MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(MenuLateralLayout.createSequentialGroup()
-                .addComponent(Logo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19)
-                .addComponent(Stock)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ITEMS)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PROVEEDORES)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(HISTORIAL)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CATALOGOS)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(CONFIGURACION)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Atras)
-                .addGap(57, 57, 57)
-                .addComponent(VenderItem1)
-                .addContainerGap(99, Short.MAX_VALUE))
-        );
-
         MenuSuperior.setBackground(new java.awt.Color(0, 102, 255));
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("MENU PROVEEDORES");
+        TextoMenuSuperior.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
+        TextoMenuSuperior.setForeground(new java.awt.Color(255, 255, 255));
+        TextoMenuSuperior.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        TextoMenuSuperior.setText("MENU PROVEEDORES");
 
         javax.swing.GroupLayout MenuSuperiorLayout = new javax.swing.GroupLayout(MenuSuperior);
         MenuSuperior.setLayout(MenuSuperiorLayout);
         MenuSuperiorLayout.setHorizontalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
-                .addContainerGap(198, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addGap(46, 46, 46))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(TextoMenuSuperior)
+                .addGap(86, 86, 86))
         );
         MenuSuperiorLayout.setVerticalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuSuperiorLayout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addComponent(jLabel4)
+                .addComponent(TextoMenuSuperior)
                 .addContainerGap(54, Short.MAX_VALUE))
         );
 
@@ -256,15 +175,26 @@ public class PanelDeProveedores extends javax.swing.JPanel {
         ListaDeProveedoresBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         ListaDeProveedoresBoton.addActionListener(this::ListaDeProveedoresBotonActionPerformed);
 
+        EliminarProveedor.setBackground(new java.awt.Color(153, 255, 153));
+        EliminarProveedor.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        EliminarProveedor.setForeground(new java.awt.Color(0, 0, 0));
+        EliminarProveedor.setText("Eliminar Proveedor");
+        EliminarProveedor.setBorder(null);
+        EliminarProveedor.setBorderPainted(false);
+        EliminarProveedor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        EliminarProveedor.addActionListener(this::EliminarProveedorActionPerformed);
+
         javax.swing.GroupLayout ContenidoLayout = new javax.swing.GroupLayout(Contenido);
         Contenido.setLayout(ContenidoLayout);
         ContenidoLayout.setHorizontalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContenidoLayout.createSequentialGroup()
                 .addGap(34, 34, 34)
-                .addComponent(CrearProveedorBoton, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+                .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(EliminarProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(CrearProveedorBoton, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
                 .addGap(220, 220, 220)
-                .addComponent(ListaDeProveedoresBoton, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                .addComponent(ListaDeProveedoresBoton, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
                 .addGap(45, 45, 45))
         );
         ContenidoLayout.setVerticalGroup(
@@ -274,7 +204,36 @@ public class PanelDeProveedores extends javax.swing.JPanel {
                 .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CrearProveedorBoton)
                     .addComponent(ListaDeProveedoresBoton))
+                .addGap(29, 29, 29)
+                .addComponent(EliminarProveedor)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        MenuLateral.setBackground(new java.awt.Color(51, 153, 255));
+        MenuLateral.setPreferredSize(new java.awt.Dimension(200, 500));
+        MenuLateral.setRequestFocusEnabled(false);
+
+        VenderItem1.setForeground(new java.awt.Color(0, 0, 0));
+        VenderItem1.setBorder(null);
+        VenderItem1.setBorderPainted(false);
+        VenderItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        VenderItem1.addActionListener(this::VenderItem1ActionPerformed);
+
+        javax.swing.GroupLayout MenuLateralLayout = new javax.swing.GroupLayout(MenuLateral);
+        MenuLateral.setLayout(MenuLateralLayout);
+        MenuLateralLayout.setHorizontalGroup(
+            MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MenuLateralLayout.createSequentialGroup()
+                .addGap(95, 95, 95)
+                .addComponent(VenderItem1, javax.swing.GroupLayout.DEFAULT_SIZE, 13, Short.MAX_VALUE)
+                .addGap(63, 63, 63))
+        );
+        MenuLateralLayout.setVerticalGroup(
+            MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MenuLateralLayout.createSequentialGroup()
+                .addGap(399, 399, 399)
+                .addComponent(VenderItem1)
+                .addContainerGap(101, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout FondoLayout = new javax.swing.GroupLayout(Fondo);
@@ -282,28 +241,24 @@ public class PanelDeProveedores extends javax.swing.JPanel {
         FondoLayout.setHorizontalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(FondoLayout.createSequentialGroup()
-                .addComponent(MenuLateral, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(MenuLateral, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(MenuSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)))
+                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 623, Short.MAX_VALUE)))
         );
         FondoLayout.setVerticalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(FondoLayout.createSequentialGroup()
                 .addComponent(MenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
                 .addContainerGap())
+            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         add(Fondo, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void VenderItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VenderItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_VenderItem1ActionPerformed
 
     private void ListaDeProveedoresBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListaDeProveedoresBotonActionPerformed
     JPanel  listaProveedores = new ListaDeProveedoresJPanel();
@@ -317,66 +272,26 @@ public class PanelDeProveedores extends javax.swing.JPanel {
         frame.cambiarFondo(crearProveedor);
     }//GEN-LAST:event_CrearProveedorBotonActionPerformed
 
-    private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
-        JPanel panelPrincipal = new PanelPrincipal();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(panelPrincipal);
-    }//GEN-LAST:event_AtrasActionPerformed
+    private void VenderItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VenderItem1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VenderItem1ActionPerformed
 
-    private void StockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StockActionPerformed
-        JPanel  stockPanel = new PanelDeStock();
+    private void EliminarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarProveedorActionPerformed
+     JPanel eliminarProveedor = new EliminarProveedorJPanel();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(stockPanel);
-    }//GEN-LAST:event_StockActionPerformed
-
-    private void ITEMSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ITEMSActionPerformed
-        JPanel  menuItems = new PanelDeItems();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(menuItems);
-    }//GEN-LAST:event_ITEMSActionPerformed
-
-    private void PROVEEDORESActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PROVEEDORESActionPerformed
-        JPanel  menuProveedores = new PanelDeProveedores();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(menuProveedores);
-    }//GEN-LAST:event_PROVEEDORESActionPerformed
-
-    private void HISTORIALActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HISTORIALActionPerformed
-        JPanel  menuHistoriales = new PanelDeHistoriales();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(menuHistoriales);
-    }//GEN-LAST:event_HISTORIALActionPerformed
-
-    private void CATALOGOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CATALOGOSActionPerformed
-        JPanel  menuCatalogos = new PanelDeCatalogos();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(menuCatalogos);
-    }//GEN-LAST:event_CATALOGOSActionPerformed
-
-    private void CONFIGURACIONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CONFIGURACIONActionPerformed
-        JPanel configuracionPanel = new PanelDeConfiguracion();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(configuracionPanel);
-    }//GEN-LAST:event_CONFIGURACIONActionPerformed
+        frame.cambiarFondo(eliminarProveedor);
+    }//GEN-LAST:event_EliminarProveedorActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Atras;
-    private javax.swing.JButton CATALOGOS;
-    private javax.swing.JButton CONFIGURACION;
     private javax.swing.JPanel Contenido;
     private javax.swing.JButton CrearProveedorBoton;
+    private javax.swing.JButton EliminarProveedor;
     private javax.swing.JPanel Fondo;
-    private javax.swing.JButton HISTORIAL;
-    private javax.swing.JButton ITEMS;
     private javax.swing.JButton ListaDeProveedoresBoton;
-    private javax.swing.JLabel Logo;
     private javax.swing.JPanel MenuLateral;
     private javax.swing.JPanel MenuSuperior;
-    private javax.swing.JButton PROVEEDORES;
-    private javax.swing.JButton Stock;
+    private javax.swing.JLabel TextoMenuSuperior;
     private javax.swing.JButton VenderItem1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
 }

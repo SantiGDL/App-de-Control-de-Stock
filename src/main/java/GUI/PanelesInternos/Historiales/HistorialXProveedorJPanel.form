@@ -232,8 +232,8 @@
                       </Group>
                   </Group>
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                      <Component id="menuPrincipal" alignment="0" pref="171" max="32767" attributes="0"/>
-                      <Component id="Atras" alignment="0" pref="171" max="32767" attributes="0"/>
+                      <Component id="INICIO" alignment="0" pref="171" max="32767" attributes="0"/>
+                      <Component id="ATRAS" alignment="0" pref="171" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -250,9 +250,9 @@
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="175" max="-2" attributes="0"/>
-                          <Component id="menuPrincipal" min="-2" max="-2" attributes="0"/>
+                          <Component id="INICIO" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="Atras" min="-2" max="-2" attributes="0"/>
+                          <Component id="ATRAS" min="-2" max="-2" attributes="0"/>
                           <EmptySpace pref="175" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -296,7 +296,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="VenderItem1ActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="menuPrincipal">
+            <Component class="javax.swing.JButton" name="INICIO">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="cc" type="rgb"/>
@@ -307,7 +307,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="0" green="0" red="0" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="MEN&#xda; PRINCIPAL"/>
+                <Property name="text" type="java.lang.String" value="INICIO"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="null"/>
                 </Property>
@@ -317,13 +317,13 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuPrincipalActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="INICIOActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="Atras">
+            <Component class="javax.swing.JButton" name="ATRAS">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="cc" green="ff" red="ff" type="rgb"/>
+                  <Color blue="cc" green="cc" red="0" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI Black" size="12" style="0"/>
@@ -341,7 +341,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AtrasActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ATRASActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

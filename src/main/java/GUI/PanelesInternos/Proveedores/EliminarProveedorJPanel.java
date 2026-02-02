@@ -2,13 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package GUI.PanelesInternos.Catalogos;
+package GUI.PanelesInternos.Proveedores;
 
 import GUI.FramePrincipal;
 import GUI.PanelPrincipal;
-import GUI.PanelesInternos.Items.ComprarItem.RellenarDatosCompraDefaultJPanel;
-import GUI.PanelesPRINCIPALES.PanelDeCatalogos;
-import GUI.PanelesPRINCIPALES.PanelDeItems;
+import GUI.PanelesInternos.Items.EliminarItemPantalla2JPanel;
+import GUI.PanelesPRINCIPALES.PanelDeProveedores;
 import ImagenesHelpers.ImagenesHelper;
 import ImagenesHelpers.PanelDeFondo;
 import ImagenesHelpers.RenderDeImagenEnTablas;
@@ -27,102 +26,99 @@ import javax.swing.table.DefaultTableCellRenderer;
  *
  * @author Santi-kun
  */
-public class CatalogoXProveedorJPanel extends javax.swing.JPanel {
-    private Long proveedorId; 
-    private void irACatalogoDeProveedorXPantalla2(Long provedorId){
-        JPanel pantalla2 = new CatalogoXProveedorPantalla2JPanel(proveedorId);
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(pantalla2);
-    }    
+public class EliminarProveedorJPanel extends javax.swing.JPanel {
+    private Long proveedorId;
+    
+    private void irAEliminarProveedorPantalla2(Long itemId){
+            JPanel pantalla2 = new EliminarProveedorPantalla2JPanel(itemId);
+            FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+            frame.cambiarFondo(pantalla2);
+        }
     private void cargarTablaProveedores() {
-        ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
-        FabricaEntityManager FEM = new FabricaEntityManager();
-        EntityManager em = FEM.getEntityManager();
-        List<Proveedor> proveedores = MDP.obtenerTodosLosProveedoresOrderByNombre(em);
-        javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
-            new Object[]{"ID", "Nombre", "Contacto", "Ubicación" , "Descripción", "Imágen", ""}, 0
-        ) {
-            @Override public boolean isCellEditable(int r, int c) { return false; }
-        };
+    ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
+    EntityManager em = FabricaEntityManager.getEntityManager();
+    List<Proveedor> proveedores = MDP.obtenerTodosLosProveedoresOrderByNombre(em);
+    javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
+        new Object[]{"ID", "Nombre", "Contacto", "Ubicacion", "Descripcion", "Imagen", ""}, 0
+    ) {
+        @Override public boolean isCellEditable(int row, int column) { return false; }
+        
+    };
 
-        Proveedor proveedorDefault = MDP.getOrCreateProveedorDefault();
+    // 3) Cargás filas
+    for (Proveedor p : proveedores) {
         modeloTabla.addRow(new Object[]{
-            proveedorDefault.getId(),
-            proveedorDefault.getNombre(),
-            proveedorDefault.getContacto(),                 
-            proveedorDefault.getUbicacion(),                 
-            proveedorDefault.getDescripcion(),
-            proveedorDefault.getImagen(),                 
-            ">"                 // columna acción
+            p.getId(),
+            p.getNombre(),
+            p.getContacto(),
+            p.getUbicacion(),
+            p.getDescripcion(),
+            p.getImagen(),
+            ">"
         });
-        // 3) Cargás filas
-        for (Proveedor p : proveedores) {
-            if (!"DEFAULT".equals(p.getNombre())){
-                modeloTabla.addRow(new Object[]{
-                p.getId(),
-                p.getNombre(),
-                p.getContacto(),
-                p.getUbicacion(),
-                p.getDescripcion(),
-                p.getImagen(),
-                ">"
-            });
-            }
+    }
+    ListaDeProveedores.setModel(modeloTabla);
+    ListaDeProveedores.getTableHeader().setReorderingAllowed(false);
+     // oculto ID (col 0)
+    ListaDeProveedores.getColumnModel().getColumn(0).setMinWidth(0);
+    ListaDeProveedores.getColumnModel().getColumn(0).setMaxWidth(0);
+    ListaDeProveedores.getColumnModel().getColumn(0).setPreferredWidth(0);
+    //HAY QUE RENDERIZAR DESPUES DE SETEAR EL MODELO
+    int colImagen = 5;
+    ListaDeProveedores.setRowHeight(120);
+    //RENDERIZO LA IMAGEN USANDO EL HELPER
+    ListaDeProveedores.getColumnModel().getColumn(colImagen)
+              .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
 
-        }
-        ListaDeProveedores.setModel(modeloTabla);
-        // oculto ID (col 0)
-        ListaDeProveedores.getColumnModel().getColumn(0).setMinWidth(0);
-        ListaDeProveedores.getColumnModel().getColumn(0).setMaxWidth(0);
-        ListaDeProveedores.getColumnModel().getColumn(0).setPreferredWidth(0);
+    
+    //AHORA EL BOTON PARA APRETAR PARA SELECCIONAR PROVEEDOR
+    Integer columnaBoton = 6;
+    ListaDeProveedores.getColumnModel().getColumn(columnaBoton).setCellRenderer(new DefaultTableCellRenderer() {
+    @Override
+    public java.awt.Component getTableCellRendererComponent(
+            javax.swing.JTable table, Object value, boolean isSelected,
+            boolean hasFocus, int row, int column) {
 
-         //HAY QUE RENDERIZAR DESPUES DE SETEAR EL MODELO
-        int colImagen = 5;
-        ListaDeProveedores.setRowHeight(120);
-        //RENDERIZO LA IMAGEN USANDO EL HELPER
-        ListaDeProveedores.getColumnModel().getColumn(colImagen)
-                  .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
-
-        //AHORA EL BOTON PARA APRETAR PARA SELECCIONAR PROVEEDOR
-
-        ListaDeProveedores.getColumnModel().getColumn(6).setCellRenderer(new DefaultTableCellRenderer() {
-        @Override
-        public java.awt.Component getTableCellRendererComponent(
-                javax.swing.JTable table, Object value, boolean isSelected,
-                boolean hasFocus, int row, int column) {
-
-            var c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            setHorizontalAlignment(CENTER);
-            setFont(getFont().deriveFont(java.awt.Font.BOLD, 18f));
-            setForeground(java.awt.Color.WHITE);
-            setBackground(new java.awt.Color(0, 102, 255)); // azul
-            return c;
-        }
-        });
-        ListaDeProveedores.getColumnModel().getColumn(6).setMaxWidth(45);
-        ListaDeProveedores.getColumnModel().getColumn(6).setMinWidth(45);
-
-        //AHORA DETECTAR LA INTERACCION CON LA COLOUMNA 4
-
-        ListaDeProveedores.addMouseListener(new java.awt.event.MouseAdapter() {
-        @Override
-        public void mouseClicked(java.awt.event.MouseEvent e) {
-            int viewRow = ListaDeProveedores.rowAtPoint(e.getPoint());
-            int viewCol = ListaDeProveedores.columnAtPoint(e.getPoint());
-            if (viewRow == -1 || viewCol == -1) return;
-
-            int colAccion = 6; // la de "<"
-            if (viewCol != colAccion) return;
-
-            int modelRow = ListaDeProveedores.convertRowIndexToModel(viewRow);
-            //USO EL ID PARA OBTENER LOS DATOS
-            Object idObj = ListaDeProveedores.getModel().getValueAt(modelRow, 0);
-            proveedorId = Long.valueOf(idObj.toString());
-
-            irACatalogoDeProveedorXPantalla2(proveedorId);
-
-        }
+        var c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        setHorizontalAlignment(CENTER);
+        setFont(getFont().deriveFont(java.awt.Font.BOLD, 18f));
+        setForeground(java.awt.Color.WHITE);
+        setBackground(new java.awt.Color(0, 102, 255)); // azul
+        return c;
+    }
     });
+    ListaDeProveedores.getColumnModel().getColumn(columnaBoton).setMaxWidth(45);
+    ListaDeProveedores.getColumnModel().getColumn(columnaBoton).setMinWidth(45);
+   
+    //AHORA DETECTAR LA INTERACCION CON LA COLOUMNA 4
+    
+    ListaDeProveedores.addMouseListener(new java.awt.event.MouseAdapter() {
+    @Override
+    public void mouseClicked(java.awt.event.MouseEvent e) {
+        int viewRow = ListaDeProveedores.rowAtPoint(e.getPoint());
+        int viewCol = ListaDeProveedores.columnAtPoint(e.getPoint());
+        if (viewRow == -1 || viewCol == -1) return;
+
+        int colAccion = columnaBoton; // la de "<"
+        if (viewCol != colAccion) return;
+
+        int modelRow = ListaDeProveedores.convertRowIndexToModel(viewRow);
+        Object idObj = ListaDeProveedores.getModel().getValueAt(modelRow, 0);
+        Long id = Long.valueOf(idObj.toString());
+        //seteo la variable id 
+        proveedorId= id;
+        
+        //GUARDO EL ITEM ID SELECCIONADO Y ME CAMBIO DE PANTALLA
+        irAEliminarProveedorPantalla2(id);
+    }
+    });
+    }
+    /**
+     * Creates new form EliminarProveedorJPanel
+     */
+    public EliminarProveedorJPanel() {
+        initComponents();
+        cargarTablaProveedores();
         //CONFIGURAR BOTONES LATERALES
         ImagenesHelper.estilizarBotonMenuLateral(
         INICIO,
@@ -141,21 +137,14 @@ public class CatalogoXProveedorJPanel extends javax.swing.JPanel {
         ATRAS,
         "ATRÁS",
         //Icono
-        ImagenesHelper.iconoTintado("/Imagenes/CatalogoBoton.png", Color.WHITE, 37, 37),
+        ImagenesHelper.iconoTintado("/Imagenes/ProveedoresBoton.png", Color.WHITE, 37, 37),
         //Color Base
-        new Color(255, 153, 153),
+        new Color(153, 255, 153),
         //Color del hover
-        new Color(166, 99, 99),
+        new Color(99, 166, 99),
         //Color del texto
         Color.BLACK
         );
-        }
-    /**
-     * Creates new form CatalogoXProveedorJPanel
-     */
-    public CatalogoXProveedorJPanel() {
-        initComponents();
-        cargarTablaProveedores();
     }
 
     /**
@@ -170,14 +159,12 @@ public class CatalogoXProveedorJPanel extends javax.swing.JPanel {
         Fondo = new javax.swing.JPanel();
         MenuSuperior = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         Contenido = new PanelDeFondo("/Imagenes/Fondo.png");
         jScrollPane1 = new javax.swing.JScrollPane();
         ListaDeProveedores = new javax.swing.JTable();
-        jLabel5 = new javax.swing.JLabel();
         MenuLateral = new javax.swing.JPanel();
-        Logo1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        Logo = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         VenderItem1 = new javax.swing.JButton();
         INICIO = new javax.swing.JButton();
         ATRAS = new javax.swing.JButton();
@@ -190,38 +177,26 @@ public class CatalogoXProveedorJPanel extends javax.swing.JPanel {
 
         MenuSuperior.setBackground(new java.awt.Color(0, 102, 255));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("CATALOGO X PROVEEDOR");
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Seleccione un proveedor");
+        jLabel3.setText("ELIMINAR ITEM");
 
         javax.swing.GroupLayout MenuSuperiorLayout = new javax.swing.GroupLayout(MenuSuperior);
         MenuSuperior.setLayout(MenuSuperiorLayout);
         MenuSuperiorLayout.setHorizontalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(MenuSuperiorLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(151, 151, 151))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
+                .addContainerGap(99, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44))
         );
         MenuSuperiorLayout.setVerticalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuSuperiorLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(19, 19, 19)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         Contenido.setBackground(new java.awt.Color(204, 204, 204));
@@ -241,28 +216,18 @@ public class CatalogoXProveedorJPanel extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(ListaDeProveedores);
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Proveedores Disponibles");
-
         javax.swing.GroupLayout ContenidoLayout = new javax.swing.GroupLayout(Contenido);
         Contenido.setLayout(ContenidoLayout);
         ContenidoLayout.setHorizontalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContenidoLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ContenidoLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(123, 123, 123))
         );
         ContenidoLayout.setVerticalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ContenidoLayout.createSequentialGroup()
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ContenidoLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -271,12 +236,12 @@ public class CatalogoXProveedorJPanel extends javax.swing.JPanel {
         MenuLateral.setPreferredSize(new java.awt.Dimension(200, 500));
         MenuLateral.setRequestFocusEnabled(false);
 
-        Logo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/TelecomLogo.png"))); // NOI18N
+        Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/TelecomLogo.png"))); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("ACCIONES");
+        jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("ACCIONES");
 
         VenderItem1.setForeground(new java.awt.Color(0, 0, 0));
         VenderItem1.setBorder(null);
@@ -284,7 +249,7 @@ public class CatalogoXProveedorJPanel extends javax.swing.JPanel {
         VenderItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         VenderItem1.addActionListener(this::VenderItem1ActionPerformed);
 
-        INICIO.setBackground(new java.awt.Color(204, 255, 255));
+        INICIO.setBackground(new java.awt.Color(153, 255, 255));
         INICIO.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         INICIO.setForeground(new java.awt.Color(0, 0, 0));
         INICIO.setText("INICIO");
@@ -293,7 +258,7 @@ public class CatalogoXProveedorJPanel extends javax.swing.JPanel {
         INICIO.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         INICIO.addActionListener(this::INICIOActionPerformed);
 
-        ATRAS.setBackground(new java.awt.Color(255, 153, 153));
+        ATRAS.setBackground(new java.awt.Color(153, 255, 153));
         ATRAS.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         ATRAS.setForeground(new java.awt.Color(0, 0, 0));
         ATRAS.setText("ATRÁS");
@@ -307,13 +272,13 @@ public class CatalogoXProveedorJPanel extends javax.swing.JPanel {
         MenuLateralLayout.setHorizontalGroup(
             MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuLateralLayout.createSequentialGroup()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 6, Short.MAX_VALUE))
             .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(MenuLateralLayout.createSequentialGroup()
-                        .addComponent(Logo1)
+                        .addComponent(Logo)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuLateralLayout.createSequentialGroup()
                         .addGap(89, 89, 89)
@@ -326,19 +291,19 @@ public class CatalogoXProveedorJPanel extends javax.swing.JPanel {
         MenuLateralLayout.setVerticalGroup(
             MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuLateralLayout.createSequentialGroup()
-                .addComponent(Logo1)
+                .addComponent(Logo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(232, 232, 232)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(247, 247, 247)
                 .addComponent(VenderItem1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(MenuLateralLayout.createSequentialGroup()
-                    .addGap(175, 175, 175)
+                    .addGap(185, 185, 185)
                     .addComponent(INICIO)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(ATRAS)
-                    .addContainerGap(175, Short.MAX_VALUE)))
+                    .addContainerGap(186, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout FondoLayout = new javax.swing.GroupLayout(Fondo);
@@ -347,18 +312,18 @@ public class CatalogoXProveedorJPanel extends javax.swing.JPanel {
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(FondoLayout.createSequentialGroup()
                 .addComponent(MenuLateral, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(MenuSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)))
+                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)))
         );
         FondoLayout.setVerticalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(FondoLayout.createSequentialGroup()
                 .addComponent(MenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE))
-            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE))
+            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
         );
 
         add(Fondo, java.awt.BorderLayout.CENTER);
@@ -375,9 +340,9 @@ public class CatalogoXProveedorJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_INICIOActionPerformed
 
     private void ATRASActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ATRASActionPerformed
-        JPanel panelDeCatalogos = new PanelDeCatalogos();
+        JPanel panelDeProveedores = new PanelDeProveedores();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(panelDeCatalogos);
+        frame.cambiarFondo(panelDeProveedores);
     }//GEN-LAST:event_ATRASActionPerformed
 
 
@@ -387,14 +352,12 @@ public class CatalogoXProveedorJPanel extends javax.swing.JPanel {
     private javax.swing.JPanel Fondo;
     private javax.swing.JButton INICIO;
     private javax.swing.JTable ListaDeProveedores;
-    private javax.swing.JLabel Logo1;
+    private javax.swing.JLabel Logo;
     private javax.swing.JPanel MenuLateral;
     private javax.swing.JPanel MenuSuperior;
     private javax.swing.JButton VenderItem1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

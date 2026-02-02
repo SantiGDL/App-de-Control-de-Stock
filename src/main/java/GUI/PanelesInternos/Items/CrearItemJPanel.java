@@ -11,9 +11,11 @@ import GUI.PanelPrincipal;
 import GUI.PanelesPRINCIPALES.PanelDeConfiguracion;
 import GUI.PanelesPRINCIPALES.PanelDeItems;
 import GUI.PanelesPRINCIPALES.PanelDeProveedores;
+import ImagenesHelpers.ImagenesHelper;
 import ImagenesHelpers.PanelDeFondo;
 import Persistencia.Clases.Item;
 import Persistencia.ManejadorDePersistencia;
+import java.awt.Color;
 import javax.swing.JPanel;
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +36,32 @@ public class CrearItemJPanel extends javax.swing.JPanel {
      */
     public CrearItemJPanel() {
         initComponents();
+        //CONFIGURAR BOTONES LATERALES
+        ImagenesHelper.estilizarBotonMenuLateral(
+        INICIO,
+        "INICIO",
+        //Icono
+        ImagenesHelper.iconoTintado("/Imagenes/InicioBoton.png", Color.WHITE, 37, 37),
+        //Color Base
+        new Color(153, 255, 255),
+        //Color del hover
+        new Color(99, 166, 166),
+        //Color del texto
+        Color.BLACK
+        );
+        
+        ImagenesHelper.estilizarBotonMenuLateral(
+        ATRAS,
+        "ATRÁS",
+        //Icono
+        ImagenesHelper.iconoTintado("/Imagenes/ItemsBoton.png", Color.WHITE, 37, 37),
+        //Color Base
+        new Color(204, 102, 255),
+        //Color del hover
+        new Color(133, 66, 166),
+        //Color del texto
+        Color.BLACK
+        );
     }
 
     /**
@@ -62,8 +90,8 @@ public class CrearItemJPanel extends javax.swing.JPanel {
         Logo1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         VenderItem1 = new javax.swing.JButton();
-        Atras = new javax.swing.JButton();
-        Atras1 = new javax.swing.JButton();
+        INICIO = new javax.swing.JButton();
+        ATRAS = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new java.awt.BorderLayout());
@@ -198,23 +226,23 @@ public class CrearItemJPanel extends javax.swing.JPanel {
         VenderItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         VenderItem1.addActionListener(this::VenderItem1ActionPerformed);
 
-        Atras.setBackground(new java.awt.Color(153, 255, 255));
-        Atras.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        Atras.setForeground(new java.awt.Color(0, 0, 0));
-        Atras.setText("MENU PRINCIPAL");
-        Atras.setBorder(null);
-        Atras.setBorderPainted(false);
-        Atras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Atras.addActionListener(this::AtrasActionPerformed);
+        INICIO.setBackground(new java.awt.Color(153, 255, 255));
+        INICIO.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        INICIO.setForeground(new java.awt.Color(0, 0, 0));
+        INICIO.setText("INICIO");
+        INICIO.setBorder(null);
+        INICIO.setBorderPainted(false);
+        INICIO.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        INICIO.addActionListener(this::INICIOActionPerformed);
 
-        Atras1.setBackground(new java.awt.Color(204, 102, 255));
-        Atras1.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        Atras1.setForeground(new java.awt.Color(0, 0, 0));
-        Atras1.setText("ATRAS");
-        Atras1.setBorder(null);
-        Atras1.setBorderPainted(false);
-        Atras1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Atras1.addActionListener(this::Atras1ActionPerformed);
+        ATRAS.setBackground(new java.awt.Color(204, 102, 255));
+        ATRAS.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        ATRAS.setForeground(new java.awt.Color(0, 0, 0));
+        ATRAS.setText("ATRÁS");
+        ATRAS.setBorder(null);
+        ATRAS.setBorderPainted(false);
+        ATRAS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ATRAS.addActionListener(this::ATRASActionPerformed);
 
         javax.swing.GroupLayout MenuLateralLayout = new javax.swing.GroupLayout(MenuLateral);
         MenuLateral.setLayout(MenuLateralLayout);
@@ -234,8 +262,8 @@ public class CrearItemJPanel extends javax.swing.JPanel {
                         .addComponent(VenderItem1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(63, 63, 63))))
             .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(Atras, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
-                .addComponent(Atras1, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
+                .addComponent(INICIO, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
+                .addComponent(ATRAS, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
         );
         MenuLateralLayout.setVerticalGroup(
             MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,9 +277,9 @@ public class CrearItemJPanel extends javax.swing.JPanel {
             .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(MenuLateralLayout.createSequentialGroup()
                     .addGap(184, 184, 184)
-                    .addComponent(Atras)
+                    .addComponent(INICIO)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(Atras1)
+                    .addComponent(ATRAS)
                     .addContainerGap(184, Short.MAX_VALUE)))
         );
 
@@ -338,27 +366,27 @@ public class CrearItemJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_VenderItem1ActionPerformed
 
-    private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
+    private void INICIOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_INICIOActionPerformed
         JPanel panelPrincipal = new PanelPrincipal();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(panelPrincipal);
-    }//GEN-LAST:event_AtrasActionPerformed
+    }//GEN-LAST:event_INICIOActionPerformed
 
-    private void Atras1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Atras1ActionPerformed
+    private void ATRASActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ATRASActionPerformed
         JPanel panelDeItems = new PanelDeItems();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(panelDeItems);
-    }//GEN-LAST:event_Atras1ActionPerformed
+    }//GEN-LAST:event_ATRASActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ATRAS;
     private javax.swing.JButton Aceptar;
-    private javax.swing.JButton Atras;
-    private javax.swing.JButton Atras1;
     private javax.swing.JPanel Contenido;
     private javax.swing.JTextField DescripcionContenido;
     private javax.swing.JLabel DescrpcionLbl;
     private javax.swing.JPanel Fondo;
+    private javax.swing.JButton INICIO;
     private javax.swing.JLabel Imagen;
     private javax.swing.JButton ImagenContenido;
     private javax.swing.JLabel Logo1;

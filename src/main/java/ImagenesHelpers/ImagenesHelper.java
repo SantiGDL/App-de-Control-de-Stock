@@ -27,8 +27,17 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.FontMetrics;
 import java.awt.RenderingHints;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 /**
  *
  * @author Santi-kun
@@ -245,7 +254,7 @@ public class ImagenesHelper {
     Image scaled = bi.getScaledInstance(w, h, Image.SCALE_SMOOTH);
     return new ImageIcon(scaled);
 }
-    public static void estilizarBotonMenuLateral(
+public static void estilizarBotonMenuLateral(
         JButton boton,
         String texto,
         Icon icono,
@@ -254,19 +263,25 @@ public class ImagenesHelper {
         Color colorTexto
 ) {
     // ====== AJUSTES CLAVE ======
-    final int altoBoton = 46;       // alto del botón
-    final int tamIcono  = 37;       // tamaño del icono
-    final int paddingIzq = 15;      // margen izquierdo del contenido (icono/texto)
-    final int separacionTexto = 15; // separación entre icono y texto
+    final int altoBoton = 35;
+    final int tamIcono  = 25;
+    final int paddingIzq = 8;
+    final int separacionTexto = 12;
+
+    // ====== ICON BG (estilo referencia) ======
+    final int iconBgPad = 4;        // margen dentro del fondo del icono
+    final int iconBgRound = 10;     // redondeo
+    final float iconBgDarkNormal = 0.20f; // 20% más oscuro (suave)
+    final float iconBgDarkHover  = 0.30f; // 30% más oscuro (hover)
 
     boton.setText(texto);
-    boton.setIcon(escalarIcon(icono, tamIcono, tamIcono)); // icono siempre chico
+    boton.setIcon(escalarIcon(icono, tamIcono, tamIcono));
     boton.setForeground(colorTexto);
 
-    // Altura fija. Ancho: que lo maneje el layout (pero lo ayudamos abajo)
+    // Altura fija (ancho lo maneja el layout)
     boton.setPreferredSize(new Dimension(Short.MAX_VALUE, altoBoton));
     boton.setMinimumSize(new Dimension(0, altoBoton));
-    boton.setMaximumSize(new Dimension(Integer.MAX_VALUE, altoBoton)); // útil si usás BoxLayout
+    boton.setMaximumSize(new Dimension(Integer.MAX_VALUE, altoBoton));
 
     // Quitar look default
     boton.setOpaque(false);
@@ -275,7 +290,7 @@ public class ImagenesHelper {
     boton.setFocusPainted(false);
     boton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     boton.setHorizontalAlignment(SwingConstants.LEFT);
-    boton.setFont(new Font("Segoe UI Black", Font.PLAIN, 20));
+    boton.setFont(new Font("Segoe UI Black", Font.PLAIN, 16));
 
     // Guardamos colores y estado hover
     boton.putClientProperty("ml.normal", colorBase);
@@ -295,12 +310,17 @@ public class ImagenesHelper {
         }
     });
 
-    // UI custom rectangular
     boton.setUI(new javax.swing.plaf.basic.BasicButtonUI() {
         @Override
         public void paint(Graphics g, JComponent c) {
             JButton b = (JButton) c;
             Graphics2D g2 = (Graphics2D) g.create();
+
+            // IMPORTANTE: aseguramos alpha 100% sólido
+            g2.setComposite(AlphaComposite.SrcOver.derive(1f));
+
+            // Anti alias para texto (lindo)
+            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
             int w = b.getWidth();
@@ -310,19 +330,42 @@ public class ImagenesHelper {
             Color hover  = (Color) b.getClientProperty("ml.hover");
             boolean hovered = Boolean.TRUE.equals(b.getClientProperty("ml.hovered"));
 
-            // Fondo del botón: TODO el ancho, sin márgenes
-            g2.setColor(hovered ? hover : normal);
+            Color fondoBoton = hovered ? hover : normal;
+
+            // 1) Fondo del botón (sólido)
+            g2.setColor(fondoBoton);
             g2.fillRect(0, 0, w, h);
 
-            // Icono
+            // 2) Fondo detrás del icono (sólido, sin "semi transparencia visual")
             Icon ic = b.getIcon();
             int xIcono = paddingIzq;
+
             if (ic != null) {
                 int yIcono = (h - ic.getIconHeight()) / 2;
+
+                int bgX = xIcono - iconBgPad;
+                int bgY = yIcono - iconBgPad;
+                int bgW = ic.getIconWidth() + iconBgPad * 2;
+                int bgH = ic.getIconHeight() + iconBgPad * 2;
+
+                Color iconBg = hovered
+                        ? oscurecerSolido(fondoBoton, iconBgDarkHover)
+                        : oscurecerSolido(fondoBoton, iconBgDarkNormal);
+
+                // Para que el borde redondeado NO se vea "mezclado"
+                Object oldAA = g2.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+
+                g2.setColor(iconBg);
+                g2.fillRoundRect(bgX, bgY, bgW, bgH, iconBgRound, iconBgRound);
+
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, oldAA);
+
+                // 3) Icono encima
                 ic.paintIcon(b, g2, xIcono, yIcono);
             }
 
-            // Texto
+            // 4) Texto
             String t = b.getText();
             if (t != null && !t.isBlank()) {
                 g2.setColor(b.getForeground());
@@ -342,6 +385,18 @@ public class ImagenesHelper {
 
     boton.repaint();
 }
+
+/**
+ * Oscurece "definido" mezclando con negro, SIEMPRE sólido (alpha 255).
+ * cuanto: 0..1 (0 = igual, 0.14 = 14% más oscuro).
+ */
+private static Color oscurecerSolido(Color c, float cuanto) {
+    cuanto = Math.max(0f, Math.min(1f, cuanto));
+    int r = Math.round(c.getRed()   * (1f - cuanto));
+    int g = Math.round(c.getGreen() * (1f - cuanto));
+    int b = Math.round(c.getBlue()  * (1f - cuanto));
+    return new Color(r, g, b);
+}
     
     public static void aplicarHoverOscuro(JButton boton, double factorOscurecer) {
     // Guardamos el color base UNA sola vez
@@ -350,7 +405,6 @@ public class ImagenesHelper {
     boton.putClientProperty("hover.factor", factorOscurecer);
 
     // Evitar duplicados si llamás esto varias veces
-    for (var l : boton.getMouseListeners()) boton.removeMouseListener(l);
 
     boton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     boton.setOpaque(true);
@@ -378,6 +432,117 @@ private static Color oscurecer(Color c, double factor) {
     int g = (int) Math.max(0, Math.min(255, c.getGreen() * factor));
     int b = (int) Math.max(0, Math.min(255, c.getBlue()  * factor));
     return new Color(r, g, b);
+}
+// ==========================
+//  ESTILO REUSABLE DE TABLAS
+// ==========================
+
+public static void estilizarTablaGaming(
+        JTable tabla,
+        JScrollPane scroll,
+        int rowHeight,
+        int colImagen,              // -1 si no hay columna imagen
+        TableCellRenderer rendererImagen, // null si no querés setearlo acá
+        boolean seleccionarSoloConFoco
+) {
+    // ---- Scrollpane transparente ----
+    if (scroll != null) {
+        scroll.setBorder(null);
+        scroll.setOpaque(false);
+        if (scroll.getViewport() != null) {
+            scroll.getViewport().setOpaque(false);
+        }
+    }
+
+    // ---- Tabla base ----
+    tabla.setOpaque(false);
+    tabla.setShowGrid(false);
+    tabla.setIntercellSpacing(new Dimension(0, 0));
+    tabla.setRowHeight(rowHeight);
+    tabla.setFillsViewportHeight(true);
+
+    tabla.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+    tabla.setForeground(Color.WHITE);
+
+    // selección “gaming”
+    tabla.setSelectionBackground(new Color(0, 160, 255, 120));
+    tabla.setSelectionForeground(Color.WHITE);
+    tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+    // ---- Header ----
+    JTableHeader header = tabla.getTableHeader();
+    header.setFont(new Font("Segoe UI Black", Font.PLAIN, 14));
+    header.setForeground(Color.WHITE);
+    header.setBackground(new Color(0, 102, 255));
+    header.setOpaque(true);
+    header.setReorderingAllowed(false);
+    header.setPreferredSize(new Dimension(0, 36));
+
+    // ---- Zebra renderer para todas las columnas (menos imagen) ----
+    DefaultTableCellRenderer zebra = new ZebraRendererSoloConFoco(
+            new Color(0, 60, 140, 120),
+            new Color(0, 90, 190, 120),
+            seleccionarSoloConFoco
+    );
+
+    TableColumnModel cols = tabla.getColumnModel();
+    for (int c = 0; c < cols.getColumnCount(); c++) {
+        if (c == colImagen) continue;
+        cols.getColumn(c).setCellRenderer(zebra);
+    }
+
+    // ---- Renderer imagen (si lo pasás) ----
+    if (colImagen >= 0 && rendererImagen != null) {
+        cols.getColumn(colImagen).setCellRenderer(rendererImagen);
+    }
+
+    // ---- “Fix” para lo que te molestaba: si perdés foco, que no quede pintado ----
+    if (seleccionarSoloConFoco) {
+        tabla.addFocusListener(new FocusAdapter() {
+            @Override public void focusGained(FocusEvent e) { tabla.repaint(); }
+            @Override public void focusLost(FocusEvent e)   { tabla.repaint(); }
+        });
+
+        // Repaint cuando cambia la selección también
+        tabla.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) tabla.repaint();
+        });
+    }
+}
+
+// Renderer zebra reusable
+public static class ZebraRendererSoloConFoco extends DefaultTableCellRenderer {
+    private final Color filaA;
+    private final Color filaB;
+    private final boolean seleccionarSoloConFoco;
+
+    public ZebraRendererSoloConFoco(Color filaA, Color filaB, boolean seleccionarSoloConFoco) {
+        this.filaA = filaA;
+        this.filaB = filaB;
+        this.seleccionarSoloConFoco = seleccionarSoloConFoco;
+        setOpaque(true);
+    }
+
+    @Override
+    public Component getTableCellRendererComponent(
+            JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+
+        super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+        boolean tablaTieneFoco = table.isFocusOwner();
+
+        // zebra
+        setForeground(Color.WHITE);
+        setBackground((row % 2 == 0) ? filaA : filaB);
+
+        // selección SOLO con foco (si así lo querés)
+        if (isSelected && (!seleccionarSoloConFoco || tablaTieneFoco)) {
+            setBackground(table.getSelectionBackground());
+            setForeground(table.getSelectionForeground());
+        }
+
+        return this;
+    }
 }
 }
 

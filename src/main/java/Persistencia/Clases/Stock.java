@@ -27,6 +27,18 @@ public class Stock {
     public void setId(Long id) {this.id = id;}
     public Long getId() {return id;}
     public List<ItemDeSTOCK> getItemsDeSTOCK() {return this.itemsDeStock;}
+    
+    public List<ItemDeSTOCK> filtrarActivos(List<ItemDeSTOCK> items) {
+    List<ItemDeSTOCK> activos = new ArrayList<>();
+    if (items == null) return activos;
+
+    for (ItemDeSTOCK item : items) {
+        if (item != null && item.isActivo()) {  // o getActivo() según tu entidad
+            activos.add(item);
+        }
+    }
+    return activos;
+}
 //Funciones
    
    public void addItemDeStock(ItemDeSTOCK item) {

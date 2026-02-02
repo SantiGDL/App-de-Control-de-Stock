@@ -8,6 +8,7 @@ import GUI.FramePrincipal;
 import GUI.GUIController;
 import GUI.PanelPrincipal;
 import GUI.PanelesPRINCIPALES.PanelDeItems;
+import ImagenesHelpers.ImagenesHelper;
 import Persistencia.Clases.CompraItemAProveedorDefault;
 import Persistencia.Clases.CompraItemAProveedorX;
 import Persistencia.Clases.Item;
@@ -17,6 +18,7 @@ import Persistencia.Clases.Proveedor;
 import Persistencia.DTOs.DTItem;
 import Persistencia.DTOs.DTProveedor;
 import Persistencia.ManejadorDePersistencia;
+import java.awt.Color;
 import java.time.LocalDate;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -55,6 +57,33 @@ public class RellenarDatosCompraProveedorXJPanel extends javax.swing.JPanel {
         proveedorSeleccionado =  MDP.getProveedorAPartirDeId(ProveedorId);
         cargarDatos();
         configurarAutoTotal();
+        
+        //CONFIGURAR BOTONES LATERALES
+        ImagenesHelper.estilizarBotonMenuLateral(
+        INICIO,
+        "INICIO",
+        //Icono
+        ImagenesHelper.iconoTintado("/Imagenes/InicioBoton.png", Color.WHITE, 37, 37),
+        //Color Base
+        new Color(153, 255, 255),
+        //Color del hover
+        new Color(99, 166, 166),
+        //Color del texto
+        Color.BLACK
+        );
+        
+        ImagenesHelper.estilizarBotonMenuLateral(
+        ATRAS,
+        "ATRÁS",
+        //Icono
+        ImagenesHelper.iconoTintado("/Imagenes/ItemsBoton.png", Color.WHITE, 37, 37),
+        //Color Base
+        new Color(204, 102, 255),
+        //Color del hover
+        new Color(133, 66, 166),
+        //Color del texto
+        Color.BLACK
+        );
     }
     
     public void cargarDatos(){
@@ -207,8 +236,8 @@ private void recalcularTotal() {
         Logo1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         VenderItem1 = new javax.swing.JButton();
-        menuPrincipal = new javax.swing.JButton();
-        Atras = new javax.swing.JButton();
+        INICIO = new javax.swing.JButton();
+        ATRAS = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         Contenido = new javax.swing.JPanel();
         ContenedorDatosItem = new javax.swing.JPanel();
@@ -305,23 +334,23 @@ private void recalcularTotal() {
         VenderItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         VenderItem1.addActionListener(this::VenderItem1ActionPerformed);
 
-        menuPrincipal.setBackground(new java.awt.Color(204, 255, 255));
-        menuPrincipal.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        menuPrincipal.setForeground(new java.awt.Color(0, 0, 0));
-        menuPrincipal.setText("MENÚ PRINCIPAL");
-        menuPrincipal.setBorder(null);
-        menuPrincipal.setBorderPainted(false);
-        menuPrincipal.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menuPrincipal.addActionListener(this::menuPrincipalActionPerformed);
+        INICIO.setBackground(new java.awt.Color(204, 255, 255));
+        INICIO.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        INICIO.setForeground(new java.awt.Color(0, 0, 0));
+        INICIO.setText("INICIO");
+        INICIO.setBorder(null);
+        INICIO.setBorderPainted(false);
+        INICIO.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        INICIO.addActionListener(this::INICIOActionPerformed);
 
-        Atras.setBackground(new java.awt.Color(204, 102, 255));
-        Atras.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        Atras.setForeground(new java.awt.Color(0, 0, 0));
-        Atras.setText("ATRÁS");
-        Atras.setBorder(null);
-        Atras.setBorderPainted(false);
-        Atras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Atras.addActionListener(this::AtrasActionPerformed);
+        ATRAS.setBackground(new java.awt.Color(204, 102, 255));
+        ATRAS.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        ATRAS.setForeground(new java.awt.Color(0, 0, 0));
+        ATRAS.setText("ATRÁS");
+        ATRAS.setBorder(null);
+        ATRAS.setBorderPainted(false);
+        ATRAS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ATRAS.addActionListener(this::ATRASActionPerformed);
 
         javax.swing.GroupLayout MenuLateralLayout = new javax.swing.GroupLayout(MenuLateral);
         MenuLateral.setLayout(MenuLateralLayout);
@@ -340,8 +369,8 @@ private void recalcularTotal() {
                         .addGap(89, 89, 89)
                         .addComponent(VenderItem1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(63, 63, 63))))
-            .addComponent(menuPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(Atras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(INICIO, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(ATRAS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         MenuLateralLayout.setVerticalGroup(
             MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -350,9 +379,9 @@ private void recalcularTotal() {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(menuPrincipal)
+                .addComponent(INICIO)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Atras)
+                .addComponent(ATRAS)
                 .addGap(168, 168, 168)
                 .addComponent(VenderItem1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -723,17 +752,17 @@ private void recalcularTotal() {
         // TODO add your handling code here:
     }//GEN-LAST:event_VenderItem1ActionPerformed
 
-    private void menuPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPrincipalActionPerformed
+    private void INICIOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_INICIOActionPerformed
         JPanel panelPrincipal = new PanelPrincipal();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(panelPrincipal);
-    }//GEN-LAST:event_menuPrincipalActionPerformed
+    }//GEN-LAST:event_INICIOActionPerformed
 
-    private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
+    private void ATRASActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ATRASActionPerformed
         JPanel panelDeItems = new PanelDeItems();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(panelDeItems);
-    }//GEN-LAST:event_AtrasActionPerformed
+    }//GEN-LAST:event_ATRASActionPerformed
 
     private void NombreItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreItemActionPerformed
         // TODO add your handling code here:
@@ -786,7 +815,7 @@ private void recalcularTotal() {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Atras;
+    private javax.swing.JButton ATRAS;
     private javax.swing.JLabel CantUniLbl;
     private javax.swing.JButton Comprar;
     private javax.swing.JLabel ContactoProvLbl;
@@ -801,6 +830,7 @@ private void recalcularTotal() {
     private javax.swing.JLabel DescripcionProvLbl;
     private javax.swing.JTextField DescripcionProveedor;
     private javax.swing.JPanel Fondo;
+    private javax.swing.JButton INICIO;
     private javax.swing.JPanel ImagenItem;
     private javax.swing.JLabel ImagenItemLbl;
     private javax.swing.JPanel ImagenProveedor;
@@ -832,6 +862,5 @@ private void recalcularTotal() {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JButton menuPrincipal;
     // End of variables declaration//GEN-END:variables
 }

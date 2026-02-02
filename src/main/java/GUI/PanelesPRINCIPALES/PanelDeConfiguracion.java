@@ -4,17 +4,71 @@ import GUI.GUIController;
 import GUI.PanelPrincipal;
 import GUI.PanelesInternos.LoginJPanel;
 import GUI.PanelesInternosConfiguraciones.ConfigurarAlertasJPanel;
-import GUI.PanelesInternosConfiguraciones.EliminarItemJPanel;
 import ImagenesHelpers.ImagenesHelper;
 import ImagenesHelpers.PanelDeFondo;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 public class PanelDeConfiguracion extends javax.swing.JPanel {
     GUIController controller = new GUIController();
+    private void montarMenuLateralReutilizable() {
+        MenuLateral.removeAll();
+        MenuLateral.setLayout(new BorderLayout());
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
+
+        PanelLateral lateral = new PanelLateral();   // tu menú reusable real
+        MenuLateral.add(lateral, BorderLayout.CENTER);
+
+        MenuLateral.revalidate();
+        MenuLateral.repaint();
+    }
     public PanelDeConfiguracion() {
         initComponents();
+        int anchoMenuLateral = 220; 
+        MenuLateral.setPreferredSize(new java.awt.Dimension(anchoMenuLateral, 0));
+        MenuLateral.setMinimumSize(new java.awt.Dimension(anchoMenuLateral, 0));
+        montarMenuLateralReutilizable();
+        //CONFIURO EL FONDO PARA QUE SE VEA TODO JUNTO SIN SEPARACION
+        Fondo.removeAll();
+        Fondo.setLayout(new BorderLayout(0, 0));
+        Fondo.setBorder(new EmptyBorder(0,0,0,0));
+
+        MenuLateral.setBorder(new EmptyBorder(0,0,0,0));
+        MenuSuperior.setBorder(new EmptyBorder(0,0,0,0));
+        Integer alturaMenuSuperior = 100;
+        MenuSuperior.setPreferredSize(new java.awt.Dimension(0, alturaMenuSuperior)); // probá 120..160
+        MenuSuperior.setMinimumSize(new java.awt.Dimension(0, alturaMenuSuperior));
+        MenuSuperior.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, alturaMenuSuperior));
+        Contenido.setBorder(new EmptyBorder(0,0,0,0));
+        int grosor = 2;
+
+        MenuSuperior.setBorder(BorderFactory.createMatteBorder(0, 0, grosor, 0, java.awt.Color.BLACK));
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, grosor, java.awt.Color.BLACK)); // importante para que no se duplique
+
+        Contenido.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, java.awt.Color.BLACK));
+        Fondo.add(MenuLateral, BorderLayout.WEST);
+
+        JPanel derecha = new JPanel(new BorderLayout(0, 0));
+        derecha.setBorder(new EmptyBorder(0,0,0,0));
+        derecha.add(MenuSuperior, BorderLayout.NORTH);
+        derecha.add(Contenido, BorderLayout.CENTER);
         
-        // 1) Armo grilla centrada (3 columnas)
+
+        Fondo.add(derecha, BorderLayout.CENTER);
+
+        Fondo.revalidate();
+        Fondo.repaint();
+
+        // Centrar título
+        MenuSuperior.removeAll();
+        MenuSuperior.setLayout(new BorderLayout());
+        MenuSuperior.add(TextoMenuSuperior, BorderLayout.CENTER);
+        TextoMenuSuperior.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+        // ARMO GRILLA
         ImagenesHelper.armarMenuEnGrilla(
         Contenido,
         new JButton[] {
@@ -43,7 +97,7 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
         Atras = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         MenuSuperior = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        TextoMenuSuperior = new javax.swing.JLabel();
         Contenido = new PanelDeFondo("/Imagenes/Fondo.png");
         ConfigurarAlertasBoton = new javax.swing.JButton();
 
@@ -100,10 +154,10 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
 
         MenuSuperior.setBackground(new java.awt.Color(0, 102, 255));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("MENU CONFIGURACIÓN");
+        TextoMenuSuperior.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
+        TextoMenuSuperior.setForeground(new java.awt.Color(255, 255, 255));
+        TextoMenuSuperior.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        TextoMenuSuperior.setText("MENU CONFIGURACIÓN");
 
         javax.swing.GroupLayout MenuSuperiorLayout = new javax.swing.GroupLayout(MenuSuperior);
         MenuSuperior.setLayout(MenuSuperiorLayout);
@@ -111,14 +165,14 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
                 .addContainerGap(117, Short.MAX_VALUE)
-                .addComponent(jLabel3)
+                .addComponent(TextoMenuSuperior)
                 .addGap(79, 79, 79))
         );
         MenuSuperiorLayout.setVerticalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuSuperiorLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3)
+                .addComponent(TextoMenuSuperior)
                 .addContainerGap(76, Short.MAX_VALUE))
         );
 
@@ -126,7 +180,7 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
         Contenido.setPreferredSize(new java.awt.Dimension(700, 320));
         Contenido.setVerifyInputWhenFocusTarget(false);
 
-        ConfigurarAlertasBoton.setBackground(new java.awt.Color(102, 102, 255));
+        ConfigurarAlertasBoton.setBackground(new java.awt.Color(153, 255, 255));
         ConfigurarAlertasBoton.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         ConfigurarAlertasBoton.setForeground(new java.awt.Color(0, 0, 0));
         ConfigurarAlertasBoton.setText("Configurar Alertas ");
@@ -248,7 +302,7 @@ public class PanelDeConfiguracion extends javax.swing.JPanel {
     private javax.swing.JLabel Logo;
     private javax.swing.JPanel MenuLateral;
     private javax.swing.JPanel MenuSuperior;
+    private javax.swing.JLabel TextoMenuSuperior;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }

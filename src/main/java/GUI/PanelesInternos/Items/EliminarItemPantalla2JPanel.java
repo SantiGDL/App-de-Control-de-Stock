@@ -3,15 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package GUI.PanelesInternos.Items;
-
 import GUI.FramePrincipal;
 import GUI.GUIController;
 import GUI.PanelPrincipal;
-import GUI.PanelesPRINCIPALES.PanelDeItems;
 import ImagenesHelpers.ImagenesHelper;
 import ImagenesHelpers.PanelDeFondo;
 import Persistencia.Clases.ItemDeSTOCK;
-import Persistencia.DTOs.DTItem;
 import Persistencia.DTOs.DTItemDeSTOCK;
 import Persistencia.ManejadorDePersistencia;
 import java.awt.Color;
@@ -22,14 +19,16 @@ import javax.swing.JPanel;
  *
  * @author Santi-kun
  */
-public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
-    private Long itemSeleccionadoId;
-    GUIController controller = new GUIController();
+public class EliminarItemPantalla2JPanel extends javax.swing.JPanel {
+    Long itemId;
     private DTItemDeSTOCK dtItem;
-    
-    public VenderItemPantalla2JPanel(Long itemId) {
+    GUIController controller = new GUIController();
+    /**
+     * Creates new form EliminarItemPantalla2JPanel
+     */
+    public EliminarItemPantalla2JPanel(Long itemId) {
         initComponents();
-        this.itemSeleccionadoId =  itemId;
+        this.itemId = itemId;
         dtItem = controller.recuperarDTItemDeSTOCKDeId(itemId);
         cargarDatos();
         //CONFIGURAR BOTONES LATERALES
@@ -59,8 +58,7 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
         Color.BLACK
         );
     }
-    
-     public void cargarDatos(){
+    public void cargarDatos(){
         //Datos Item
         NombreItem.setText(dtItem.getNombre()); 
         NombreItem.setEditable(false);
@@ -68,11 +66,6 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
         DescripcionItem.setEditable(false);
         controller.mostrarImagenEnPanel(ImagenItem, RellenoImagenItem, dtItem.getImagen());
      }
-    
-    /**
-     * Creates new form VenderItemPantalla2
-     */
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -103,11 +96,7 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
         ImagenItem = new javax.swing.JPanel();
         RellenoImagenItem = new javax.swing.JLabel();
         TituloDatosItem = new javax.swing.JLabel();
-        ContenidoDatosCompra = new PanelDeFondo("/Imagenes/Fondo.png");
-        TituloDatosVenta = new javax.swing.JLabel();
-        CantUniLbl = new javax.swing.JLabel();
-        cantUnidadesAVender = new javax.swing.JTextField();
-        Vender = new javax.swing.JButton();
+        Eliminar = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -127,7 +116,7 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
         MenuSuperior2Layout.setHorizontalGroup(
             MenuSuperior2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperior2Layout.createSequentialGroup()
-                .addContainerGap(295, Short.MAX_VALUE)
+                .addContainerGap(179, Short.MAX_VALUE)
                 .addComponent(jLabel8)
                 .addGap(270, 270, 270))
         );
@@ -206,7 +195,7 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
                 .addComponent(ATRAS)
                 .addGap(168, 168, 168)
                 .addComponent(VenderItem3)
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         Contenido.setBackground(new java.awt.Color(204, 204, 204));
@@ -254,6 +243,13 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
         TituloDatosItem.setForeground(new java.awt.Color(0, 0, 0));
         TituloDatosItem.setText("Datos Item:");
 
+        Eliminar.setBackground(new java.awt.Color(51, 204, 255));
+        Eliminar.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        Eliminar.setForeground(new java.awt.Color(255, 255, 255));
+        Eliminar.setText("ELIMINAR");
+        Eliminar.setBorder(null);
+        Eliminar.addActionListener(this::EliminarActionPerformed);
+
         javax.swing.GroupLayout ContenedorDatosItemLayout = new javax.swing.GroupLayout(ContenedorDatosItem);
         ContenedorDatosItem.setLayout(ContenedorDatosItemLayout);
         ContenedorDatosItemLayout.setHorizontalGroup(
@@ -271,14 +267,17 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)))
                         .addGroup(ContenedorDatosItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(DescripcionItem, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
-                            .addComponent(NombreItem)))
+                            .addComponent(NombreItem))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(ContenedorDatosItemLayout.createSequentialGroup()
                         .addComponent(ImagenItemLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(ImagenItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(ImagenItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(99, 99, 99))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ContenedorDatosItemLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 339, Short.MAX_VALUE)
                 .addComponent(TituloDatosItem, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(231, 231, 231))
         );
@@ -286,72 +285,23 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
             ContenedorDatosItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContenedorDatosItemLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(TituloDatosItem, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(ContenedorDatosItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(NombreItemLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(NombreItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(ContenedorDatosItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(DescripcionItem, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(DescripcionItemLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15)
-                .addGroup(ContenedorDatosItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ImagenItemLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ImagenItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        ContenidoDatosCompra.setBackground(new java.awt.Color(189, 249, 249));
-        ContenidoDatosCompra.setOpaque(false);
-
-        TituloDatosVenta.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
-        TituloDatosVenta.setForeground(new java.awt.Color(0, 0, 0));
-        TituloDatosVenta.setText("Datos Venta:");
-
-        CantUniLbl.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
-        CantUniLbl.setForeground(new java.awt.Color(0, 0, 0));
-        CantUniLbl.setText("Cantidad de unidades a vender:");
-
-        cantUnidadesAVender.addActionListener(this::cantUnidadesAVenderActionPerformed);
-
-        Vender.setBackground(new java.awt.Color(51, 204, 255));
-        Vender.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
-        Vender.setForeground(new java.awt.Color(255, 255, 255));
-        Vender.setText("VENDER");
-        Vender.setBorder(null);
-        Vender.addActionListener(this::VenderActionPerformed);
-
-        javax.swing.GroupLayout ContenidoDatosCompraLayout = new javax.swing.GroupLayout(ContenidoDatosCompra);
-        ContenidoDatosCompra.setLayout(ContenidoDatosCompraLayout);
-        ContenidoDatosCompraLayout.setHorizontalGroup(
-            ContenidoDatosCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ContenidoDatosCompraLayout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addGroup(ContenidoDatosCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Vender, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(ContenidoDatosCompraLayout.createSequentialGroup()
-                        .addComponent(CantUniLbl)
+                .addGroup(ContenedorDatosItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(Eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(ContenedorDatosItemLayout.createSequentialGroup()
+                        .addComponent(TituloDatosItem, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(ContenedorDatosItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(NombreItemLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(NombreItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cantUnidadesAVender, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(200, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ContenidoDatosCompraLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(TituloDatosVenta)
-                .addGap(231, 231, 231))
-        );
-        ContenidoDatosCompraLayout.setVerticalGroup(
-            ContenidoDatosCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ContenidoDatosCompraLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(TituloDatosVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3)
-                .addGroup(ContenidoDatosCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CantUniLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cantUnidadesAVender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(Vender, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(347, Short.MAX_VALUE))
+                        .addGroup(ContenedorDatosItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(DescripcionItem, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DescripcionItemLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(15, 15, 15)
+                        .addGroup(ContenedorDatosItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ImagenItemLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ImagenItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout ContenidoLayout = new javax.swing.GroupLayout(Contenido);
@@ -359,17 +309,15 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
         ContenidoLayout.setHorizontalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContenidoLayout.createSequentialGroup()
-                .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ContenidoDatosCompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ContenedorDatosItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(ContenedorDatosItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(186, 186, 186))
         );
         ContenidoLayout.setVerticalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContenidoLayout.createSequentialGroup()
-                .addComponent(ContenedorDatosItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ContenidoDatosCompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(ContenedorDatosItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(736, Short.MAX_VALUE))
         );
 
         jScrollPane2.setViewportView(Contenido);
@@ -389,9 +337,10 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(FondoLayout.createSequentialGroup()
                 .addComponent(MenuSuperior2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-            .addComponent(MenuLateral2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+            .addComponent(MenuLateral2, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
         );
 
         add(Fondo, java.awt.BorderLayout.CENTER);
@@ -408,9 +357,7 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_INICIOActionPerformed
 
     private void ATRASActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ATRASActionPerformed
-        JPanel panelDeItems = new PanelDeItems();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(panelDeItems);
+      
     }//GEN-LAST:event_ATRASActionPerformed
 
     private void NombreItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreItemActionPerformed
@@ -421,30 +368,21 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_DescripcionItemActionPerformed
 
-    private void cantUnidadesAVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cantUnidadesAVenderActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cantUnidadesAVenderActionPerformed
-
-    private void VenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VenderActionPerformed
+    private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
         ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
         //Obtengo el item de stock a partir de la id
-        ItemDeSTOCK ItemADisminuir = MDP.getItemDeSTOCKAPartirDeId(itemSeleccionadoId);
-        //Ahora redusco la cantidad de unidades
-        String cantuUnidadesStr = cantUnidadesAVender.getText().trim();
-        Integer cantUnidades = Integer.valueOf(cantuUnidadesStr);
-        MDP.DisminuirStock(ItemADisminuir, cantUnidades);
-        JOptionPane.showMessageDialog(null, "Venta Existosa");
-    }//GEN-LAST:event_VenderActionPerformed
+        MDP.desactivarItem(itemId);
+        JOptionPane.showMessageDialog(null, "Item Eliminado Correctamente");
+    }//GEN-LAST:event_EliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ATRAS;
-    private javax.swing.JLabel CantUniLbl;
     private javax.swing.JPanel ContenedorDatosItem;
     private javax.swing.JPanel Contenido;
-    private javax.swing.JPanel ContenidoDatosCompra;
     private javax.swing.JTextField DescripcionItem;
     private javax.swing.JLabel DescripcionItemLbl;
+    private javax.swing.JButton Eliminar;
     private javax.swing.JPanel Fondo;
     private javax.swing.JButton INICIO;
     private javax.swing.JPanel ImagenItem;
@@ -456,10 +394,7 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
     private javax.swing.JLabel NombreItemLbl;
     private javax.swing.JLabel RellenoImagenItem;
     private javax.swing.JLabel TituloDatosItem;
-    private javax.swing.JLabel TituloDatosVenta;
-    private javax.swing.JButton Vender;
     private javax.swing.JButton VenderItem3;
-    private javax.swing.JTextField cantUnidadesAVender;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane2;

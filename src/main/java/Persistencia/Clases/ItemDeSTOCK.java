@@ -13,6 +13,7 @@ import jakarta.persistence.*;
         private String descripcion;
         private String imagen;
         private Integer cantUnidades;
+        private boolean activo = true;
         //LOS UMBRALES DE LAS ALERTAS
         @Column(nullable = true)
         private Integer umbralRojo;
@@ -75,5 +76,7 @@ import jakarta.persistence.*;
         this.umbralAmarillo, this.umbralRojo, this.stock);
         return dt;
     }
+   public boolean isActivo() { return activo; }
+    public void setActivo(boolean activo) { this.activo = activo; }
         
 }

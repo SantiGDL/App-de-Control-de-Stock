@@ -18,6 +18,7 @@ public class DTItemDeSTOCK {
     private Integer umbralRojo;
     private Integer umbralAmarillo;
     private Stock stock;
+    private boolean activo = true;
 
     //Constructores
     public DTItemDeSTOCK() {}

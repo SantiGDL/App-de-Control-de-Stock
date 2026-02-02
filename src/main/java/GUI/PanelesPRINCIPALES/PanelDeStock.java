@@ -5,80 +5,103 @@
 package GUI.PanelesPRINCIPALES;
 
 import GUI.FramePrincipal;
-import GUI.PanelPrincipal;
 import GUI.PanelesInternos.Items.ComprarItem.ComprarItemJPanel;
 import GUI.PanelesInternos.Items.VenderItemJPanel;
+import GUI.PanelesInternos.Stocks.VerStockJPanel;
+import ImagenesHelpers.ImagenesHelper;
 import ImagenesHelpers.PanelDeFondo;
-import ImagenesHelpers.RenderCantidadConAlerta;
-import ImagenesHelpers.RenderDeImagenEnTablas;
-import Persistencia.Clases.CatalogoGeneral;
-import Persistencia.Clases.Item;
-import Persistencia.Clases.ItemDeSTOCK;
-import Persistencia.FabricaEntityManager;
-import Persistencia.ManejadorDePersistencia;
-import jakarta.persistence.EntityManager;
-import java.util.List;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
  * @author Santi-kun
  */
 public class PanelDeStock extends javax.swing.JPanel {
+ private void montarMenuLateralReutilizable() {
+        MenuLateral.removeAll();
+        MenuLateral.setLayout(new BorderLayout());
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
 
-    private void cargarTablaItemsSTOCK() {
-    // Llamo al manejador de persistencia que tiene la funcion de traerme los items
-    ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
-    //invoco el entity manager para trabajar
-    FabricaEntityManager FEM = new FabricaEntityManager();
-    EntityManager em = FEM.getEntityManager();
-    //Uso la funcion del manejador de persistencia que hice
-    List<ItemDeSTOCK> itemsDeStock = MDP.getItemsDeStock(em);
-    // 2) Armo el modelo con columnas
-    javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
-        new Object[]{"ID", "Nombre", "Descripcion", "Imagen", "cantUnidades", "Estado"}, 0
-    ) {
-        @Override public boolean isCellEditable(int row, int column) { return false; }
-        
-    };
+        PanelLateral lateral = new PanelLateral();   // tu menú reusable real
+        MenuLateral.add(lateral, BorderLayout.CENTER);
 
-    // 3) Cargás filas
-    for (ItemDeSTOCK it : itemsDeStock) {
-        modeloTabla.addRow(new Object[]{
-            it.getId(),
-            it.getNombre(),
-            it.getDescripcion(),
-            it.getImagen(),
-            it.getCantUnidades(),
-            it.getEstadoAlerta(),
-        });
-    }
-    TablaDeStock.setModel(modeloTabla);
-    TablaDeStock.getTableHeader().setReorderingAllowed(false);
-    //REDERIZO LA IMAGEN DE LA TABLA
-    int colImagen = 3;
-    TablaDeStock.setRowHeight(120);
-    //RENDERIZO LA IMAGEN USANDO EL HELPER
-    TablaDeStock.getColumnModel().getColumn(colImagen)
-              .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
-    // Cantidad pintada según estado
-    int colCant = 4;      // cantUnidades
-    int colEstado = 5;    // EstadoAlerta en el modelo
-    TablaDeStock.getColumnModel().getColumn(colCant)
-            .setCellRenderer(new RenderCantidadConAlerta(colEstado));
-
-// (Opcional) ocultar columna Estado
-TablaDeStock.getColumnModel().getColumn(colEstado).setMinWidth(0);
-TablaDeStock.getColumnModel().getColumn(colEstado).setMaxWidth(0);
-TablaDeStock.getColumnModel().getColumn(colEstado).setPreferredWidth(0);
-    
+        MenuLateral.revalidate();
+        MenuLateral.repaint();
     }
     /**
      * Creates new form PanelDeStock
      */
     public PanelDeStock() {
         initComponents();
-        cargarTablaItemsSTOCK();
+        int anchoMenuLateral = 220; 
+        MenuLateral.setPreferredSize(new java.awt.Dimension(anchoMenuLateral, 0));
+        MenuLateral.setMinimumSize(new java.awt.Dimension(anchoMenuLateral, 0));
+        montarMenuLateralReutilizable();
+        //CONFIURO EL FONDO PARA QUE SE VEA TODO JUNTO SIN SEPARACION
+        Fondo.removeAll();
+        Fondo.setLayout(new BorderLayout(0, 0));
+        Fondo.setBorder(new EmptyBorder(0,0,0,0));
+
+        MenuLateral.setBorder(new EmptyBorder(0,0,0,0));
+        MenuSuperior.setBorder(new EmptyBorder(0,0,0,0));
+        Integer alturaMenuSuperior = 100;
+        MenuSuperior.setPreferredSize(new java.awt.Dimension(0, alturaMenuSuperior)); // probá 120..160
+        MenuSuperior.setMinimumSize(new java.awt.Dimension(0, alturaMenuSuperior));
+        MenuSuperior.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, alturaMenuSuperior));
+        Contenido.setBorder(new EmptyBorder(0,0,0,0));
+        int grosor = 2;
+
+        MenuSuperior.setBorder(BorderFactory.createMatteBorder(0, 0, grosor, 0, java.awt.Color.BLACK));
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, grosor, java.awt.Color.BLACK)); // importante para que no se duplique
+
+        Contenido.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, java.awt.Color.BLACK));
+        Fondo.add(MenuLateral, BorderLayout.WEST);
+
+        JPanel derecha = new JPanel(new BorderLayout(0, 0));
+        derecha.setBorder(new EmptyBorder(0,0,0,0));
+        derecha.add(MenuSuperior, BorderLayout.NORTH);
+        derecha.add(Contenido, BorderLayout.CENTER);
+        
+
+        Fondo.add(derecha, BorderLayout.CENTER);
+
+        Fondo.revalidate();
+        Fondo.repaint();
+
+        // Centrar título
+        MenuSuperior.removeAll();
+        MenuSuperior.setLayout(new BorderLayout());
+        MenuSuperior.add(TextoMenuSuperior, BorderLayout.CENTER);
+        TextoMenuSuperior.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+
+        // ARMAR GRILLA
+        ImagenesHelper.armarMenuEnGrilla(
+        Contenido,
+        new JButton[] {
+            VerStockBoton, AumentarStockBoton, DisminuirStockBoton
+        },
+        3,   // columnas
+        30,  // gap horizontal
+        30,  // gap vertical
+        25   // padding
+        );
+
+        // 2) Seteo tamaño consistente (opcional, pero queda muy pro)
+        ImagenesHelper.setTamanoTarjeta(VerStockBoton, 220, 140);
+        ImagenesHelper.setTamanoTarjeta(AumentarStockBoton, 220, 140);
+        ImagenesHelper.setTamanoTarjeta(DisminuirStockBoton, 220, 140);
+        
+        // 3) Iconos escalados + texto centrado
+        ImagenesHelper.configurarBotonTarjeta(VerStockBoton, "Ver Stock", "/Imagenes/VerStockBoton.png", 64, 64);
+        ImagenesHelper.configurarBotonTarjeta(AumentarStockBoton, "Comprar Item", "/Imagenes/ComprarItemBoton.png", 64, 64);
+        ImagenesHelper.configurarBotonTarjeta(DisminuirStockBoton, "Vender Item", "/Imagenes/VenderItemBoton.png", 64, 64);
+
     }
 
     /**
@@ -91,18 +114,14 @@ TablaDeStock.getColumnModel().getColumn(colEstado).setPreferredWidth(0);
     private void initComponents() {
 
         Fondo = new javax.swing.JPanel();
-        MenuLateral = new javax.swing.JPanel();
-        Logo = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        MenuLateral = new PanelLateral();
         VenderItem1 = new javax.swing.JButton();
-        Aumentar = new javax.swing.JButton();
-        Disminuir = new javax.swing.JButton();
-        Atras = new javax.swing.JButton();
         MenuSuperior = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        TextoMenuSuperior = new javax.swing.JLabel();
         Contenido = new PanelDeFondo("/Imagenes/Fondo.png");
-        jScrollPane1 = new javax.swing.JScrollPane();
-        TablaDeStock = new javax.swing.JTable();
+        VerStockBoton = new javax.swing.JButton();
+        AumentarStockBoton = new javax.swing.JButton();
+        DisminuirStockBoton = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -114,124 +133,80 @@ TablaDeStock.getColumnModel().getColumn(colEstado).setPreferredWidth(0);
         MenuLateral.setPreferredSize(new java.awt.Dimension(200, 500));
         MenuLateral.setRequestFocusEnabled(false);
 
-        Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/TelecomLogo.png"))); // NOI18N
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("ACCIONES");
-
         VenderItem1.setForeground(new java.awt.Color(0, 0, 0));
         VenderItem1.setBorder(null);
         VenderItem1.setBorderPainted(false);
         VenderItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         VenderItem1.addActionListener(this::VenderItem1ActionPerformed);
 
-        Aumentar.setBackground(new java.awt.Color(29, 63, 243));
-        Aumentar.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        Aumentar.setForeground(new java.awt.Color(0, 0, 0));
-        Aumentar.setText("Aumentar(comprar item)");
-        Aumentar.setBorder(null);
-        Aumentar.setBorderPainted(false);
-        Aumentar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Aumentar.addActionListener(this::AumentarActionPerformed);
-
-        Disminuir.setBackground(new java.awt.Color(29, 63, 243));
-        Disminuir.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        Disminuir.setForeground(new java.awt.Color(0, 0, 0));
-        Disminuir.setText("Disminuir (vender)");
-        Disminuir.setBorder(null);
-        Disminuir.setBorderPainted(false);
-        Disminuir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Disminuir.addActionListener(this::DisminuirActionPerformed);
-
-        Atras.setBackground(new java.awt.Color(153, 255, 255));
-        Atras.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        Atras.setForeground(new java.awt.Color(0, 0, 0));
-        Atras.setText("MENU PRINCIPAL");
-        Atras.setBorder(null);
-        Atras.setBorderPainted(false);
-        Atras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Atras.addActionListener(this::AtrasActionPerformed);
-
         javax.swing.GroupLayout MenuLateralLayout = new javax.swing.GroupLayout(MenuLateral);
         MenuLateral.setLayout(MenuLateralLayout);
         MenuLateralLayout.setHorizontalGroup(
             MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuLateralLayout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(Aumentar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(Disminuir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(MenuLateralLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(MenuLateralLayout.createSequentialGroup()
-                        .addComponent(Logo)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuLateralLayout.createSequentialGroup()
-                        .addGap(89, 89, 89)
-                        .addComponent(VenderItem1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(63, 63, 63))))
-            .addComponent(Atras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(95, 95, 95)
+                .addComponent(VenderItem1, javax.swing.GroupLayout.DEFAULT_SIZE, 7, Short.MAX_VALUE)
+                .addGap(63, 63, 63))
         );
         MenuLateralLayout.setVerticalGroup(
             MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuLateralLayout.createSequentialGroup()
-                .addComponent(Logo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(Atras)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Aumentar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Disminuir)
-                .addGap(164, 164, 164)
+                .addGap(399, 399, 399)
                 .addComponent(VenderItem1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         MenuSuperior.setBackground(new java.awt.Color(0, 102, 255));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("MENÚ STOCK");
+        TextoMenuSuperior.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
+        TextoMenuSuperior.setForeground(new java.awt.Color(255, 255, 255));
+        TextoMenuSuperior.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        TextoMenuSuperior.setText("MENU STOCK");
 
         javax.swing.GroupLayout MenuSuperiorLayout = new javax.swing.GroupLayout(MenuSuperior);
         MenuSuperior.setLayout(MenuSuperiorLayout);
         MenuSuperiorLayout.setHorizontalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(MenuSuperiorLayout.createSequentialGroup()
-                .addGap(129, 129, 129)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(TextoMenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(103, 103, 103))
         );
         MenuSuperiorLayout.setVerticalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuSuperiorLayout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addGap(21, 21, 21)
+                .addComponent(TextoMenuSuperior)
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         Contenido.setBackground(new java.awt.Color(204, 204, 204));
         Contenido.setPreferredSize(new java.awt.Dimension(700, 320));
         Contenido.setVerifyInputWhenFocusTarget(false);
 
-        TablaDeStock.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(TablaDeStock);
+        VerStockBoton.setBackground(new java.awt.Color(29, 63, 243));
+        VerStockBoton.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        VerStockBoton.setForeground(new java.awt.Color(255, 255, 255));
+        VerStockBoton.setText("Ver Stock");
+        VerStockBoton.setBorder(new javax.swing.border.MatteBorder(null));
+        VerStockBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        VerStockBoton.addActionListener(this::VerStockBotonActionPerformed);
+
+        AumentarStockBoton.setBackground(new java.awt.Color(204, 102, 255));
+        AumentarStockBoton.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        AumentarStockBoton.setForeground(new java.awt.Color(255, 255, 255));
+        AumentarStockBoton.setText("Comprar Item");
+        AumentarStockBoton.setBorder(new javax.swing.border.MatteBorder(null));
+        AumentarStockBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        AumentarStockBoton.addActionListener(this::AumentarStockBotonActionPerformed);
+
+        DisminuirStockBoton.setBackground(new java.awt.Color(204, 102, 255));
+        DisminuirStockBoton.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        DisminuirStockBoton.setForeground(new java.awt.Color(255, 255, 255));
+        DisminuirStockBoton.setText("Vender Item");
+        DisminuirStockBoton.setBorder(new javax.swing.border.MatteBorder(null));
+        DisminuirStockBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        DisminuirStockBoton.addActionListener(this::DisminuirStockBotonActionPerformed);
 
         javax.swing.GroupLayout ContenidoLayout = new javax.swing.GroupLayout(Contenido);
         Contenido.setLayout(ContenidoLayout);
@@ -239,14 +214,22 @@ TablaDeStock.getColumnModel().getColumn(colEstado).setPreferredWidth(0);
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContenidoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
+                .addComponent(VerStockBoton, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(AumentarStockBoton, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(DisminuirStockBoton, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                .addGap(50, 50, 50))
         );
         ContenidoLayout.setVerticalGroup(
             ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContenidoLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap()
+                .addGroup(ContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(VerStockBoton)
+                    .addComponent(AumentarStockBoton)
+                    .addComponent(DisminuirStockBoton))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout FondoLayout = new javax.swing.GroupLayout(Fondo);
@@ -258,15 +241,15 @@ TablaDeStock.getColumnModel().getColumn(colEstado).setPreferredWidth(0);
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(MenuSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)))
+                    .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 562, Short.MAX_VALUE)))
         );
         FondoLayout.setVerticalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
+            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
             .addGroup(FondoLayout.createSequentialGroup()
                 .addComponent(MenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
+                .addGap(33, 33, 33)
+                .addComponent(Contenido, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -277,38 +260,34 @@ TablaDeStock.getColumnModel().getColumn(colEstado).setPreferredWidth(0);
         // TODO add your handling code here:
     }//GEN-LAST:event_VenderItem1ActionPerformed
 
-    private void AumentarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AumentarActionPerformed
-     JPanel  comprarItem = new ComprarItemJPanel();
+    private void VerStockBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerStockBotonActionPerformed
+        JPanel verStock = new VerStockJPanel();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(verStock);
+    }//GEN-LAST:event_VerStockBotonActionPerformed
+
+    private void AumentarStockBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AumentarStockBotonActionPerformed
+        JPanel  comprarItem = new ComprarItemJPanel();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(comprarItem);
-    }//GEN-LAST:event_AumentarActionPerformed
+    }//GEN-LAST:event_AumentarStockBotonActionPerformed
 
-    private void DisminuirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DisminuirActionPerformed
-    JPanel venderItem = new VenderItemJPanel();
+    private void DisminuirStockBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DisminuirStockBotonActionPerformed
+        JPanel venderItem = new VenderItemJPanel();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(venderItem);
-    }//GEN-LAST:event_DisminuirActionPerformed
-
-    private void AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrasActionPerformed
-        JPanel panelPrincipal = new PanelPrincipal();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(panelPrincipal);
-    }//GEN-LAST:event_AtrasActionPerformed
+    }//GEN-LAST:event_DisminuirStockBotonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Atras;
-    private javax.swing.JButton Aumentar;
+    private javax.swing.JButton AumentarStockBoton;
     private javax.swing.JPanel Contenido;
-    private javax.swing.JButton Disminuir;
+    private javax.swing.JButton DisminuirStockBoton;
     private javax.swing.JPanel Fondo;
-    private javax.swing.JLabel Logo;
     private javax.swing.JPanel MenuLateral;
     private javax.swing.JPanel MenuSuperior;
-    private javax.swing.JTable TablaDeStock;
+    private javax.swing.JLabel TextoMenuSuperior;
     private javax.swing.JButton VenderItem1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton VerStockBoton;
     // End of variables declaration//GEN-END:variables
 }

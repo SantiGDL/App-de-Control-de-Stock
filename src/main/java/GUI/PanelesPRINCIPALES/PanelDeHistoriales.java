@@ -11,22 +11,77 @@ import GUI.PanelesInternos.Historiales.HistorialGeneralJPanel;
 import GUI.PanelesInternos.Historiales.HistorialXProveedorJPanel;
 import ImagenesHelpers.ImagenesHelper;
 import ImagenesHelpers.PanelDeFondo;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
  * @author Santi-kun
  */
 public class PanelDeHistoriales extends javax.swing.JPanel {
+    private void montarMenuLateralReutilizable() {
+        MenuLateral.removeAll();
+        MenuLateral.setLayout(new BorderLayout());
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
 
+        PanelLateral lateral = new PanelLateral();   // tu menú reusable real
+        MenuLateral.add(lateral, BorderLayout.CENTER);
+
+        MenuLateral.revalidate();
+        MenuLateral.repaint();
+    }
     /**
      * Creates new form PanelDeHistoriales
      */
     public PanelDeHistoriales() {
         initComponents();
+        int anchoMenuLateral = 220; 
+        MenuLateral.setPreferredSize(new java.awt.Dimension(anchoMenuLateral, 0));
+        MenuLateral.setMinimumSize(new java.awt.Dimension(anchoMenuLateral, 0));
+        montarMenuLateralReutilizable();
+        //CONFIURO EL FONDO PARA QUE SE VEA TODO JUNTO SIN SEPARACION
+        Fondo.removeAll();
+        Fondo.setLayout(new BorderLayout(0, 0));
+        Fondo.setBorder(new EmptyBorder(0,0,0,0));
+
+        MenuLateral.setBorder(new EmptyBorder(0,0,0,0));
+        MenuSuperior.setBorder(new EmptyBorder(0,0,0,0));
+        Integer alturaMenuSuperior = 100;
+        MenuSuperior.setPreferredSize(new java.awt.Dimension(0, alturaMenuSuperior)); // probá 120..160
+        MenuSuperior.setMinimumSize(new java.awt.Dimension(0, alturaMenuSuperior));
+        MenuSuperior.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, alturaMenuSuperior));
+        Contenido.setBorder(new EmptyBorder(0,0,0,0));
+        int grosor = 2;
+
+        MenuSuperior.setBorder(BorderFactory.createMatteBorder(0, 0, grosor, 0, java.awt.Color.BLACK));
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, grosor, java.awt.Color.BLACK)); // importante para que no se duplique
+
+        Contenido.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, java.awt.Color.BLACK));
+        Fondo.add(MenuLateral, BorderLayout.WEST);
+
+        JPanel derecha = new JPanel(new BorderLayout(0, 0));
+        derecha.setBorder(new EmptyBorder(0,0,0,0));
+        derecha.add(MenuSuperior, BorderLayout.NORTH);
+        derecha.add(Contenido, BorderLayout.CENTER);
         
-        // 1) Armo grilla centrada (3 columnas)
+
+        Fondo.add(derecha, BorderLayout.CENTER);
+
+        Fondo.revalidate();
+        Fondo.repaint();
+
+        // Centrar título
+        MenuSuperior.removeAll();
+        MenuSuperior.setLayout(new BorderLayout());
+        MenuSuperior.add(TextoMenuSuperior, BorderLayout.CENTER);
+        TextoMenuSuperior.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+        
+        // ARMAR GRILLA
         ImagenesHelper.armarMenuEnGrilla(
         Contenido,
         new JButton[] {
@@ -64,7 +119,7 @@ public class PanelDeHistoriales extends javax.swing.JPanel {
         VenderItem1 = new javax.swing.JButton();
         Atras = new javax.swing.JButton();
         MenuSuperior = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        TextoMenuSuperior = new javax.swing.JLabel();
         Contenido = new PanelDeFondo("/Imagenes/Fondo.png");
         HistorialGeneralBoton = new javax.swing.JButton();
         HistorialXProveedorBoton = new javax.swing.JButton();
@@ -137,10 +192,10 @@ public class PanelDeHistoriales extends javax.swing.JPanel {
 
         MenuSuperior.setBackground(new java.awt.Color(0, 102, 255));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("MENU HISTORIALES");
+        TextoMenuSuperior.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
+        TextoMenuSuperior.setForeground(new java.awt.Color(255, 255, 255));
+        TextoMenuSuperior.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        TextoMenuSuperior.setText("MENU HISTORIALES");
 
         javax.swing.GroupLayout MenuSuperiorLayout = new javax.swing.GroupLayout(MenuSuperior);
         MenuSuperior.setLayout(MenuSuperiorLayout);
@@ -148,14 +203,14 @@ public class PanelDeHistoriales extends javax.swing.JPanel {
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
                 .addContainerGap(46, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TextoMenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(90, 90, 90))
         );
         MenuSuperiorLayout.setVerticalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuSuperiorLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(jLabel3)
+                .addComponent(TextoMenuSuperior)
                 .addContainerGap(58, Short.MAX_VALUE))
         );
 
@@ -163,7 +218,7 @@ public class PanelDeHistoriales extends javax.swing.JPanel {
         Contenido.setPreferredSize(new java.awt.Dimension(700, 320));
         Contenido.setVerifyInputWhenFocusTarget(false);
 
-        HistorialGeneralBoton.setBackground(new java.awt.Color(255, 255, 204));
+        HistorialGeneralBoton.setBackground(new java.awt.Color(0, 204, 204));
         HistorialGeneralBoton.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         HistorialGeneralBoton.setForeground(new java.awt.Color(0, 0, 0));
         HistorialGeneralBoton.setText("Historial General");
@@ -172,7 +227,7 @@ public class PanelDeHistoriales extends javax.swing.JPanel {
         HistorialGeneralBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         HistorialGeneralBoton.addActionListener(this::HistorialGeneralBotonActionPerformed);
 
-        HistorialXProveedorBoton.setBackground(new java.awt.Color(255, 255, 204));
+        HistorialXProveedorBoton.setBackground(new java.awt.Color(0, 204, 204));
         HistorialXProveedorBoton.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         HistorialXProveedorBoton.setForeground(new java.awt.Color(0, 0, 0));
         HistorialXProveedorBoton.setText("Historial X Proveedor");
@@ -260,9 +315,9 @@ public class PanelDeHistoriales extends javax.swing.JPanel {
     private javax.swing.JLabel Logo;
     private javax.swing.JPanel MenuLateral;
     private javax.swing.JPanel MenuSuperior;
+    private javax.swing.JLabel TextoMenuSuperior;
     private javax.swing.JButton VenderItem1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

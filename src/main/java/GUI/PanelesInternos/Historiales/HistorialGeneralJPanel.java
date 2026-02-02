@@ -7,6 +7,7 @@ package GUI.PanelesInternos.Historiales;
 import GUI.FramePrincipal;
 import GUI.PanelPrincipal;
 import GUI.PanelesPRINCIPALES.PanelDeHistoriales;
+import ImagenesHelpers.ImagenesHelper;
 import ImagenesHelpers.PanelDeFondo;
 import ImagenesHelpers.RenderDeImagenEnTablas;
 import Persistencia.Clases.CompraItem;
@@ -15,6 +16,7 @@ import Persistencia.Clases.Item;
 import Persistencia.FabricaEntityManager;
 import Persistencia.ManejadorDePersistencia;
 import jakarta.persistence.EntityManager;
+import java.awt.Color;
 import java.util.List;
 import javax.swing.JPanel;
 
@@ -70,6 +72,33 @@ public class HistorialGeneralJPanel extends javax.swing.JPanel {
     HistorialGeneral.getColumnModel().getColumn(colImagenProveedor)
               .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
     
+      //CONFIGURAR BOTONES LATERALES
+        ImagenesHelper.estilizarBotonMenuLateral(
+        INICIO,
+        "INICIO",
+        //Icono
+        ImagenesHelper.iconoTintado("/Imagenes/InicioBoton.png", Color.WHITE, 37, 37),
+        //Color Base
+        new Color(153, 255, 255),
+        //Color del hover
+        new Color(99, 166, 166),
+        //Color del texto
+        Color.BLACK
+        );
+        
+        ImagenesHelper.estilizarBotonMenuLateral(
+        ATRAS,
+        "ATRÁS",
+        //Icono
+        ImagenesHelper.iconoTintado("/Imagenes/HistorialBoton.png", Color.WHITE, 37, 37),
+        //Color Base
+        new Color (0, 204, 204),
+        //Color del hover
+        new Color(0, 140, 140),
+        //Color del texto
+        Color.BLACK
+        );
+    
     }
 
     /**
@@ -99,8 +128,8 @@ public class HistorialGeneralJPanel extends javax.swing.JPanel {
         Logo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         VenderItem1 = new javax.swing.JButton();
-        MenuPrincipal = new javax.swing.JButton();
-        Atras1 = new javax.swing.JButton();
+        INICIO = new javax.swing.JButton();
+        ATRAS = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -182,23 +211,23 @@ public class HistorialGeneralJPanel extends javax.swing.JPanel {
         VenderItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         VenderItem1.addActionListener(this::VenderItem1ActionPerformed);
 
-        MenuPrincipal.setBackground(new java.awt.Color(153, 255, 255));
-        MenuPrincipal.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        MenuPrincipal.setForeground(new java.awt.Color(0, 0, 0));
-        MenuPrincipal.setText("MENU PRINCIPAL");
-        MenuPrincipal.setBorder(null);
-        MenuPrincipal.setBorderPainted(false);
-        MenuPrincipal.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        MenuPrincipal.addActionListener(this::MenuPrincipalActionPerformed);
+        INICIO.setBackground(new java.awt.Color(153, 255, 255));
+        INICIO.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        INICIO.setForeground(new java.awt.Color(0, 0, 0));
+        INICIO.setText("INICIO");
+        INICIO.setBorder(null);
+        INICIO.setBorderPainted(false);
+        INICIO.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        INICIO.addActionListener(this::INICIOActionPerformed);
 
-        Atras1.setBackground(new java.awt.Color(255, 255, 204));
-        Atras1.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        Atras1.setForeground(new java.awt.Color(0, 0, 0));
-        Atras1.setText("ATRAS");
-        Atras1.setBorder(null);
-        Atras1.setBorderPainted(false);
-        Atras1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Atras1.addActionListener(this::Atras1ActionPerformed);
+        ATRAS.setBackground(new java.awt.Color(0, 204, 204));
+        ATRAS.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        ATRAS.setForeground(new java.awt.Color(0, 0, 0));
+        ATRAS.setText("ATRÁS");
+        ATRAS.setBorder(null);
+        ATRAS.setBorderPainted(false);
+        ATRAS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ATRAS.addActionListener(this::ATRASActionPerformed);
 
         javax.swing.GroupLayout MenuLateralLayout = new javax.swing.GroupLayout(MenuLateral);
         MenuLateral.setLayout(MenuLateralLayout);
@@ -218,8 +247,8 @@ public class HistorialGeneralJPanel extends javax.swing.JPanel {
                         .addComponent(VenderItem1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(63, 63, 63))))
             .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(MenuPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
-                .addComponent(Atras1, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
+                .addComponent(INICIO, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
+                .addComponent(ATRAS, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
         );
         MenuLateralLayout.setVerticalGroup(
             MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -233,9 +262,9 @@ public class HistorialGeneralJPanel extends javax.swing.JPanel {
             .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(MenuLateralLayout.createSequentialGroup()
                     .addGap(185, 185, 185)
-                    .addComponent(MenuPrincipal)
+                    .addComponent(INICIO)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(Atras1)
+                    .addComponent(ATRAS)
                     .addContainerGap(186, Short.MAX_VALUE)))
         );
 
@@ -266,27 +295,27 @@ public class HistorialGeneralJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_VenderItem1ActionPerformed
 
-    private void MenuPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuPrincipalActionPerformed
+    private void INICIOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_INICIOActionPerformed
         JPanel panelPrincipal = new PanelPrincipal();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(panelPrincipal);
-    }//GEN-LAST:event_MenuPrincipalActionPerformed
+    }//GEN-LAST:event_INICIOActionPerformed
 
-    private void Atras1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Atras1ActionPerformed
+    private void ATRASActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ATRASActionPerformed
         JPanel panelDeHistoriales = new PanelDeHistoriales();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(panelDeHistoriales);
-    }//GEN-LAST:event_Atras1ActionPerformed
+    }//GEN-LAST:event_ATRASActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Atras1;
+    private javax.swing.JButton ATRAS;
     private javax.swing.JPanel Contenido;
     private javax.swing.JPanel Fondo;
     private javax.swing.JTable HistorialGeneral;
+    private javax.swing.JButton INICIO;
     private javax.swing.JLabel Logo;
     private javax.swing.JPanel MenuLateral;
-    private javax.swing.JButton MenuPrincipal;
     private javax.swing.JPanel MenuSuperior;
     private javax.swing.JButton VenderItem1;
     private javax.swing.JLabel jLabel1;

@@ -11,7 +11,6 @@ import GUI.PanelesPRINCIPALES.PanelDeItems;
 import GUI.PanelesInternos.LoginJPanel;
 import GUI.PanelesPRINCIPALES.PanelDeCatalogos;
 import GUI.PanelesPRINCIPALES.PanelDeHistoriales;
-import GUI.PanelesPRINCIPALES.PanelDeStock;
 import GUI.PanelesPRINCIPALES.PanelDeTODASLasFunciones;
 import javax.swing.JPanel;
 
@@ -312,9 +311,7 @@ public class PanelPrincipalCopia extends javax.swing.JPanel {
     }//GEN-LAST:event_TodasLasFuncionesActionPerformed
 
     private void StockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StockActionPerformed
-     JPanel  stockPanel = new PanelDeStock();
-        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.cambiarFondo(stockPanel);
+     
     }//GEN-LAST:event_StockActionPerformed
 
 

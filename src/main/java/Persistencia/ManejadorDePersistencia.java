@@ -137,19 +137,15 @@ public class ManejadorDePersistencia {
 }
     
     
-    public List<Item> getItemsDeCatalogoGeneral(EntityManager em) {
-    CatalogoGeneral c = em.find(CatalogoGeneral.class, "DEFAULT");
-    if (c == null) return List.of(); // o new ArrayList<>()
-    return c.getItemsDeCatalogo();
-}
+   
     
     public List<Item> getItemsDeCatalogoGeneralOptimizado() {
     EntityManager em = FabricaEntityManager.getEntityManager();
     try {
         return em.createQuery(
-            "SELECT i FROM Item i WHERE i.catalogo.clave = :id ORDER BY i.id",
+            "SELECT i FROM Item i WHERE i.catalogo.clave = :id AND i.activo = true ORDER BY i.id",
             Item.class
-        )
+        )   
         .setParameter("id", "DEFAULT")
         .getResultList();
     } finally {
@@ -159,35 +155,18 @@ public class ManejadorDePersistencia {
     
   public List<Proveedor> obtenerTodosLosProveedoresOrderByNombre(EntityManager em) {
     return em.createQuery(
-            "SELECT p FROM Proveedor p ORDER BY p.nombre",
+            "SELECT p FROM Proveedor p WHERE p.activo = true ORDER BY p.nombre ",
             Proveedor.class
     ).getResultList();
 }
   
   public List<Proveedor> obtenerTodosLosProveedoresOrderById(EntityManager em) {
     return em.createQuery(
-            "SELECT p FROM Proveedor p ORDER BY p.id",
+            "SELECT p FROM Proveedor p WHERE p.activo = true  ORDER BY p.id",
             Proveedor.class
     ).getResultList();
 }
- /*   
-    public void persistirCatalogoGeneral(CatalogoGeneral nuevoCatGeneral){    
-        EntityManager em = FabricaEntityManager.getEntityManager();
-        EntityTransaction et = em.getTransaction();
-        try{
-            et.begin();
-            em.persist(nuevoCatGeneral);
-            et.commit();
-            }
-        catch(Exception e) {
-            if (et.isActive()) et.rollback();
-            throw new PersistenceException("Error al persistir Catalogo General", e);
-                } 
-            finally {em.close();}
-    }
 
-
-*/
 public Proveedor getProveedorAPartirDeId(Long proveedorId) {
     EntityManager em = FabricaEntityManager.getEntityManager();
     try {
@@ -199,21 +178,19 @@ public Proveedor getProveedorAPartirDeId(Long proveedorId) {
 
 public DTItem getDTItem(EntityManager em, Long itemId) {
     Item it = em.createQuery(
-        "SELECT DISTINCT it FROM Item it " +
-        "WHERE it.id = :id",
+        "SELECT it FROM Item it WHERE it.id = :id AND it.activo = true",
         Item.class
     )
     .setParameter("id", itemId)
     .getSingleResult();
-    
-    DTItem dt = it.crearDTItem();
-    return dt;
+
+    return it.crearDTItem();
 }
 
 public DTItemDeSTOCK getDTItemDeSTOCK(EntityManager em, Long itemId) {
     ItemDeSTOCK it = em.createQuery(
         "SELECT DISTINCT it FROM ItemDeSTOCK it " +
-        "WHERE it.id = :id",
+        "WHERE it.id = :id AND it.activo = true",
         ItemDeSTOCK.class
     )
     .setParameter("id", itemId)
@@ -310,20 +287,18 @@ public DTItemDeSTOCK getDTItemDeSTOCK(EntityManager em, Long itemId) {
  
  
  
-    public List<ItemDeSTOCK> getItemsDeStock(EntityManager em) {
+public List<ItemDeSTOCK> getItemsDeStock(EntityManager em) {
     Stock s = em.createQuery(
         "SELECT DISTINCT s FROM Stock s " +
-        //el left join es para que me traiga ya cargala la lista de items
         "LEFT JOIN FETCH s.itemsDeStock " +
-        "WHERE s.id = :id",
+        "WHERE s.clave = :clave ",
         Stock.class
     )
-    .setParameter("id", 1L) //Hay un solo stock y lo seteo en 1L
+    .setParameter("clave", "DEFAULT")
     .getSingleResult();
     
-    //una ves traje el catalogo de la base de datos le pido la lista de items
-    return s.getItemsDeSTOCK();
-    }
+    return s.filtrarActivos(s.getItemsDeSTOCK());
+}
     
     public DTProveedor getDTProveedor(EntityManager em, Long proveedorId) {
     Proveedor p = em.createQuery(
@@ -348,7 +323,7 @@ public DTItemDeSTOCK getDTItemDeSTOCK(EntityManager em, Long itemId) {
         try{
             et.begin();
             Item it = em.createQuery(
-                    "SELECT DISTINCT it FROM Item it WHERE it.id = :id"
+                    "SELECT DISTINCT it FROM Item it WHERE it.id = :id AND it.activo = true"
                     ,Item.class)
                     .setParameter("id", itemId)
                     .getSingleResult();
@@ -363,7 +338,7 @@ public DTItemDeSTOCK getDTItemDeSTOCK(EntityManager em, Long itemId) {
         try{
             et.begin();
             ItemDeSTOCK it = em.createQuery(
-                    "SELECT DISTINCT it FROM ItemDeSTOCK it WHERE it.id = :id"
+                    "SELECT DISTINCT it FROM ItemDeSTOCK it WHERE it.id = :id AND it.activo = true"
                     ,ItemDeSTOCK.class)
                     .setParameter("id", itemId)
                     .getSingleResult();
@@ -372,55 +347,7 @@ public DTItemDeSTOCK getDTItemDeSTOCK(EntityManager em, Long itemId) {
             finally {em.close();}  
     }
     
- /*   
-    public void persistirCompraDefault(CompraItemAProveedorDefault compraDefault, Long proveedorId){    
-        EntityManager em = FabricaEntityManager.getEntityManager();
-        EntityTransaction et = em.getTransaction();
-        try{
-            et.begin();
-            
-            Proveedor p = em.find(Proveedor.class, proveedorId);
-            //El historial General es unico para todos y lo comparten
-        HistorialGeneral histG = em.createQuery(
-                "SELECT h FROM HistorialGeneral h",
-                HistorialGeneral.class)
-                .setMaxResults(1)
-                .getResultStream()
-                .findFirst()
-                .orElse(null);
-            // Si no existe, lo creo y persisto
-            if (histG == null) {
-                histG = new HistorialGeneral();
-                histG.addCompra(compraDefault);
-                em.persist(histG);
-            }
-            histG.addCompra(compraDefault);
-            //El historialXProveedor es uno para cada Proveedor, en este paso el default
-        HistorialXProveedor histP = em.createQuery(
-                "SELECT hp FROM HistorialXProveedor hp WHERE hp.id = :id",
-                HistorialXProveedor.class)
-                .setParameter("id", p.getHistorialXProveedorId()) //Seteo para que busque el historialXProveedor del proveedorDefalut
-                .setMaxResults(1)
-                .getResultStream()
-                .findFirst()
-                .orElse(null);
-            // Si no existe, lo creo y persisto
-            if (histP == null) {
-                histP = new HistorialXProveedor();
-                em.persist(histP);
-            }
-            histP.addCompra(compraDefault);
-            //LE ASIGNO A LA COMPRA EL HISTORIAL AL QUE CORRESPONDE
-            compraDefault.setHistorialGeneral(histG);
-            compraDefault.setHistorialXProveedor(histP);
-            //PERSISTO LA COMPRA
-            em.persist(compraDefault);
-            et.commit();
-        }
-        catch(Exception e) {if (et.isActive()) {et.rollback();}throw new PersistenceException("Error al persistir item", e);} 
-            finally {em.close();}
-    }
-    */
+ 
     public void persistirCompra(CompraItem compra, Long proveedorId){    
     EntityManager em = FabricaEntityManager.getEntityManager();
     EntityTransaction et = em.getTransaction();
@@ -664,9 +591,17 @@ public void desactivarItem(Long itemId) {
 
         Item item = em.find(Item.class, itemId);
         if (item == null) throw new IllegalArgumentException("Item no existe");
-
+        
+        //ACA DESACTIVO EL ITEM DE CATALOGO; AHORA TENGO QUE DESACTIVAR EL DE STOCK; PARA ELLO LO BUSCO POR NOMBRE
         item.setActivo(false);
         em.merge(item);
+        
+        // Desactivar TODOS los ItemDeSTOCK con ese nombre (por si hay duplicados)
+        int updated = em.createQuery(
+            "UPDATE ItemDeSTOCK s SET s.activo = false WHERE s.nombre = :nombre"
+        )
+        .setParameter("nombre", item.getNombre())
+        .executeUpdate();
 
         et.commit();
     } catch (Exception e) {
@@ -677,6 +612,34 @@ public void desactivarItem(Long itemId) {
     }
 }
 
+public void desactivarProveedor(Long proveedorId) {
+    EntityManager em = FabricaEntityManager.getEntityManager();
+    EntityTransaction et = em.getTransaction();
+    try {
+        et.begin();
+
+        Proveedor proveedor = em.find(Proveedor.class, proveedorId);
+        if (proveedor == null) throw new IllegalArgumentException("Item no existe");
+        
+        //ACA DESACTIVO EL ITEM DE CATALOGO; AHORA TENGO QUE DESACTIVAR EL DE STOCK; PARA ELLO LO BUSCO POR NOMBRE
+        proveedor.setActivo(false);
+        em.merge(proveedor);
+        
+        // Desactivar TODOS los ItemDeSTOCK con ese nombre (por si hay duplicados)
+        int updated = em.createQuery(
+            "UPDATE Proveedor p SET p.activo = false WHERE p.id = :id"
+        )
+        .setParameter("id", proveedor.getId())
+        .executeUpdate();
+
+        et.commit();
+    } catch (Exception e) {
+        if (et.isActive()) et.rollback();
+        throw new PersistenceException("Error al desactivar item", e);
+    } finally {
+        em.close();
+    }
+}
 }
 
 

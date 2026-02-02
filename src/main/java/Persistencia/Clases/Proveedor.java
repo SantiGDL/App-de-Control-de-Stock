@@ -19,6 +19,7 @@ public class Proveedor {
     private String ubicacion;
     private String descripcion;
     private String imagen;
+    private boolean activo = true;
     //Vinculo entre el proveedor y su catalogo
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="catalogo_id", nullable=false, unique=true)
@@ -93,4 +94,6 @@ public class Proveedor {
     }
     
     public List<ItemDeProveedorX> getListaItems(){return this.listaItemsVendidos;}
+    public boolean isActivo() { return activo; }
+    public void setActivo(boolean activo) { this.activo = activo; }
 }
