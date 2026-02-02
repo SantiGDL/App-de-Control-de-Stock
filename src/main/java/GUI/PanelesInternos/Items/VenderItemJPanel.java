@@ -11,15 +11,19 @@ import GUI.PanelesInternos.Items.ComprarItem.SeleccionarProveedorCompraJPanel;
 import GUI.PanelesPRINCIPALES.PanelDeItems;
 import ImagenesHelpers.ImagenesHelper;
 import ImagenesHelpers.PanelDeFondo;
+import ImagenesHelpers.RenderCantidadConAlerta;
 import ImagenesHelpers.RenderDeImagenEnTablas;
 import Persistencia.Clases.ItemDeSTOCK;
 import Persistencia.FabricaEntityManager;
 import Persistencia.ManejadorDePersistencia;
 import jakarta.persistence.EntityManager;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import static javax.swing.SwingConstants.CENTER;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
@@ -69,10 +73,19 @@ public class VenderItemJPanel extends javax.swing.JPanel {
         TablaDeStock.getTableHeader().setReorderingAllowed(false);
         //REDERIZO LA IMAGEN DE LA TABLA
         int colImagen = 3;
-        TablaDeStock.setRowHeight(120);
-        //RENDERIZO LA IMAGEN USANDO EL HELPER
         TablaDeStock.getColumnModel().getColumn(colImagen)
-                  .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
+                .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
+
+
+        ImagenesHelper.estilizarTablaGaming(
+                TablaDeStock,
+                jScrollPane1,
+                120,
+                colImagen,
+                TablaDeStock.getColumnModel().getColumn(colImagen).getCellRenderer(),
+                true,
+                null  
+        );
 
         //AHORA EL BOTON PARA APRETAR PARA SELECCIONAR ITEM Y VENDDERLO
         int columnaBoton = 5;
@@ -123,6 +136,43 @@ public class VenderItemJPanel extends javax.swing.JPanel {
      */
     public VenderItemJPanel() {
         initComponents();
+        //CONFIURO EL FONDO PARA QUE SE VEA TODO JUNTO SIN SEPARACION
+        Fondo.removeAll();
+        Fondo.setLayout(new BorderLayout(0, 0));
+        Fondo.setBorder(new EmptyBorder(0,0,0,0));
+        //CONFIGURAR MENU SUPERIOR
+        MenuSuperior.setBorder(new EmptyBorder(0,0,0,0));
+        Integer alturaMenuSuperior = 100;
+        MenuSuperior.setPreferredSize(new java.awt.Dimension(0, alturaMenuSuperior)); // probá 120..160
+        MenuSuperior.setMinimumSize(new java.awt.Dimension(0, alturaMenuSuperior));
+        MenuSuperior.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, alturaMenuSuperior));
+        Contenido.setBorder(new EmptyBorder(0,0,0,0));
+        int grosor = 2;
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, grosor, java.awt.Color.BLACK)); // importante para que no se duplique
+        Contenido.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, java.awt.Color.BLACK));
+        Fondo.add(MenuLateral, BorderLayout.WEST);
+
+        JPanel derecha = new JPanel(new BorderLayout(0, 0));
+        derecha.setBorder(new EmptyBorder(0,0,0,0));
+        derecha.add(MenuSuperior, BorderLayout.NORTH);
+        derecha.add(Contenido, BorderLayout.CENTER);
+        
+
+        Fondo.add(derecha, BorderLayout.CENTER);
+
+        Fondo.revalidate();
+        Fondo.repaint();
+
+        // Centrar título
+        MenuSuperior.removeAll();
+        MenuSuperior.setLayout(new BorderLayout());
+        MenuSuperior.add(TextoMenuSuperior, BorderLayout.CENTER);
+        TextoMenuSuperior.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+
+
+
+
         cargarTablaItemsSTOCK();
         //CONFIGURAR BOTONES LATERALES
         ImagenesHelper.estilizarBotonMenuLateral(
@@ -175,7 +225,7 @@ public class VenderItemJPanel extends javax.swing.JPanel {
         ATRAS = new javax.swing.JButton();
         INICIO = new javax.swing.JButton();
         MenuSuperior = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        TextoMenuSuperior = new javax.swing.JLabel();
         Contenido = new PanelDeFondo("/Imagenes/Fondo.png");
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaDeStock = new javax.swing.JTable();
@@ -258,10 +308,10 @@ public class VenderItemJPanel extends javax.swing.JPanel {
 
         MenuSuperior.setBackground(new java.awt.Color(0, 102, 255));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("VENDER ITEM");
+        TextoMenuSuperior.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
+        TextoMenuSuperior.setForeground(new java.awt.Color(255, 255, 255));
+        TextoMenuSuperior.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        TextoMenuSuperior.setText("VENDER ITEM");
 
         javax.swing.GroupLayout MenuSuperiorLayout = new javax.swing.GroupLayout(MenuSuperior);
         MenuSuperior.setLayout(MenuSuperiorLayout);
@@ -269,14 +319,14 @@ public class VenderItemJPanel extends javax.swing.JPanel {
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TextoMenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(54, 54, 54))
         );
         MenuSuperiorLayout.setVerticalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuSuperiorLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TextoMenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(78, Short.MAX_VALUE))
         );
 
@@ -363,9 +413,9 @@ public class VenderItemJPanel extends javax.swing.JPanel {
     private javax.swing.JPanel MenuLateral;
     private javax.swing.JPanel MenuSuperior;
     private javax.swing.JTable TablaDeStock;
+    private javax.swing.JLabel TextoMenuSuperior;
     private javax.swing.JButton VenderItem1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

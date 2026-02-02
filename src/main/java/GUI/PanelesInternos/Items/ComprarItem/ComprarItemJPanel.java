@@ -74,10 +74,17 @@ public class ComprarItemJPanel extends javax.swing.JPanel {
     CatalogoGeneral.getColumnModel().getColumn(0).setPreferredWidth(0);
     //Renderizo la imagen
     int colImagen = 3;
-    CatalogoGeneral.setRowHeight(120);
-    //RENDERIZO LA IMAGEN USANDO EL HELPER
     CatalogoGeneral.getColumnModel().getColumn(colImagen)
-              .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
+            .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
+    ImagenesHelper.estilizarTablaGaming(
+            CatalogoGeneral,
+            jScrollPane1,
+            120,
+            colImagen,
+            CatalogoGeneral.getColumnModel().getColumn(colImagen).getCellRenderer(),
+            true,
+            null  // 👈 NO TOCAR esta columna (alertas)
+    );
     
     //AHORA EL BOTON PARA APRETAR PARA SELECCIONAR PROVEEDOR
     

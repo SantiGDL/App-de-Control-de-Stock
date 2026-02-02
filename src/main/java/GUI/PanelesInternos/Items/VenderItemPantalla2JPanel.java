@@ -14,9 +14,12 @@ import Persistencia.Clases.ItemDeSTOCK;
 import Persistencia.DTOs.DTItem;
 import Persistencia.DTOs.DTItemDeSTOCK;
 import Persistencia.ManejadorDePersistencia;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -29,6 +32,44 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
     
     public VenderItemPantalla2JPanel(Long itemId) {
         initComponents();
+        //CONFIURO EL FONDO PARA QUE SE VEA TODO JUNTO SIN SEPARACION
+        Fondo.removeAll();
+        Fondo.setLayout(new BorderLayout(0, 0));
+        Fondo.setBorder(new EmptyBorder(0,0,0,0));
+        //CONFIGURAR MENU SUPERIOR
+        MenuSuperior.setBorder(new EmptyBorder(0,0,0,0));
+        Integer alturaMenuSuperior = 100;
+        MenuSuperior.setPreferredSize(new java.awt.Dimension(0, alturaMenuSuperior)); // probá 120..160
+        MenuSuperior.setMinimumSize(new java.awt.Dimension(0, alturaMenuSuperior));
+        MenuSuperior.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, alturaMenuSuperior));
+        Contenido.setBorder(new EmptyBorder(0,0,0,0));
+        int grosor = 2;
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, grosor, java.awt.Color.BLACK)); // importante para que no se duplique
+        Contenido.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, java.awt.Color.BLACK));
+        Fondo.add(MenuLateral, BorderLayout.WEST);
+
+        JPanel derecha = new JPanel(new BorderLayout(0, 0));
+        derecha.setBorder(new EmptyBorder(0,0,0,0));
+        derecha.add(MenuSuperior, BorderLayout.NORTH);
+        derecha.add(Contenido, BorderLayout.CENTER);
+        
+
+        Fondo.add(derecha, BorderLayout.CENTER);
+
+        Fondo.revalidate();
+        Fondo.repaint();
+
+        // Centrar título
+        MenuSuperior.removeAll();
+        MenuSuperior.setLayout(new BorderLayout());
+        MenuSuperior.add(TextoMenuSuperior, BorderLayout.CENTER);
+        TextoMenuSuperior.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+
+
+
+
+        
         this.itemSeleccionadoId =  itemId;
         dtItem = controller.recuperarDTItemDeSTOCKDeId(itemId);
         cargarDatos();
@@ -84,9 +125,9 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         Fondo = new javax.swing.JPanel();
-        MenuSuperior2 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        MenuLateral2 = new javax.swing.JPanel();
+        MenuSuperior = new javax.swing.JPanel();
+        TextoMenuSuperior = new javax.swing.JLabel();
+        MenuLateral = new javax.swing.JPanel();
         Logo3 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         VenderItem3 = new javax.swing.JButton();
@@ -115,33 +156,33 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
         Fondo.setPreferredSize(new java.awt.Dimension(800, 500));
         Fondo.setRequestFocusEnabled(false);
 
-        MenuSuperior2.setBackground(new java.awt.Color(0, 102, 255));
+        MenuSuperior.setBackground(new java.awt.Color(0, 102, 255));
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("VENDER ITEM");
+        TextoMenuSuperior.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
+        TextoMenuSuperior.setForeground(new java.awt.Color(255, 255, 255));
+        TextoMenuSuperior.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        TextoMenuSuperior.setText("VENDER ITEM");
 
-        javax.swing.GroupLayout MenuSuperior2Layout = new javax.swing.GroupLayout(MenuSuperior2);
-        MenuSuperior2.setLayout(MenuSuperior2Layout);
-        MenuSuperior2Layout.setHorizontalGroup(
-            MenuSuperior2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperior2Layout.createSequentialGroup()
-                .addContainerGap(295, Short.MAX_VALUE)
-                .addComponent(jLabel8)
-                .addGap(270, 270, 270))
+        javax.swing.GroupLayout MenuSuperiorLayout = new javax.swing.GroupLayout(MenuSuperior);
+        MenuSuperior.setLayout(MenuSuperiorLayout);
+        MenuSuperiorLayout.setHorizontalGroup(
+            MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
+                .addContainerGap(171, Short.MAX_VALUE)
+                .addComponent(TextoMenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(214, 214, 214))
         );
-        MenuSuperior2Layout.setVerticalGroup(
-            MenuSuperior2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(MenuSuperior2Layout.createSequentialGroup()
+        MenuSuperiorLayout.setVerticalGroup(
+            MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MenuSuperiorLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TextoMenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(75, Short.MAX_VALUE))
         );
 
-        MenuLateral2.setBackground(new java.awt.Color(51, 153, 255));
-        MenuLateral2.setPreferredSize(new java.awt.Dimension(200, 500));
-        MenuLateral2.setRequestFocusEnabled(false);
+        MenuLateral.setBackground(new java.awt.Color(51, 153, 255));
+        MenuLateral.setPreferredSize(new java.awt.Dimension(200, 500));
+        MenuLateral.setRequestFocusEnabled(false);
 
         Logo3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/TelecomLogo.png"))); // NOI18N
 
@@ -174,29 +215,29 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
         ATRAS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         ATRAS.addActionListener(this::ATRASActionPerformed);
 
-        javax.swing.GroupLayout MenuLateral2Layout = new javax.swing.GroupLayout(MenuLateral2);
-        MenuLateral2.setLayout(MenuLateral2Layout);
-        MenuLateral2Layout.setHorizontalGroup(
-            MenuLateral2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(MenuLateral2Layout.createSequentialGroup()
+        javax.swing.GroupLayout MenuLateralLayout = new javax.swing.GroupLayout(MenuLateral);
+        MenuLateral.setLayout(MenuLateralLayout);
+        MenuLateralLayout.setHorizontalGroup(
+            MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 6, Short.MAX_VALUE))
-            .addGroup(MenuLateral2Layout.createSequentialGroup()
+            .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(MenuLateral2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(MenuLateral2Layout.createSequentialGroup()
+                .addGroup(MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(MenuLateralLayout.createSequentialGroup()
                         .addComponent(Logo3)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuLateral2Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuLateralLayout.createSequentialGroup()
                         .addGap(89, 89, 89)
                         .addComponent(VenderItem3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(63, 63, 63))))
             .addComponent(INICIO, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(ATRAS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        MenuLateral2Layout.setVerticalGroup(
-            MenuLateral2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(MenuLateral2Layout.createSequentialGroup()
+        MenuLateralLayout.setVerticalGroup(
+            MenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MenuLateralLayout.createSequentialGroup()
                 .addComponent(Logo3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -235,18 +276,18 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
         ImagenItem.setLayout(ImagenItemLayout);
         ImagenItemLayout.setHorizontalGroup(
             ImagenItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 181, Short.MAX_VALUE)
             .addGroup(ImagenItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(ImagenItemLayout.createSequentialGroup()
-                    .addComponent(RellenoImagenItem, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(RellenoImagenItem, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
         ImagenItemLayout.setVerticalGroup(
             ImagenItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 162, Short.MAX_VALUE)
             .addGroup(ImagenItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(ImagenItemLayout.createSequentialGroup()
-                    .addComponent(RellenoImagenItem, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(RellenoImagenItem, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
@@ -379,19 +420,19 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
         FondoLayout.setHorizontalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(FondoLayout.createSequentialGroup()
-                .addComponent(MenuLateral2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(MenuLateral, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(MenuSuperior2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(MenuSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
         );
         FondoLayout.setVerticalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(FondoLayout.createSequentialGroup()
-                .addComponent(MenuSuperior2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(MenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-            .addComponent(MenuLateral2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(MenuLateral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         add(Fondo, java.awt.BorderLayout.CENTER);
@@ -450,18 +491,18 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
     private javax.swing.JPanel ImagenItem;
     private javax.swing.JLabel ImagenItemLbl;
     private javax.swing.JLabel Logo3;
-    private javax.swing.JPanel MenuLateral2;
-    private javax.swing.JPanel MenuSuperior2;
+    private javax.swing.JPanel MenuLateral;
+    private javax.swing.JPanel MenuSuperior;
     private javax.swing.JTextField NombreItem;
     private javax.swing.JLabel NombreItemLbl;
     private javax.swing.JLabel RellenoImagenItem;
+    private javax.swing.JLabel TextoMenuSuperior;
     private javax.swing.JLabel TituloDatosItem;
     private javax.swing.JLabel TituloDatosVenta;
     private javax.swing.JButton Vender;
     private javax.swing.JButton VenderItem3;
     private javax.swing.JTextField cantUnidadesAVender;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

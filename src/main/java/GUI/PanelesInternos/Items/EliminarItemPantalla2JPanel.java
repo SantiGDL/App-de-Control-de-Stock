@@ -9,6 +9,7 @@ import GUI.PanelPrincipal;
 import ImagenesHelpers.ImagenesHelper;
 import ImagenesHelpers.PanelDeFondo;
 import Persistencia.Clases.ItemDeSTOCK;
+import Persistencia.DTOs.DTItem;
 import Persistencia.DTOs.DTItemDeSTOCK;
 import Persistencia.ManejadorDePersistencia;
 import java.awt.Color;
@@ -21,7 +22,7 @@ import javax.swing.JPanel;
  */
 public class EliminarItemPantalla2JPanel extends javax.swing.JPanel {
     Long itemId;
-    private DTItemDeSTOCK dtItem;
+    private DTItem dtItem;
     GUIController controller = new GUIController();
     /**
      * Creates new form EliminarItemPantalla2JPanel
@@ -29,7 +30,7 @@ public class EliminarItemPantalla2JPanel extends javax.swing.JPanel {
     public EliminarItemPantalla2JPanel(Long itemId) {
         initComponents();
         this.itemId = itemId;
-        dtItem = controller.recuperarDTItemDeSTOCKDeId(itemId);
+        dtItem = controller.recuperarDTItemDeId(itemId);
         cargarDatos();
         //CONFIGURAR BOTONES LATERALES
         ImagenesHelper.estilizarBotonMenuLateral(

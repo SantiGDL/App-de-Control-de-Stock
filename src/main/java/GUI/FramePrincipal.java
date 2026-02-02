@@ -33,12 +33,21 @@ public class FramePrincipal extends javax.swing.JFrame {
     
     //CONSTRUCTOR
     public FramePrincipal() {
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+            } catch (Exception ignored) {}
         initComponents();
         //Al inicializal el frame principal le pido que cargue el Panel Principal tambien
         JPanel PanelPrincipal = new PanelPrincipal();
         controller.cambiarPanelGeneral(Fondo, PanelPrincipal);
         ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
         Proveedor proveedorDefault = MDP.getOrCreateProveedorDefault();
+        
     }
     //FUNCIONES
     public void cambiarFondo(JPanel panelNuevo){

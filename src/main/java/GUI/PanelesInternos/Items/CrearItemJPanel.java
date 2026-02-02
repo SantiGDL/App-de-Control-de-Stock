@@ -15,14 +15,18 @@ import ImagenesHelpers.ImagenesHelper;
 import ImagenesHelpers.PanelDeFondo;
 import Persistencia.Clases.Item;
 import Persistencia.ManejadorDePersistencia;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JPanel;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.UUID;
+import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  *
@@ -36,6 +40,43 @@ public class CrearItemJPanel extends javax.swing.JPanel {
      */
     public CrearItemJPanel() {
         initComponents();
+        //CONFIURO EL FONDO PARA QUE SE VEA TODO JUNTO SIN SEPARACION
+        Fondo.removeAll();
+        Fondo.setLayout(new BorderLayout(0, 0));
+        Fondo.setBorder(new EmptyBorder(0,0,0,0));
+        //CONFIGURAR MENU SUPERIOR
+        MenuSuperior.setBorder(new EmptyBorder(0,0,0,0));
+        Integer alturaMenuSuperior = 100;
+        MenuSuperior.setPreferredSize(new java.awt.Dimension(0, alturaMenuSuperior)); // probá 120..160
+        MenuSuperior.setMinimumSize(new java.awt.Dimension(0, alturaMenuSuperior));
+        MenuSuperior.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, alturaMenuSuperior));
+        Contenido.setBorder(new EmptyBorder(0,0,0,0));
+        int grosor = 2;
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, grosor, java.awt.Color.BLACK)); // importante para que no se duplique
+        Contenido.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, java.awt.Color.BLACK));
+        Fondo.add(MenuLateral, BorderLayout.WEST);
+
+        JPanel derecha = new JPanel(new BorderLayout(0, 0));
+        derecha.setBorder(new EmptyBorder(0,0,0,0));
+        derecha.add(MenuSuperior, BorderLayout.NORTH);
+        derecha.add(Contenido, BorderLayout.CENTER);
+        
+
+        Fondo.add(derecha, BorderLayout.CENTER);
+
+        Fondo.revalidate();
+        Fondo.repaint();
+
+        // Centrar título
+        MenuSuperior.removeAll();
+        MenuSuperior.setLayout(new BorderLayout());
+        MenuSuperior.add(TextoMenuSuperior, BorderLayout.CENTER);
+        TextoMenuSuperior.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+
+
+
+
         //CONFIGURAR BOTONES LATERALES
         ImagenesHelper.estilizarBotonMenuLateral(
         INICIO,
@@ -76,8 +117,7 @@ public class CrearItemJPanel extends javax.swing.JPanel {
         jFileChooser1 = new javax.swing.JFileChooser();
         Fondo = new javax.swing.JPanel();
         MenuSuperior = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        TextoMenuSuperior = new javax.swing.JLabel();
         Contenido = new PanelDeFondo("/Imagenes/Fondo.png");
         NombreLbl = new javax.swing.JLabel();
         DescrpcionLbl = new javax.swing.JLabel();
@@ -102,37 +142,26 @@ public class CrearItemJPanel extends javax.swing.JPanel {
 
         MenuSuperior.setBackground(new java.awt.Color(0, 102, 255));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Crear Item");
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("ingrese los datos del nuevo item");
+        TextoMenuSuperior.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
+        TextoMenuSuperior.setForeground(new java.awt.Color(255, 255, 255));
+        TextoMenuSuperior.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        TextoMenuSuperior.setText("Crear Item");
 
         javax.swing.GroupLayout MenuSuperiorLayout = new javax.swing.GroupLayout(MenuSuperior);
         MenuSuperior.setLayout(MenuSuperiorLayout);
         MenuSuperiorLayout.setHorizontalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuSuperiorLayout.createSequentialGroup()
-                .addGap(190, 190, 190)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuSuperiorLayout.createSequentialGroup()
-                .addContainerGap(66, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addGap(92, 92, 92))
+                .addGap(84, 84, 84)
+                .addComponent(TextoMenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(94, Short.MAX_VALUE))
         );
         MenuSuperiorLayout.setVerticalGroup(
             MenuSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuSuperiorLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addGap(15, 15, 15)
+                .addComponent(TextoMenuSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(66, Short.MAX_VALUE))
         );
 
         Contenido.setBackground(new java.awt.Color(204, 204, 204));
@@ -343,6 +372,7 @@ public class CrearItemJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_AceptarActionPerformed
 
     private void ImagenContenidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImagenContenidoActionPerformed
+    
     JFileChooser chooser = new JFileChooser();
     chooser.setDialogTitle("Seleccionar imagen");
 
@@ -394,10 +424,9 @@ public class CrearItemJPanel extends javax.swing.JPanel {
     private javax.swing.JPanel MenuSuperior;
     private javax.swing.JTextField NombreContenido;
     private javax.swing.JLabel NombreLbl;
+    private javax.swing.JLabel TextoMenuSuperior;
     private javax.swing.JButton VenderItem1;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
 }

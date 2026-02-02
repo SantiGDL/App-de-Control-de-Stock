@@ -58,11 +58,19 @@ public class CatalogoXProveedorPantalla2JPanel extends javax.swing.JPanel {
         CatalogoXProveedor.getColumnModel().getColumn(0).setMaxWidth(0);
         CatalogoXProveedor.getColumnModel().getColumn(0).setPreferredWidth(0);
         //HAY QUE RENDERIZAR DESPUES DE SETEAR EL MODELO
+        //HAY QUE RENDERIZAR DESPUES DE SETEAR EL MODELO
         int colImagen = 3;
-        CatalogoXProveedor.setRowHeight(120);
-        //RENDERIZO LA IMAGEN USANDO EL HELPER
         CatalogoXProveedor.getColumnModel().getColumn(colImagen)
-                  .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
+                .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
+        ImagenesHelper.estilizarTablaGaming(
+                CatalogoXProveedor,
+                jScrollPane1,
+                120,
+                colImagen,
+                CatalogoXProveedor.getColumnModel().getColumn(colImagen).getCellRenderer(),
+                true,
+                null  // 👈 NO TOCAR esta columna (alertas)
+    );
 
   //CONFIGURAR BOTONES LATERALES
         ImagenesHelper.estilizarBotonMenuLateral(

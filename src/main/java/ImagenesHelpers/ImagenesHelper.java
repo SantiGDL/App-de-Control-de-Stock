@@ -438,110 +438,96 @@ private static Color oscurecer(Color c, double factor) {
 // ==========================
 
 public static void estilizarTablaGaming(
-        JTable tabla,
+        JTable table,
         JScrollPane scroll,
         int rowHeight,
-        int colImagen,              // -1 si no hay columna imagen
-        TableCellRenderer rendererImagen, // null si no querés setearlo acá
-        boolean seleccionarSoloConFoco
+        int colImagen,
+        TableCellRenderer rendererImagen,
+        boolean zebra,
+        int... columnasNoTocar
 ) {
-    // ---- Scrollpane transparente ----
-    if (scroll != null) {
-        scroll.setBorder(null);
-        scroll.setOpaque(false);
-        if (scroll.getViewport() != null) {
-            scroll.getViewport().setOpaque(false);
-        }
-    }
+    // --- scroll ---
+    scroll.setBorder(null);
+    scroll.getViewport().setOpaque(false);
+    scroll.setOpaque(false);
 
-    // ---- Tabla base ----
-    tabla.setOpaque(false);
-    tabla.setShowGrid(false);
-    tabla.setIntercellSpacing(new Dimension(0, 0));
-    tabla.setRowHeight(rowHeight);
-    tabla.setFillsViewportHeight(true);
+    // --- tabla base ---
+    table.setOpaque(false);
+    table.setShowGrid(false);
+    table.setIntercellSpacing(new Dimension(0, 0));
+    table.setRowHeight(rowHeight);
+    table.setFillsViewportHeight(true);
 
-    tabla.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-    tabla.setForeground(Color.WHITE);
+    // Fuente general (celdas)
+    table.setFont(new Font("Segoe UI", Font.PLAIN, 16)); // ⬅ más grande
+    table.setForeground(Color.WHITE);
 
-    // selección “gaming”
-    tabla.setSelectionBackground(new Color(0, 160, 255, 120));
-    tabla.setSelectionForeground(Color.WHITE);
-    tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    table.setSelectionBackground(new Color(0, 160, 255, 120));
+    table.setSelectionForeground(Color.WHITE);
 
-    // ---- Header ----
-    JTableHeader header = tabla.getTableHeader();
-    header.setFont(new Font("Segoe UI Black", Font.PLAIN, 14));
+    // --- header ---
+    JTableHeader header = table.getTableHeader();
+    header.setFont(new Font("Segoe UI Black", Font.PLAIN, 16)); // ⬅ más grande
     header.setForeground(Color.WHITE);
-    header.setBackground(new Color(0, 102, 255));
+    header.setBackground(Color.BLUE);
+    //header.setBackground(new Color(0, 102, 255));
     header.setOpaque(true);
     header.setReorderingAllowed(false);
-    header.setPreferredSize(new Dimension(0, 36));
+    header.setPreferredSize(new Dimension(0, 42)); // ⬅ más alto
 
-    // ---- Zebra renderer para todas las columnas (menos imagen) ----
-    DefaultTableCellRenderer zebra = new ZebraRendererSoloConFoco(
-            new Color(0, 60, 140, 120),
-            new Color(0, 90, 190, 120),
-            seleccionarSoloConFoco
-    );
+    // 🔥 Header centrado
+    DefaultTableCellRenderer headerCenter = (DefaultTableCellRenderer) header.getDefaultRenderer();
+    headerCenter.setHorizontalAlignment(SwingConstants.CENTER);
 
-    TableColumnModel cols = tabla.getColumnModel();
-    for (int c = 0; c < cols.getColumnCount(); c++) {
-        if (c == colImagen) continue;
-        cols.getColumn(c).setCellRenderer(zebra);
-    }
-
-    // ---- Renderer imagen (si lo pasás) ----
+    // --- aseguramos renderer imagen ---
     if (colImagen >= 0 && rendererImagen != null) {
-        cols.getColumn(colImagen).setCellRenderer(rendererImagen);
+        table.getColumnModel().getColumn(colImagen).setCellRenderer(rendererImagen);
     }
 
-    // ---- “Fix” para lo que te molestaba: si perdés foco, que no quede pintado ----
-    if (seleccionarSoloConFoco) {
-        tabla.addFocusListener(new FocusAdapter() {
-            @Override public void focusGained(FocusEvent e) { tabla.repaint(); }
-            @Override public void focusLost(FocusEvent e)   { tabla.repaint(); }
-        });
+    if (!zebra) return;
 
-        // Repaint cuando cambia la selección también
-        tabla.getSelectionModel().addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) tabla.repaint();
-        });
-    }
-}
+    // --- zebra renderer base (celdas centradas) ---
+    DefaultTableCellRenderer zebraRenderer = new DefaultTableCellRenderer() {
+        final Color filaA = new Color(0, 60, 140, 120);
+        final Color filaB = new Color(0, 90, 190, 120);
 
-// Renderer zebra reusable
-public static class ZebraRendererSoloConFoco extends DefaultTableCellRenderer {
-    private final Color filaA;
-    private final Color filaB;
-    private final boolean seleccionarSoloConFoco;
-
-    public ZebraRendererSoloConFoco(Color filaA, Color filaB, boolean seleccionarSoloConFoco) {
-        this.filaA = filaA;
-        this.filaB = filaB;
-        this.seleccionarSoloConFoco = seleccionarSoloConFoco;
-        setOpaque(true);
-    }
-
-    @Override
-    public Component getTableCellRendererComponent(
-            JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-
-        super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-        boolean tablaTieneFoco = table.isFocusOwner();
-
-        // zebra
-        setForeground(Color.WHITE);
-        setBackground((row % 2 == 0) ? filaA : filaB);
-
-        // selección SOLO con foco (si así lo querés)
-        if (isSelected && (!seleccionarSoloConFoco || tablaTieneFoco)) {
-            setBackground(table.getSelectionBackground());
-            setForeground(table.getSelectionForeground());
+        {
+            setHorizontalAlignment(SwingConstants.CENTER); // 🔥 celdas centradas
         }
 
-        return this;
+        @Override
+        public Component getTableCellRendererComponent(
+                JTable t, Object v, boolean isSelected, boolean hasFocus, int row, int col) {
+
+            super.getTableCellRendererComponent(t, v, isSelected, hasFocus, row, col);
+
+            boolean foco = t.isFocusOwner();
+
+            setOpaque(true);
+            setForeground(Color.WHITE);
+            setBackground((row % 2 == 0) ? filaA : filaB);
+
+            // 🔥 fuerza tamaño (por si otro renderer cambia fuente)
+            setFont(new Font("Segoe UI", Font.PLAIN, 16));
+
+            if (isSelected && foco) {
+                setBackground(t.getSelectionBackground());
+                setForeground(t.getSelectionForeground());
+            }
+            return this;
+        }
+    };
+
+    // --- columnas protegidas ---
+    java.util.Set<Integer> noTocar = new java.util.HashSet<>();
+    if (columnasNoTocar != null) {
+        for (int c : columnasNoTocar) noTocar.add(c);
+    }
+    noTocar.add(colImagen);
+
+    for (int c = 0; c < table.getColumnCount(); c++) {
+        if (noTocar.contains(c)) continue; // no pisar renderers especiales
+        table.getColumnModel().getColumn(c).setCellRenderer(zebraRenderer);
     }
 }
 }

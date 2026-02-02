@@ -9,6 +9,7 @@ import GUI.PanelPrincipal;
 import GUI.PanelesPRINCIPALES.PanelDeCatalogos;
 import ImagenesHelpers.ImagenesHelper;
 import ImagenesHelpers.PanelDeFondo;
+import ImagenesHelpers.RenderCantidadConAlerta;
 import ImagenesHelpers.RenderDeImagenEnTablas;
 import Persistencia.Clases.Item;
 import Persistencia.FabricaEntityManager;
@@ -61,11 +62,17 @@ private void cargarTablaItems() {
     CatalogoGeneral.getColumnModel().getColumn(0).setPreferredWidth(0);
     //HAY QUE RENDERIZAR DESPUES DE SETEAR EL MODELO
     int colImagen = 3;
-    CatalogoGeneral.setRowHeight(120);
-    //RENDERIZO LA IMAGEN USANDO EL HELPER
     CatalogoGeneral.getColumnModel().getColumn(colImagen)
-              .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
-
+            .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
+    ImagenesHelper.estilizarTablaGaming(
+            CatalogoGeneral,
+            jScrollPane1,
+            120,
+            colImagen,
+            CatalogoGeneral.getColumnModel().getColumn(colImagen).getCellRenderer(),
+            true,
+            null  // 👈 NO TOCAR esta columna (alertas)
+);
     //CONFIGURAR BOTONES LATERALES
         ImagenesHelper.estilizarBotonMenuLateral(
         INICIO,

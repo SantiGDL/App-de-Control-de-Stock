@@ -65,10 +65,17 @@ public class EliminarProveedorJPanel extends javax.swing.JPanel {
     ListaDeProveedores.getColumnModel().getColumn(0).setPreferredWidth(0);
     //HAY QUE RENDERIZAR DESPUES DE SETEAR EL MODELO
     int colImagen = 5;
-    ListaDeProveedores.setRowHeight(120);
-    //RENDERIZO LA IMAGEN USANDO EL HELPER
     ListaDeProveedores.getColumnModel().getColumn(colImagen)
-              .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
+            .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
+    ImagenesHelper.estilizarTablaGaming(
+            ListaDeProveedores,
+            jScrollPane1,
+            120,
+            colImagen,
+            ListaDeProveedores.getColumnModel().getColumn(colImagen).getCellRenderer(),
+            true,
+            null  // 👈 NO TOCAR esta columna (alertas)
+    );
 
     
     //AHORA EL BOTON PARA APRETAR PARA SELECCIONAR PROVEEDOR

@@ -109,7 +109,7 @@ public class EliminarProveedorPantalla2JPanel extends javax.swing.JPanel {
         jLabel8.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("VENDER ITEM");
+        jLabel8.setText("ELIMINAR PROVEEDOR");
 
         javax.swing.GroupLayout MenuSuperior2Layout = new javax.swing.GroupLayout(MenuSuperior2);
         MenuSuperior2.setLayout(MenuSuperior2Layout);
@@ -195,7 +195,7 @@ public class EliminarProveedorPantalla2JPanel extends javax.swing.JPanel {
                 .addComponent(ATRAS)
                 .addGap(168, 168, 168)
                 .addComponent(VenderItem3)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         Contenido.setBackground(new java.awt.Color(204, 204, 204));
@@ -331,7 +331,7 @@ public class EliminarProveedorPantalla2JPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(MenuSuperior2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
         );
         FondoLayout.setVerticalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -340,7 +340,7 @@ public class EliminarProveedorPantalla2JPanel extends javax.swing.JPanel {
                 .addGap(27, 27, 27)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(MenuLateral2, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
+            .addComponent(MenuLateral2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         add(Fondo, java.awt.BorderLayout.CENTER);

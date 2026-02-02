@@ -43,14 +43,10 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class VerStockJPanel extends javax.swing.JPanel {
     private void cargarTablaItemsSTOCK() {
-    // Llamo al manejador de persistencia que tiene la funcion de traerme los items
     ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
-    //invoco el entity manager para trabajar
     FabricaEntityManager FEM = new FabricaEntityManager();
     EntityManager em = FEM.getEntityManager();
-    //Uso la funcion del manejador de persistencia que hice
     List<ItemDeSTOCK> itemsDeStock = MDP.getItemsDeStock(em);
-    // 2) Armo el modelo con columnas
     javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
         new Object[]{"ID", "Nombre", "Descripcion", "Imagen", "cantUnidades", "Estado"}, 0
     ) {
@@ -71,31 +67,34 @@ public class VerStockJPanel extends javax.swing.JPanel {
     }
     TablaDeStock.setModel(modeloTabla);
     TablaDeStock.getTableHeader().setReorderingAllowed(false);
+    // oculto ID (col 0)
+    TablaDeStock.getColumnModel().getColumn(0).setMinWidth(0);
+    TablaDeStock.getColumnModel().getColumn(0).setMaxWidth(0);
+    TablaDeStock.getColumnModel().getColumn(0).setPreferredWidth(0);
+    // oculto ALERTA (no me interesa, muestro el color en las unidades) 
+    TablaDeStock.getColumnModel().getColumn(5).setMinWidth(0);
+    TablaDeStock.getColumnModel().getColumn(5).setMaxWidth(0);
+    TablaDeStock.getColumnModel().getColumn(5).setPreferredWidth(0);
     //REDERIZO LA IMAGEN DE LA TABLA
     // Render imagen ARGB
-int colImagen = 3;
+    int colImagen = 3;
+    int colUnidades   = 4;
+    int colEstadoAlerta = 5;
+
 TablaDeStock.getColumnModel().getColumn(colImagen)
         .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
 
-// Cantidad con alertas (tu renderer)
-int colCant = 4;
-int colEstado = 5;
-TablaDeStock.getColumnModel().getColumn(colCant)
-        .setCellRenderer(new RenderCantidadConAlerta(colEstado));
+TablaDeStock.getColumnModel().getColumn(colUnidades)
+        .setCellRenderer(new RenderCantidadConAlerta(colEstadoAlerta));
 
-// ocultar estado
-TablaDeStock.getColumnModel().getColumn(colEstado).setMinWidth(0);
-TablaDeStock.getColumnModel().getColumn(colEstado).setMaxWidth(0);
-TablaDeStock.getColumnModel().getColumn(colEstado).setPreferredWidth(0);
-
-// aplicar estilo común
 ImagenesHelper.estilizarTablaGaming(
         TablaDeStock,
         jScrollPane1,
         120,
         colImagen,
         TablaDeStock.getColumnModel().getColumn(colImagen).getCellRenderer(),
-        true
+        true,
+        colUnidades  // 👈 NO TOCAR esta columna (alertas)
 );
     
     
