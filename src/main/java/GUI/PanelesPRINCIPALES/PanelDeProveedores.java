@@ -13,9 +13,17 @@ import ImagenesHelpers.ImagenesHelper;
 import ImagenesHelpers.PanelDeFondo;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -23,6 +31,7 @@ import javax.swing.border.EmptyBorder;
  * @author Santi-kun
  */
 public class PanelDeProveedores extends javax.swing.JPanel {
+    private JScrollPane scrollContenido;
     private void montarMenuLateralReutilizable() {
         MenuLateral.removeAll();
         MenuLateral.setLayout(new BorderLayout());
@@ -67,7 +76,14 @@ public class PanelDeProveedores extends javax.swing.JPanel {
         JPanel derecha = new JPanel(new BorderLayout(0, 0));
         derecha.setBorder(new EmptyBorder(0,0,0,0));
         derecha.add(MenuSuperior, BorderLayout.NORTH);
-        derecha.add(Contenido, BorderLayout.CENTER);
+        scrollContenido = new JScrollPane(Contenido);
+        scrollContenido.setBorder(null);
+        scrollContenido.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollContenido.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollContenido.setOpaque(false);
+        scrollContenido.getViewport().setOpaque(false);
+        scrollContenido.getVerticalScrollBar().setUnitIncrement(18);
+        derecha.add(scrollContenido, BorderLayout.CENTER);
         
 
         Fondo.add(derecha, BorderLayout.CENTER);
@@ -80,17 +96,9 @@ public class PanelDeProveedores extends javax.swing.JPanel {
         MenuSuperior.setLayout(new BorderLayout());
         MenuSuperior.add(TextoMenuSuperior, BorderLayout.CENTER);
         TextoMenuSuperior.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        // 1) Armo grilla centrada (3 columnas)
-        ImagenesHelper.armarMenuEnGrilla(
-        Contenido,
-        new JButton[] {
+        JButton[] botones = new JButton[] {
             CrearProveedorBoton, ListaDeProveedoresBoton, EliminarProveedor
-        },
-        3,   // columnas
-        30,  // gap horizontal
-        30,  // gap vertical
-        25   // padding
-        );
+        };
 
         // 2) Seteo tamaño consistente (opcional, pero queda muy pro)
         ImagenesHelper.setTamanoTarjeta(CrearProveedorBoton, 220, 140);
@@ -102,6 +110,43 @@ public class PanelDeProveedores extends javax.swing.JPanel {
         ImagenesHelper.configurarBotonTarjeta(ListaDeProveedoresBoton, "Lista De Proveedores", "/Imagenes/ListaProveedoresBoton.png", 64, 64);
         ImagenesHelper.configurarBotonTarjeta(EliminarProveedor, "Eliminar Proveedor", "/Imagenes/EliminarProveedorBoton.png", 64, 64);
 
+        instalarGrillaResponsiva(botones);
+
+    }
+
+    private void instalarGrillaResponsiva(JButton[] botones) {
+        Runnable adaptar = () -> {
+            int ancho = Math.max(scrollContenido.getViewport().getWidth(), 220);
+            int anchoTarjeta = 220;
+            int altoTarjeta = 140;
+            int gap = 24;
+            int margen = 20;
+            int columnas = Math.max(1, Math.min(3,
+                    (ancho - margen * 2 + gap) / (anchoTarjeta + gap)));
+            int filas = (int) Math.ceil(botones.length / (double) columnas);
+
+            Contenido.removeAll();
+            Contenido.setLayout(new GridBagLayout());
+            Contenido.setBorder(BorderFactory.createEmptyBorder(margen, margen, margen, margen));
+            for (int i = 0; i < botones.length; i++) {
+                ImagenesHelper.setTamanoTarjeta(botones[i], anchoTarjeta, altoTarjeta);
+                GridBagConstraints c = new GridBagConstraints();
+                c.gridx = i % columnas;
+                c.gridy = i / columnas;
+                c.insets = new Insets(gap / 2, gap / 2, gap / 2, gap / 2);
+                Contenido.add(botones[i], c);
+            }
+
+            int altoNecesario = margen * 2 + filas * altoTarjeta + filas * gap;
+            Contenido.setPreferredSize(new Dimension(
+                    ancho, Math.max(altoNecesario, scrollContenido.getViewport().getHeight())));
+            Contenido.revalidate();
+            Contenido.repaint();
+        };
+        scrollContenido.getViewport().addComponentListener(new ComponentAdapter() {
+            @Override public void componentResized(ComponentEvent e) { adaptar.run(); }
+        });
+        javax.swing.SwingUtilities.invokeLater(adaptar);
     }
 
     /**

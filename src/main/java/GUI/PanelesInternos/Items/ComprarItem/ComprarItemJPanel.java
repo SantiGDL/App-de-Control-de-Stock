@@ -19,9 +19,14 @@ import Persistencia.Clases.Item;
 import Persistencia.FabricaEntityManager;
 import Persistencia.ManejadorDePersistencia;
 import jakarta.persistence.EntityManager;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
@@ -32,6 +37,63 @@ public class ComprarItemJPanel extends javax.swing.JPanel {
     
     //Atributos
     private Long itemId; //aca voy a guardar el id del item que elija el usuario
+
+    private void configurarVista() {
+        final Color azulSidebar = new Color(22, 73, 138);
+        final int grosorBorde = 2;
+
+        Fondo.removeAll();
+        Fondo.setLayout(new BorderLayout(0, 0));
+        Fondo.setBorder(new EmptyBorder(0, 0, 0, 0));
+
+        MenuLateral.setBackground(azulSidebar);
+        MenuLateral.setPreferredSize(new Dimension(200, 0));
+        MenuLateral.setMinimumSize(new Dimension(200, 0));
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(
+            0, 0, 0, grosorBorde, Color.BLACK
+        ));
+
+        MenuSuperior.removeAll();
+        MenuSuperior.setLayout(new BorderLayout(0, 0));
+        MenuSuperior.setPreferredSize(new Dimension(0, 100));
+        MenuSuperior.setMinimumSize(new Dimension(0, 100));
+        MenuSuperior.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
+        MenuSuperior.setBorder(BorderFactory.createMatteBorder(
+            0, 0, grosorBorde, 0, Color.BLACK
+        ));
+
+        jLabel3.setText("COMPRAR ITEM");
+        jLabel3.setFont(new Font("Segoe UI Black", Font.PLAIN, 36));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
+        MenuSuperior.add(jLabel3, BorderLayout.CENTER);
+
+        // La instrucción duplicada del encabezado se elimina para conservar la
+        // misma jerarquía visual de título único que usa el menú principal.
+        jLabel4.setVisible(false);
+
+        Contenido.removeAll();
+        Contenido.setLayout(new BorderLayout(0, 0));
+        Contenido.setBorder(BorderFactory.createMatteBorder(
+            0, 0, grosorBorde, grosorBorde, Color.BLACK
+        ));
+        jLabel5.setFont(new Font("Segoe UI Black", Font.PLAIN, 18));
+        jLabel5.setForeground(Color.WHITE);
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setPreferredSize(new Dimension(0, 42));
+        Contenido.add(jLabel5, BorderLayout.NORTH);
+        Contenido.add(jScrollPane1, BorderLayout.CENTER);
+
+        JPanel derecha = new JPanel(new BorderLayout(0, 0));
+        derecha.setBorder(new EmptyBorder(0, 0, 0, 0));
+        derecha.add(MenuSuperior, BorderLayout.NORTH);
+        derecha.add(Contenido, BorderLayout.CENTER);
+
+        Fondo.add(MenuLateral, BorderLayout.WEST);
+        Fondo.add(derecha, BorderLayout.CENTER);
+        Fondo.revalidate();
+        Fondo.repaint();
+    }
    
     
     //Cambio de pantalla con Seleccionar proveedor
@@ -138,6 +200,7 @@ public class ComprarItemJPanel extends javax.swing.JPanel {
     
     public ComprarItemJPanel() {
         initComponents();
+        configurarVista();
         cargarTablaItems();
         //CONFIGURAR BOTONES LATERALES
         ImagenesHelper.estilizarBotonMenuLateral(

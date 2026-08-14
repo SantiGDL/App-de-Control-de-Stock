@@ -47,12 +47,15 @@ import jakarta.persistence.*;
         public void setStock(Stock stock){this.stock = stock;}
         public void aumentarStock(Integer cantUni){this.cantUnidades = this.cantUnidades + cantUni;}
         public void reducirStock(Integer cantUni){
-            if (this.cantUnidades - cantUni < 0){
-                this.cantUnidades = 0;
-            }else{
-                this.cantUnidades = this.cantUnidades - cantUni;
+            if (cantUni == null || cantUni <= 0) {
+                throw new IllegalArgumentException("La cantidad a vender debe ser mayor que cero");
             }
-        } //tendria que ver lo de los nuemro negativos
+            int disponible = this.cantUnidades == null ? 0 : this.cantUnidades;
+            if (cantUni > disponible) {
+                throw new IllegalArgumentException("No hay suficientes unidades en stock");
+            }
+            this.cantUnidades = disponible - cantUni;
+        }
         
         //Seters y geters de umbrales de alertas
         public Integer getUmbralAmarillo(){return this.umbralAmarillo;}

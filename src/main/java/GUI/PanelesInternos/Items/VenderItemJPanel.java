@@ -52,7 +52,7 @@ public class VenderItemJPanel extends javax.swing.JPanel {
         List<ItemDeSTOCK> itemsDeStock = MDP.getItemsDeStock(em);
         // 2) Armo el modelo con columnas
         javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
-            new Object[]{"ID", "Nombre", "Descripcion", "Imagen", "cantUnidades", ">"}, 0
+            new Object[]{"ID", "Nombre", "Descripción", "Imagen", "Unidades", "Acción"}, 0
         ) {
             @Override public boolean isCellEditable(int row, int column) { return false; }
 
@@ -66,7 +66,7 @@ public class VenderItemJPanel extends javax.swing.JPanel {
                 it.getDescripcion(),
                 it.getImagen(),
                 it.getCantUnidades(),
-                ">"
+                "VENDER"
             });
         }
         TablaDeStock.setModel(modeloTabla);
@@ -84,8 +84,15 @@ public class VenderItemJPanel extends javax.swing.JPanel {
                 colImagen,
                 TablaDeStock.getColumnModel().getColumn(colImagen).getCellRenderer(),
                 true,
-                null  
+                5
         );
+        TablaDeStock.getColumnModel().getColumn(0).setMinWidth(0);
+        TablaDeStock.getColumnModel().getColumn(0).setMaxWidth(0);
+        TablaDeStock.getColumnModel().getColumn(0).setPreferredWidth(0);
+        TablaDeStock.getColumnModel().getColumn(1).setPreferredWidth(180);
+        TablaDeStock.getColumnModel().getColumn(2).setPreferredWidth(260);
+        TablaDeStock.getColumnModel().getColumn(3).setPreferredWidth(150);
+        TablaDeStock.getColumnModel().getColumn(4).setPreferredWidth(100);
 
         //AHORA EL BOTON PARA APRETAR PARA SELECCIONAR ITEM Y VENDDERLO
         int columnaBoton = 5;
@@ -97,14 +104,14 @@ public class VenderItemJPanel extends javax.swing.JPanel {
 
             var c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             setHorizontalAlignment(CENTER);
-            setFont(getFont().deriveFont(java.awt.Font.BOLD, 18f));
+            setFont(new java.awt.Font("Segoe UI Black", java.awt.Font.PLAIN, 12));
             setForeground(java.awt.Color.WHITE);
             setBackground(new java.awt.Color(0, 102, 255)); // azul
             return c;
         }
         });
-        TablaDeStock.getColumnModel().getColumn(columnaBoton).setMaxWidth(45);
-        TablaDeStock.getColumnModel().getColumn(columnaBoton).setMinWidth(45);
+        TablaDeStock.getColumnModel().getColumn(columnaBoton).setPreferredWidth(110);
+        TablaDeStock.getColumnModel().getColumn(columnaBoton).setMinWidth(100);
 
          //AHORA DETECTAR LA INTERACCION CON LA COLOUMNA 5
         TablaDeStock.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -128,6 +135,15 @@ public class VenderItemJPanel extends javax.swing.JPanel {
                 irAVenderItemPantalla2(itId);
             }
         });
+
+        if (itemsDeStock.isEmpty()) {
+            ImagenesHelper.mostrarEstadoVacio(
+                jScrollPane1,
+                "No hay productos para vender",
+                "Primero tenés que registrar una compra.<br>"
+                + "Cuando el producto tenga unidades en stock, aparecerá en esta pantalla."
+            );
+        }
     }
                 
                 

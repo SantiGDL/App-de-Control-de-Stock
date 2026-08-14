@@ -12,9 +12,20 @@ import ImagenesHelpers.ImagenesHelper;
 import ImagenesHelpers.PanelDeFondo;
 import Persistencia.DTOs.DTProveedor;
 import Persistencia.ManejadorDePersistencia;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -24,11 +35,108 @@ public class EliminarProveedorPantalla2JPanel extends javax.swing.JPanel {
     GUIController controller = new GUIController();
     private Long proveedorId;
     private DTProveedor dtProveedor;
+
+    private void configurarVista() {
+        MenuLateral2.setBackground(new Color(22, 73, 138));
+        MenuLateral2.setPreferredSize(new Dimension(200, 0));
+        MenuLateral2.setMinimumSize(new Dimension(200, 0));
+        MenuLateral2.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
+
+        MenuSuperior2.removeAll();
+        MenuSuperior2.setLayout(new BorderLayout());
+        MenuSuperior2.setPreferredSize(new Dimension(0, 100));
+        MenuSuperior2.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK));
+        jLabel8.setText("CONFIRMAR ELIMINACIÓN");
+        jLabel8.setFont(new Font("Segoe UI Black", Font.PLAIN, 36));
+        jLabel8.setHorizontalAlignment(SwingConstants.CENTER);
+        MenuSuperior2.add(jLabel8, BorderLayout.CENTER);
+
+        NombreProveedor.setEditable(false);
+        DescripcionProveedor.setEditable(false);
+        NombreProveedor.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        DescripcionProveedor.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        NombreProveedor.setPreferredSize(new Dimension(320, 38));
+        DescripcionProveedor.setPreferredSize(new Dimension(320, 54));
+        NombreProveedor.setBorder(new EmptyBorder(7, 10, 7, 10));
+        DescripcionProveedor.setBorder(new EmptyBorder(7, 10, 7, 10));
+
+        ImagenProveedor.removeAll();
+        ImagenProveedor.setLayout(new BorderLayout());
+        ImagenProveedor.setPreferredSize(new Dimension(180, 180));
+        ImagenProveedor.setMinimumSize(new Dimension(180, 180));
+        ImagenProveedor.setBackground(new Color(229, 235, 242));
+        ImagenProveedor.setBorder(BorderFactory.createLineBorder(new Color(205, 213, 222), 2));
+        RellenoImagenProveedor.setHorizontalAlignment(SwingConstants.CENTER);
+        ImagenProveedor.add(RellenoImagenProveedor, BorderLayout.CENTER);
+
+        Eliminar.setText("ELIMINAR DEFINITIVAMENTE");
+        Eliminar.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        Eliminar.setBackground(new Color(196, 54, 65));
+        Eliminar.setForeground(Color.WHITE);
+        Eliminar.setOpaque(true);
+        Eliminar.setContentAreaFilled(true);
+        Eliminar.setBorderPainted(false);
+        Eliminar.setFocusPainted(false);
+        Eliminar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        Eliminar.setPreferredSize(new Dimension(250, 42));
+
+        JPanel tarjeta = new JPanel(new GridBagLayout());
+        tarjeta.setBackground(new Color(250, 248, 244));
+        tarjeta.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(207, 216, 226), 1),
+            new EmptyBorder(26, 32, 26, 32)
+        ));
+        JLabel advertencia = new JLabel(
+            "<html><div style='text-align:center'><b>¿Querés eliminar este proveedor?</b><br>"
+            + "Dejará de aparecer en las selecciones y operaciones nuevas.</div></html>",
+            SwingConstants.CENTER
+        );
+        advertencia.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        advertencia.setForeground(new Color(92, 55, 58));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0, 0, 24, 0);
+        tarjeta.add(advertencia, gbc);
+        gbc.gridwidth = 1; gbc.gridx = 0; gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 6, 28);
+        tarjeta.add(NombreItemLbl, gbc);
+        gbc.gridy = 2; gbc.insets = new Insets(0, 0, 18, 28);
+        tarjeta.add(NombreProveedor, gbc);
+        gbc.gridy = 3; gbc.insets = new Insets(0, 0, 6, 28);
+        tarjeta.add(DescripcionItemLbl, gbc);
+        gbc.gridy = 4; gbc.insets = new Insets(0, 0, 22, 28);
+        tarjeta.add(DescripcionProveedor, gbc);
+        gbc.gridy = 5; gbc.insets = new Insets(0, 0, 0, 28);
+        tarjeta.add(Eliminar, gbc);
+        gbc.gridx = 1; gbc.gridy = 1; gbc.gridheight = 5;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        tarjeta.add(ImagenProveedor, gbc);
+
+        Contenido.removeAll();
+        Contenido.setLayout(new GridBagLayout());
+        Contenido.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 2, Color.BLACK));
+        Contenido.add(tarjeta);
+        JPanel derecha = new JPanel(new BorderLayout(0, 0));
+        derecha.add(MenuSuperior2, BorderLayout.NORTH);
+        derecha.add(Contenido, BorderLayout.CENTER);
+        Fondo.removeAll();
+        Fondo.setLayout(new BorderLayout(0, 0));
+        Fondo.add(MenuLateral2, BorderLayout.WEST);
+        Fondo.add(derecha, BorderLayout.CENTER);
+        Fondo.revalidate();
+        Fondo.repaint();
+    }
     /**
      * Creates new form EliminarProveedorPantalla2JPanel
      */
     public EliminarProveedorPantalla2JPanel(Long proveedorId) {
         initComponents();
+        configurarVista();
         this.proveedorId = proveedorId;
         dtProveedor = controller.recuperarDTProveedorDeId(proveedorId);
         cargarDatos();
@@ -357,7 +465,7 @@ public class EliminarProveedorPantalla2JPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_INICIOActionPerformed
 
     private void ATRASActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ATRASActionPerformed
-    JPanel panelProveedores = new PanelDeProveedores();
+    JPanel panelProveedores = new EliminarProveedorJPanel();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(panelProveedores);
     }//GEN-LAST:event_ATRASActionPerformed
@@ -371,10 +479,21 @@ public class EliminarProveedorPantalla2JPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_DescripcionProveedorActionPerformed
 
     private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
+        int confirmacion = JOptionPane.showConfirmDialog(
+            this,
+            "¿Confirmás que querés eliminar al proveedor \"" + dtProveedor.getNombre() + "\"?",
+            "Confirmar eliminación",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE
+        );
+        if (confirmacion != JOptionPane.YES_OPTION) return;
+
         ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
-        //Obtengo el item de stock a partir de la id
         MDP.desactivarProveedor(proveedorId);
-        JOptionPane.showMessageDialog(null, "Proveedor Eliminado Correctamente");
+        JOptionPane.showMessageDialog(this, "Proveedor eliminado correctamente");
+        JPanel proveedores = new EliminarProveedorJPanel();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(proveedores);
     }//GEN-LAST:event_EliminarActionPerformed
 
 

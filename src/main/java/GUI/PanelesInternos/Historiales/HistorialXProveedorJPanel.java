@@ -18,7 +18,11 @@ import Persistencia.FabricaEntityManager;
 import Persistencia.ManejadorDePersistencia;
 import jakarta.persistence.EntityManager;
 import java.awt.Color;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import static javax.swing.SwingConstants.CENTER;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -41,7 +45,7 @@ public class HistorialXProveedorJPanel extends javax.swing.JPanel {
         EntityManager em = FEM.getEntityManager();
         List<Proveedor> proveedores = MDP.obtenerTodosLosProveedoresOrderByNombre(em);
         javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
-            new Object[]{"ID", "Nombre", "Contacto", "Ubicación" , "Descripción", "Imágen", ""}, 0
+            new Object[]{"ID", "Nombre", "Contacto", "Ubicación", "Descripción", "Imagen", "Acción"}, 0
         ) {
             @Override public boolean isCellEditable(int r, int c) { return false; }
         };
@@ -54,7 +58,7 @@ public class HistorialXProveedorJPanel extends javax.swing.JPanel {
             proveedorDefault.getUbicacion(),                 
             proveedorDefault.getDescripcion(),
             proveedorDefault.getImagen(),                 
-            ">"                 // columna acción
+            "VER HISTORIAL"
         });
         // 3) Cargás filas
         for (Proveedor p : proveedores) {
@@ -66,7 +70,7 @@ public class HistorialXProveedorJPanel extends javax.swing.JPanel {
                 p.getUbicacion(),
                 p.getDescripcion(),
                 p.getImagen(),
-                ">"
+                "VER HISTORIAL"
             });
             }
 
@@ -83,6 +87,15 @@ public class HistorialXProveedorJPanel extends javax.swing.JPanel {
         //RENDERIZO LA IMAGEN USANDO EL HELPER
         ListaDeProveedores.getColumnModel().getColumn(colImagen)
                   .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
+        ImagenesHelper.estilizarTablaGaming(
+                ListaDeProveedores, jScrollPane1, 120, colImagen,
+                ListaDeProveedores.getColumnModel().getColumn(colImagen).getCellRenderer(),
+                true, 6);
+        ListaDeProveedores.getColumnModel().getColumn(1).setPreferredWidth(160);
+        ListaDeProveedores.getColumnModel().getColumn(2).setPreferredWidth(120);
+        ListaDeProveedores.getColumnModel().getColumn(3).setPreferredWidth(150);
+        ListaDeProveedores.getColumnModel().getColumn(4).setPreferredWidth(250);
+        ListaDeProveedores.getColumnModel().getColumn(5).setPreferredWidth(150);
 
         //AHORA EL BOTON PARA APRETAR PARA SELECCIONAR PROVEEDOR
 
@@ -94,14 +107,14 @@ public class HistorialXProveedorJPanel extends javax.swing.JPanel {
 
             var c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             setHorizontalAlignment(CENTER);
-            setFont(getFont().deriveFont(java.awt.Font.BOLD, 18f));
+            setFont(new Font("Segoe UI Black", Font.PLAIN, 11));
             setForeground(java.awt.Color.WHITE);
             setBackground(new java.awt.Color(0, 102, 255)); // azul
             return c;
         }
         });
-        ListaDeProveedores.getColumnModel().getColumn(6).setMaxWidth(45);
-        ListaDeProveedores.getColumnModel().getColumn(6).setMinWidth(45);
+        ListaDeProveedores.getColumnModel().getColumn(6).setPreferredWidth(125);
+        ListaDeProveedores.getColumnModel().getColumn(6).setMinWidth(115);
 
         //AHORA DETECTAR LA INTERACCION CON LA COLOUMNA 4
 
@@ -154,7 +167,33 @@ public class HistorialXProveedorJPanel extends javax.swing.JPanel {
     /** Creates new form HistorialXProveedorJPanel */
     public HistorialXProveedorJPanel() {
         initComponents();
+        configurarVista();
         cargarTablaProveedores();
+    }
+
+    private void configurarVista() {
+        MenuLateral.setBackground(new Color(22, 73, 138));
+        MenuLateral.setPreferredSize(new Dimension(200, 0));
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
+        jLabel3.setText("HISTORIAL POR PROVEEDOR");
+        jLabel3.setFont(new Font("Segoe UI Black", Font.PLAIN, 36));
+        MenuSuperior.removeAll();
+        MenuSuperior.setLayout(new BorderLayout());
+        MenuSuperior.setPreferredSize(new Dimension(0, 100));
+        MenuSuperior.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK));
+        MenuSuperior.add(jLabel3, BorderLayout.CENTER);
+        Contenido.removeAll();
+        Contenido.setLayout(new BorderLayout());
+        Contenido.setBackground(new Color(0, 87, 174));
+        Contenido.setBorder(BorderFactory.createEmptyBorder(14, 14, 14, 14));
+        Contenido.add(jScrollPane1, BorderLayout.CENTER);
+        JPanel centro = new JPanel(new BorderLayout());
+        centro.add(MenuSuperior, BorderLayout.NORTH);
+        centro.add(Contenido, BorderLayout.CENTER);
+        Fondo.removeAll();
+        Fondo.setLayout(new BorderLayout());
+        Fondo.add(MenuLateral, BorderLayout.WEST);
+        Fondo.add(centro, BorderLayout.CENTER);
     }
 
     /** This method is called from within the constructor to

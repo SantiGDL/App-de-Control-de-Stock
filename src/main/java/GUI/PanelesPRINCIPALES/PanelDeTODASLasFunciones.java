@@ -22,6 +22,10 @@ import GUI.PanelesInternos.Stocks.VerStockJPanel;
 import ImagenesHelpers.ImagenesHelper;
 import ImagenesHelpers.PanelDeFondo;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -117,8 +121,9 @@ public class PanelDeTODASLasFunciones extends javax.swing.JPanel {
         ImagenesHelper.aplicarHoverOscuro(verStock, 0.65);
         ImagenesHelper.aplicarHoverOscuro(ConfigurarAlertas, 0.65);
 
-        // 3) Armar grilla al final
-        ImagenesHelper.armarMenuEnGrilla(Contenido, botones, 4, 30, 30, 25);
+        // La cantidad de columnas se adapta al viewport. Si falta altura,
+        // se desplaza verticalmente como una página web, nunca horizontalmente.
+        instalarGrillaResponsiva(botones);
 
         // 4) Forzar que el viewport respete el tamaño preferido del Contenido
         Contenido.revalidate();
@@ -129,6 +134,39 @@ public class PanelDeTODASLasFunciones extends javax.swing.JPanel {
 
         // 3) Iconos escalados + texto centrado
         
+    }
+
+    private void instalarGrillaResponsiva(JButton[] botones) {
+        Runnable adaptar = () -> {
+            int ancho = Math.max(jScrollPane1.getViewport().getWidth(), 320);
+            int columnas;
+            if (ancho >= 760) columnas = 4;
+            else if (ancho >= 540) columnas = 3;
+            else columnas = 2;
+
+            int gap = ancho >= 540 ? 20 : 12;
+            int margen = ancho >= 540 ? 20 : 10;
+            int altoTarjeta = ancho >= 540 ? 140 : 112;
+            int filas = (int) Math.ceil(botones.length / (double) columnas);
+
+            Contenido.removeAll();
+            Contenido.setLayout(new GridLayout(filas, columnas, gap, gap));
+            Contenido.setBorder(BorderFactory.createEmptyBorder(margen, margen, margen, margen));
+            for (JButton boton : botones) {
+                boton.setPreferredSize(new Dimension(0, altoTarjeta));
+                boton.setMinimumSize(new Dimension(0, 0));
+                Contenido.add(boton);
+            }
+            int alto = margen * 2 + filas * altoTarjeta + (filas - 1) * gap;
+            Contenido.setPreferredSize(new Dimension(ancho, alto));
+            Contenido.revalidate();
+            Contenido.repaint();
+        };
+
+        jScrollPane1.getViewport().addComponentListener(new ComponentAdapter() {
+            @Override public void componentResized(ComponentEvent e) { adaptar.run(); }
+        });
+        javax.swing.SwingUtilities.invokeLater(adaptar);
     }
 
     /**

@@ -18,10 +18,20 @@ import Persistencia.Clases.Proveedor;
 import Persistencia.DTOs.DTItem;
 import Persistencia.DTOs.DTProveedor;
 import Persistencia.ManejadorDePersistencia;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.time.LocalDate;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentListener;
 
 /**
@@ -42,11 +52,122 @@ public class RellenarDatosCompraProveedorXJPanel extends javax.swing.JPanel {
     private DTProveedor dtProveedor;
     private Item itemComprado;
     private Proveedor proveedorSeleccionado;
+
+    private void configurarVista() {
+        MenuLateral.setBackground(new Color(22, 73, 138));
+        MenuLateral.setPreferredSize(new Dimension(200, 0));
+        MenuLateral.setMinimumSize(new Dimension(200, 0));
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
+
+        MenuSuperior.removeAll();
+        MenuSuperior.setLayout(new BorderLayout());
+        MenuSuperior.setPreferredSize(new Dimension(0, 100));
+        MenuSuperior.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK));
+        jLabel3.setText("REGISTRAR COMPRA");
+        jLabel3.setFont(new Font("Segoe UI Black", Font.PLAIN, 36));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        MenuSuperior.add(jLabel3, BorderLayout.CENTER);
+        jLabel4.setVisible(false);
+
+        prepararTarjeta(ContenedorDatosItem, new Dimension(385, 350));
+        prepararTarjeta(ContenidoDatosProveedor, new Dimension(385, 350));
+        prepararTarjeta(ContenidoDatosCompra, new Dimension(790, 245));
+        prepararPanelImagen(ImagenItem, RellenoImagenItem);
+        prepararPanelImagen(ImagenProveedor, RellenoImagenProveedor);
+
+        estilizarCampoCompra(PrecioUnidad, false);
+        estilizarCampoCompra(cantUnidades, false);
+        estilizarCampoCompra(PrecioFlete, false);
+        estilizarCampoCompra(TiempoEnvio, false);
+        estilizarCampoCompra(PrecioTotal, true);
+        Comprar.setBackground(new Color(30, 170, 105));
+        Comprar.setForeground(Color.WHITE);
+        Comprar.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        Comprar.setOpaque(true);
+        Comprar.setContentAreaFilled(true);
+        Comprar.setBorderPainted(false);
+        Comprar.setFocusPainted(false);
+        Comprar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        Comprar.setPreferredSize(new Dimension(190, 40));
+
+        Contenido.removeAll();
+        Contenido.setLayout(new GridBagLayout());
+        Contenido.setBackground(new Color(0, 87, 174));
+        Contenido.setPreferredSize(new Dimension(820, 680));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1;
+        gbc.gridx = 0; gbc.gridy = 0;
+        gbc.insets = new Insets(18, 18, 9, 9);
+        Contenido.add(ContenedorDatosItem, gbc);
+        gbc.gridx = 1; gbc.insets = new Insets(18, 9, 9, 18);
+        Contenido.add(ContenidoDatosProveedor, gbc);
+        gbc.gridx = 0; gbc.gridy = 1; gbc.gridwidth = 2;
+        gbc.insets = new Insets(9, 18, 18, 18);
+        Contenido.add(ContenidoDatosCompra, gbc);
+
+        jScrollPane2.setBorder(null);
+        jScrollPane2.getViewport().setBackground(new Color(0, 87, 174));
+        jScrollPane2.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane2.getVerticalScrollBar().setUnitIncrement(18);
+
+        JPanel derecha = new JPanel(new BorderLayout(0, 0));
+        derecha.add(MenuSuperior, BorderLayout.NORTH);
+        derecha.add(jScrollPane2, BorderLayout.CENTER);
+        Fondo.removeAll();
+        Fondo.setLayout(new BorderLayout(0, 0));
+        Fondo.add(MenuLateral, BorderLayout.WEST);
+        Fondo.add(derecha, BorderLayout.CENTER);
+        Fondo.revalidate();
+        Fondo.repaint();
+    }
+
+    private void prepararTarjeta(JPanel panel, Dimension tamano) {
+        panel.setOpaque(true);
+        panel.setBackground(new Color(18, 53, 94));
+        panel.setPreferredSize(tamano);
+        panel.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(74, 133, 191), 1),
+            new EmptyBorder(12, 14, 12, 14)
+        ));
+        aplicarTextoClaro(panel);
+    }
+
+    private void aplicarTextoClaro(java.awt.Container contenedor) {
+        for (java.awt.Component componente : contenedor.getComponents()) {
+            if (componente instanceof javax.swing.JLabel etiqueta) {
+                etiqueta.setForeground(new Color(238, 244, 250));
+            }
+            if (componente instanceof java.awt.Container hijo) aplicarTextoClaro(hijo);
+        }
+    }
+
+    private void prepararPanelImagen(JPanel panel, javax.swing.JLabel imagen) {
+        panel.removeAll();
+        panel.setLayout(new BorderLayout());
+        panel.setPreferredSize(new Dimension(150, 150));
+        panel.setMinimumSize(new Dimension(150, 150));
+        panel.setBackground(new Color(229, 235, 242));
+        panel.setBorder(BorderFactory.createLineBorder(new Color(112, 148, 183), 1));
+        imagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        imagen.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
+        panel.add(imagen, BorderLayout.CENTER);
+    }
+
+    private void estilizarCampoCompra(javax.swing.JTextField campo, boolean calculado) {
+        campo.setFont(new Font("Segoe UI", calculado ? Font.BOLD : Font.PLAIN, 14));
+        campo.setBackground(calculado ? new Color(232, 247, 239) : Color.WHITE);
+        campo.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(185, 196, 208), 1),
+            new EmptyBorder(5, 8, 5, 8)
+        ));
+    }
     
     public RellenarDatosCompraProveedorXJPanel(Long itemId, Long ProveedorId) {
         this.itemId = itemId;
         this.proveedorId = ProveedorId;
         initComponents();
+        configurarVista();
           //obtengo los datos del item
         dtItem = controller.recuperarDTItemDeId(itemId);
             //Obtengo los datos del proveedor
@@ -759,7 +880,7 @@ private void recalcularTotal() {
     }//GEN-LAST:event_INICIOActionPerformed
 
     private void ATRASActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ATRASActionPerformed
-        JPanel panelDeItems = new PanelDeItems();
+        JPanel panelDeItems = new SeleccionarProveedorCompraJPanel(itemId);
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(panelDeItems);
     }//GEN-LAST:event_ATRASActionPerformed

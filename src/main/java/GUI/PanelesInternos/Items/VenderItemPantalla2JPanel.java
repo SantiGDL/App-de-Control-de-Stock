@@ -16,9 +16,16 @@ import Persistencia.DTOs.DTItemDeSTOCK;
 import Persistencia.ManejadorDePersistencia;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -32,6 +39,7 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
     
     public VenderItemPantalla2JPanel(Long itemId) {
         initComponents();
+        configurarVista();
         //CONFIURO EL FONDO PARA QUE SE VEA TODO JUNTO SIN SEPARACION
         Fondo.removeAll();
         Fondo.setLayout(new BorderLayout(0, 0));
@@ -100,6 +108,76 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
         Color.BLACK
         );
     }
+
+    private void configurarVista() {
+        MenuLateral.setBackground(new Color(22, 73, 138));
+        MenuLateral.setPreferredSize(new Dimension(200, 0));
+        TextoMenuSuperior.setText("VENDER ÍTEM");
+        TextoMenuSuperior.setFont(new Font("Segoe UI Black", Font.PLAIN, 36));
+
+        for (javax.swing.JTextField campo : new javax.swing.JTextField[]{NombreItem, DescripcionItem, cantUnidadesAVender}) {
+            campo.setPreferredSize(new Dimension(280, 40));
+            campo.setMinimumSize(new Dimension(280, 40));
+            campo.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+            campo.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(new Color(180, 194, 210)),
+                    BorderFactory.createEmptyBorder(5, 9, 5, 9)));
+        }
+        DescripcionItem.setPreferredSize(new Dimension(280, 48));
+        DescripcionItem.setMinimumSize(new Dimension(280, 48));
+        NombreItem.setBackground(new Color(242, 245, 248));
+        DescripcionItem.setBackground(new Color(242, 245, 248));
+
+        ImagenItem.removeAll();
+        ImagenItem.setLayout(new BorderLayout());
+        ImagenItem.setPreferredSize(new Dimension(180, 180));
+        ImagenItem.setBackground(new Color(237, 242, 248));
+        ImagenItem.setBorder(BorderFactory.createLineBorder(new Color(190, 202, 216), 2));
+        RellenoImagenItem.setHorizontalAlignment(SwingConstants.CENTER);
+        ImagenItem.add(RellenoImagenItem, BorderLayout.CENTER);
+
+        Vender.setText("CONFIRMAR VENTA");
+        Vender.setFont(new Font("Segoe UI Black", Font.PLAIN, 14));
+        Vender.setBackground(new Color(34, 207, 139));
+        Vender.setForeground(Color.WHITE);
+        Vender.setPreferredSize(new Dimension(280, 46));
+        Vender.setMinimumSize(new Dimension(280, 46));
+        Vender.setMaximumSize(new Dimension(420, 46));
+        Vender.setBorder(BorderFactory.createLineBorder(new Color(16, 145, 91), 2));
+        Vender.setContentAreaFilled(true);
+        Vender.setOpaque(true);
+        Vender.setFocusPainted(false);
+
+        JLabel ayuda = new JLabel("Ingresá cuántas unidades querés descontar del stock.", SwingConstants.CENTER);
+        ayuda.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        ayuda.setForeground(new Color(70, 82, 98));
+
+        JPanel tarjeta = new JPanel(new GridBagLayout());
+        tarjeta.setBackground(new Color(250, 248, 245));
+        tarjeta.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(220, 225, 232)),
+                BorderFactory.createEmptyBorder(22, 30, 22, 30)));
+        GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(6, 8, 6, 8);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.WEST;
+        c.gridx = 0; c.gridy = 0; tarjeta.add(NombreItemLbl, c);
+        c.gridx = 1; tarjeta.add(NombreItem, c);
+        c.gridx = 0; c.gridy = 1; tarjeta.add(DescripcionItemLbl, c);
+        c.gridx = 1; tarjeta.add(DescripcionItem, c);
+        c.gridx = 2; c.gridy = 0; c.gridheight = 3; c.fill = GridBagConstraints.NONE;
+        tarjeta.add(ImagenItem, c);
+        c.gridheight = 1; c.gridwidth = 2; c.gridx = 0; c.gridy = 2; c.fill = GridBagConstraints.HORIZONTAL;
+        tarjeta.add(ayuda, c);
+        c.gridx = 0; c.gridy = 3; tarjeta.add(CantUniLbl, c);
+        c.gridy = 4; tarjeta.add(cantUnidadesAVender, c);
+        c.gridy = 5; tarjeta.add(Vender, c);
+
+        Contenido.removeAll();
+        Contenido.setLayout(new GridBagLayout());
+        Contenido.setBackground(new Color(0, 87, 174));
+        Contenido.add(tarjeta);
+    }
     
      public void cargarDatos(){
         //Datos Item
@@ -108,6 +186,7 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
         DescripcionItem.setText(dtItem.getDescripcion());
         DescripcionItem.setEditable(false);
         controller.mostrarImagenEnPanel(ImagenItem, RellenoImagenItem, dtItem.getImagen());
+        CantUniLbl.setText("Unidades a vender (disponibles: " + dtItem.getCantUnidades() + ")");
      }
     
     /**
@@ -470,11 +549,39 @@ public class VenderItemPantalla2JPanel extends javax.swing.JPanel {
         ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
         //Obtengo el item de stock a partir de la id
         ItemDeSTOCK ItemADisminuir = MDP.getItemDeSTOCKAPartirDeId(itemSeleccionadoId);
-        //Ahora redusco la cantidad de unidades
         String cantuUnidadesStr = cantUnidadesAVender.getText().trim();
-        Integer cantUnidades = Integer.valueOf(cantuUnidadesStr);
-        MDP.DisminuirStock(ItemADisminuir, cantUnidades);
-        JOptionPane.showMessageDialog(null, "Venta Existosa");
+        if (cantuUnidadesStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingresá la cantidad que querés vender.");
+            return;
+        }
+        final int cantUnidades;
+        try {
+            cantUnidades = Integer.parseInt(cantuUnidadesStr);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "La cantidad debe ser un número entero.");
+            return;
+        }
+        if (cantUnidades <= 0) {
+            JOptionPane.showMessageDialog(this, "La cantidad debe ser mayor que cero.");
+            return;
+        }
+        if (cantUnidades > dtItem.getCantUnidades()) {
+            JOptionPane.showMessageDialog(this,
+                    "No hay stock suficiente. Disponibles: " + dtItem.getCantUnidades());
+            return;
+        }
+        int confirmacion = JOptionPane.showConfirmDialog(this,
+                "¿Confirmás la venta de " + cantUnidades + " unidad(es) de " + dtItem.getNombre() + "?",
+                "Confirmar venta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (confirmacion != JOptionPane.YES_OPTION) return;
+        try {
+            MDP.DisminuirStock(ItemADisminuir, cantUnidades);
+            JOptionPane.showMessageDialog(this, "Venta registrada correctamente.");
+            FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+            frame.cambiarFondo(new VenderItemJPanel());
+        } catch (RuntimeException ex) {
+            JOptionPane.showMessageDialog(this, "No se pudo registrar la venta: " + ex.getMessage());
+        }
     }//GEN-LAST:event_VenderActionPerformed
 
 

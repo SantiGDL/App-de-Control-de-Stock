@@ -82,17 +82,18 @@ public class RenderDeImagenEnTablas extends DefaultTableCellRenderer {
     }
 
     private BufferedImage leerImagen(String ruta) throws Exception {
-        // recurso del classpath
-        if (ruta.startsWith("/")) {
-            URL url = getClass().getResource(ruta);
-            if (url == null) return null;
-            return ImageIO.read(url);
+        // Primero se comprueba el sistema de archivos. En Linux una ruta local
+        // absoluta también empieza con "/" y no debe confundirse con classpath.
+        File archivo = new File(ruta);
+        if (archivo.isFile()) {
+            return ImageIO.read(archivo);
         }
 
-        // archivo local
-        File f = new File(ruta);
-        if (!f.exists()) return null;
-        return ImageIO.read(f);
+        // Si no existe como archivo local, puede ser un recurso empaquetado.
+        String rutaRecurso = ruta.startsWith("/") ? ruta : "/" + ruta;
+        URL url = getClass().getResource(rutaRecurso);
+        if (url == null) return null;
+        return ImageIO.read(url);
     }
 
     private BufferedImage escalarARGB(BufferedImage src, int w, int h) {

@@ -15,10 +15,16 @@ import Persistencia.Clases.Item;
 import Persistencia.FabricaEntityManager;
 import Persistencia.ManejadorDePersistencia;
 import jakarta.persistence.EntityManager;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import static javax.swing.SwingConstants.CENTER;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
@@ -27,6 +33,52 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class EliminarItemJPanel extends javax.swing.JPanel {
    private Long itemId; //aca voy a guardar el id del item que elija el usuario
+
+    private void configurarVista() {
+        MenuLateral.setBackground(new Color(22, 73, 138));
+        MenuLateral.setPreferredSize(new Dimension(200, 0));
+        MenuLateral.setMinimumSize(new Dimension(200, 0));
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
+
+        MenuSuperior.removeAll();
+        MenuSuperior.setLayout(new BorderLayout());
+        MenuSuperior.setPreferredSize(new Dimension(0, 100));
+        MenuSuperior.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK));
+        jLabel3.setFont(new Font("Segoe UI Black", Font.PLAIN, 36));
+        jLabel3.setHorizontalAlignment(CENTER);
+        MenuSuperior.add(jLabel3, BorderLayout.CENTER);
+
+        JLabel ayuda = new JLabel(
+            "Seleccioná el ítem que querés quitar del catálogo",
+            CENTER
+        );
+        ayuda.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        ayuda.setForeground(new Color(225, 233, 243));
+        ayuda.setPreferredSize(new Dimension(0, 30));
+
+        JPanel bloqueTabla = new JPanel(new BorderLayout(0, 0));
+        bloqueTabla.setOpaque(false);
+        bloqueTabla.add(ayuda, BorderLayout.NORTH);
+        bloqueTabla.add(jScrollPane1, BorderLayout.CENTER);
+
+        Contenido.removeAll();
+        Contenido.setLayout(new BorderLayout(0, 0));
+        Contenido.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 2, Color.BLACK));
+        Contenido.add(bloqueTabla, BorderLayout.CENTER);
+
+        JPanel derecha = new JPanel(new BorderLayout(0, 0));
+        derecha.setBorder(new EmptyBorder(0, 0, 0, 0));
+        derecha.add(MenuSuperior, BorderLayout.NORTH);
+        derecha.add(Contenido, BorderLayout.CENTER);
+
+        Fondo.removeAll();
+        Fondo.setLayout(new BorderLayout(0, 0));
+        Fondo.setBorder(new EmptyBorder(0, 0, 0, 0));
+        Fondo.add(MenuLateral, BorderLayout.WEST);
+        Fondo.add(derecha, BorderLayout.CENTER);
+        Fondo.revalidate();
+        Fondo.repaint();
+    }
    
     
     //Cambio de pantalla con Seleccionar proveedor
@@ -47,7 +99,7 @@ public class EliminarItemJPanel extends javax.swing.JPanel {
     List<Item> items = MDP.getItemsDeCatalogoGeneralOptimizado();
     // 2) Armo el modelo con columnas
     javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
-        new Object[]{"ID", "Nombre", "Descripcion", "Imagen", ">"}, 0
+        new Object[]{"ID", "Nombre", "Descripción", "Imagen", "Acción"}, 0
     ) {
         @Override public boolean isCellEditable(int r, int c) { return false; }
     };
@@ -59,7 +111,7 @@ public class EliminarItemJPanel extends javax.swing.JPanel {
             it.getNombre(),
             it.getDescripcion(),
             it.getImagen(),
-            ">"
+            "ELIMINAR"
         });
     }
     CatalogoGeneral.setModel(modeloTabla);
@@ -91,14 +143,14 @@ public class EliminarItemJPanel extends javax.swing.JPanel {
 
         var c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         setHorizontalAlignment(CENTER);
-        setFont(getFont().deriveFont(java.awt.Font.BOLD, 18f));
+        setFont(getFont().deriveFont(java.awt.Font.BOLD, 12f));
         setForeground(java.awt.Color.WHITE);
-        setBackground(new java.awt.Color(0, 102, 255)); // azul
+        setBackground(new java.awt.Color(196, 54, 65));
         return c;
     }
     });
-    CatalogoGeneral.getColumnModel().getColumn(4).setMaxWidth(45);
-    CatalogoGeneral.getColumnModel().getColumn(4).setMinWidth(45);
+    CatalogoGeneral.getColumnModel().getColumn(4).setMaxWidth(100);
+    CatalogoGeneral.getColumnModel().getColumn(4).setMinWidth(100);
    
     //AHORA DETECTAR LA INTERACCION CON LA COLOUMNA 4
     
@@ -122,6 +174,14 @@ public class EliminarItemJPanel extends javax.swing.JPanel {
         irAEliminarItemPantalla2(it);
     }
     });
+
+    if (items.isEmpty()) {
+        ImagenesHelper.mostrarEstadoVacio(
+            jScrollPane1,
+            "No hay ítems para eliminar",
+            "El catálogo general está vacío.<br>Creá un ítem para que aparezca en esta pantalla."
+        );
+    }
     
     }
 
@@ -130,6 +190,7 @@ public class EliminarItemJPanel extends javax.swing.JPanel {
      */
     public EliminarItemJPanel() {
         initComponents();
+        configurarVista();
         cargarTablaItems();
         //CONFIGURAR BOTONES LATERALES
         ImagenesHelper.estilizarBotonMenuLateral(

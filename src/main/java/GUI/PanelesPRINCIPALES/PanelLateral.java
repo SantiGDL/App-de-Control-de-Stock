@@ -18,9 +18,13 @@ import ImagenesHelpers.ImagenesHelper;
 import ImagenesHelpers.PanelDeFondo;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -37,7 +41,13 @@ public class PanelLateral extends javax.swing.JPanel {
         // matar el GroupLayout que dejó un gap
         this.removeAll();
         this.setLayout(new BorderLayout(0, 0));
-        this.add(MenuLateral, BorderLayout.CENTER);
+        JScrollPane scrollLateral = new JScrollPane(MenuLateral);
+        scrollLateral.setBorder(null);
+        scrollLateral.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollLateral.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollLateral.getVerticalScrollBar().setUnitIncrement(18);
+        scrollLateral.getViewport().setBackground(new Color(22, 73, 138));
+        this.add(scrollLateral, BorderLayout.CENTER);
 
         // (opcional) el borde de separación esté acá
         MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
@@ -45,12 +55,26 @@ public class PanelLateral extends javax.swing.JPanel {
         this.revalidate();
         this.repaint();
         //CONFIGURACION DEL MENU LATERAL
-        int anchoMenuLateral = 220; 
-        MenuLateral.setPreferredSize(new java.awt.Dimension(anchoMenuLateral, 0));
-        MenuLateral.setMinimumSize(new java.awt.Dimension(anchoMenuLateral, 0));
+        int anchoMenuLateral = 200;
+        int altoContenidoLateral = 570;
+        MenuLateral.setPreferredSize(new Dimension(anchoMenuLateral, altoContenidoLateral));
+        MenuLateral.setMinimumSize(new Dimension(0, altoContenidoLateral));
         MenuLateral.setBorder(new EmptyBorder(0,0,0,0));      
         int grosor = 2;
         MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, grosor, java.awt.Color.BLACK)); // importante para que no se duplique
+
+        // IDENTIDAD VISUAL DEL SIDEBAR
+        MenuLateral.setBackground(new Color(22, 73, 138));
+        Logo.setIcon(ImagenesHelper.iconoCircular(
+            "/Imagenes/IconoAppStock.png", 148, new Color(250, 248, 244)
+        ));
+        Logo.setHorizontalAlignment(SwingConstants.CENTER);
+        Logo.setVerticalAlignment(SwingConstants.CENTER);
+        Logo.setOpaque(false);
+        Logo.setBorder(null);
+        Logo.setPreferredSize(new java.awt.Dimension(182, 152));
+        Logo.setMinimumSize(new java.awt.Dimension(182, 152));
+        Logo.setMaximumSize(new java.awt.Dimension(182, 152));
 
         //CONFIGURAR BOTONES LATERALES
         ImagenesHelper.estilizarBotonMenuLateral(
@@ -184,7 +208,7 @@ public class PanelLateral extends javax.swing.JPanel {
         MenuLateral.setPreferredSize(new java.awt.Dimension(200, 500));
         MenuLateral.setRequestFocusEnabled(false);
 
-        Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/TelecomLogo.png"))); // NOI18N
+        Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/IconoAppStock.png"))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));

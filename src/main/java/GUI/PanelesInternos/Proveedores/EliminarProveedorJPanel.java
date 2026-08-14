@@ -16,10 +16,15 @@ import Persistencia.Clases.Proveedor;
 import Persistencia.FabricaEntityManager;
 import Persistencia.ManejadorDePersistencia;
 import jakarta.persistence.EntityManager;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import static javax.swing.SwingConstants.CENTER;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
@@ -28,6 +33,38 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class EliminarProveedorJPanel extends javax.swing.JPanel {
     private Long proveedorId;
+
+    private void configurarVista() {
+        MenuLateral.setBackground(new Color(22, 73, 138));
+        MenuLateral.setPreferredSize(new Dimension(200, 0));
+        MenuLateral.setMinimumSize(new Dimension(200, 0));
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
+
+        MenuSuperior.removeAll();
+        MenuSuperior.setLayout(new BorderLayout());
+        MenuSuperior.setPreferredSize(new Dimension(0, 100));
+        MenuSuperior.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK));
+        jLabel3.setText("ELIMINAR PROVEEDOR");
+        jLabel3.setFont(new Font("Segoe UI Black", Font.PLAIN, 36));
+        jLabel3.setHorizontalAlignment(CENTER);
+        MenuSuperior.add(jLabel3, BorderLayout.CENTER);
+
+        Contenido.removeAll();
+        Contenido.setLayout(new BorderLayout(0, 0));
+        Contenido.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 2, Color.BLACK));
+        Contenido.add(jScrollPane1, BorderLayout.CENTER);
+
+        JPanel derecha = new JPanel(new BorderLayout(0, 0));
+        derecha.add(MenuSuperior, BorderLayout.NORTH);
+        derecha.add(Contenido, BorderLayout.CENTER);
+        Fondo.removeAll();
+        Fondo.setLayout(new BorderLayout(0, 0));
+        Fondo.setBorder(new EmptyBorder(0, 0, 0, 0));
+        Fondo.add(MenuLateral, BorderLayout.WEST);
+        Fondo.add(derecha, BorderLayout.CENTER);
+        Fondo.revalidate();
+        Fondo.repaint();
+    }
     
     private void irAEliminarProveedorPantalla2(Long itemId){
             JPanel pantalla2 = new EliminarProveedorPantalla2JPanel(itemId);
@@ -39,14 +76,17 @@ public class EliminarProveedorJPanel extends javax.swing.JPanel {
     EntityManager em = FabricaEntityManager.getEntityManager();
     List<Proveedor> proveedores = MDP.obtenerTodosLosProveedoresOrderByNombre(em);
     javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
-        new Object[]{"ID", "Nombre", "Contacto", "Ubicacion", "Descripcion", "Imagen", ""}, 0
+        new Object[]{"ID", "Nombre", "Contacto", "Ubicación", "Descripción", "Imagen", "Acción"}, 0
     ) {
         @Override public boolean isCellEditable(int row, int column) { return false; }
         
     };
 
     // 3) Cargás filas
+    boolean hayProveedoresEliminables = false;
     for (Proveedor p : proveedores) {
+        if ("DEFAULT".equalsIgnoreCase(p.getNombre())) continue;
+        hayProveedoresEliminables = true;
         modeloTabla.addRow(new Object[]{
             p.getId(),
             p.getNombre(),
@@ -54,7 +94,7 @@ public class EliminarProveedorJPanel extends javax.swing.JPanel {
             p.getUbicacion(),
             p.getDescripcion(),
             p.getImagen(),
-            ">"
+            "ELIMINAR"
         });
     }
     ListaDeProveedores.setModel(modeloTabla);
@@ -63,6 +103,11 @@ public class EliminarProveedorJPanel extends javax.swing.JPanel {
     ListaDeProveedores.getColumnModel().getColumn(0).setMinWidth(0);
     ListaDeProveedores.getColumnModel().getColumn(0).setMaxWidth(0);
     ListaDeProveedores.getColumnModel().getColumn(0).setPreferredWidth(0);
+    ListaDeProveedores.getColumnModel().getColumn(1).setPreferredWidth(135);
+    ListaDeProveedores.getColumnModel().getColumn(2).setPreferredWidth(125);
+    ListaDeProveedores.getColumnModel().getColumn(3).setPreferredWidth(125);
+    ListaDeProveedores.getColumnModel().getColumn(4).setPreferredWidth(195);
+    ListaDeProveedores.getColumnModel().getColumn(5).setPreferredWidth(140);
     //HAY QUE RENDERIZAR DESPUES DE SETEAR EL MODELO
     int colImagen = 5;
     ListaDeProveedores.getColumnModel().getColumn(colImagen)
@@ -88,14 +133,14 @@ public class EliminarProveedorJPanel extends javax.swing.JPanel {
 
         var c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         setHorizontalAlignment(CENTER);
-        setFont(getFont().deriveFont(java.awt.Font.BOLD, 18f));
+        setFont(getFont().deriveFont(java.awt.Font.BOLD, 11f));
         setForeground(java.awt.Color.WHITE);
-        setBackground(new java.awt.Color(0, 102, 255)); // azul
+        setBackground(new java.awt.Color(196, 54, 65));
         return c;
     }
     });
-    ListaDeProveedores.getColumnModel().getColumn(columnaBoton).setMaxWidth(45);
-    ListaDeProveedores.getColumnModel().getColumn(columnaBoton).setMinWidth(45);
+    ListaDeProveedores.getColumnModel().getColumn(columnaBoton).setMaxWidth(100);
+    ListaDeProveedores.getColumnModel().getColumn(columnaBoton).setMinWidth(100);
    
     //AHORA DETECTAR LA INTERACCION CON LA COLOUMNA 4
     
@@ -119,12 +164,22 @@ public class EliminarProveedorJPanel extends javax.swing.JPanel {
         irAEliminarProveedorPantalla2(id);
     }
     });
+
+    if (!hayProveedoresEliminables) {
+        ImagenesHelper.mostrarEstadoVacio(
+            jScrollPane1,
+            "No hay proveedores para eliminar",
+            "Creá un proveedor para que aparezca en esta pantalla.<br>"
+            + "El proveedor DEFAULT está protegido y no puede eliminarse."
+        );
+    }
     }
     /**
      * Creates new form EliminarProveedorJPanel
      */
     public EliminarProveedorJPanel() {
         initComponents();
+        configurarVista();
         cargarTablaProveedores();
         //CONFIGURAR BOTONES LATERALES
         ImagenesHelper.estilizarBotonMenuLateral(

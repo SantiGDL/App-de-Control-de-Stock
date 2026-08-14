@@ -21,6 +21,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -44,8 +45,18 @@ import javax.swing.table.TableColumnModel;
  */
 public class ImagenesHelper {
     private static Path getRutaBaseImagenes() {
-        Path raiz = Paths.get(File.listRoots()[0].getAbsolutePath());
-        return raiz.resolve("StockAppSources");
+        if (System.getProperty("os.name", "").toLowerCase().contains("win")) {
+            Path raiz = Paths.get(File.listRoots()[0].getAbsolutePath());
+            return raiz.resolve("StockAppSources");
+        }
+
+        // En Linux/macOS no se puede escribir normalmente en "/". La carpeta
+        // se crea dentro del directorio personal del usuario que ejecuta la app.
+        String directorioPersonal = System.getProperty("user.home");
+        if (directorioPersonal == null || directorioPersonal.isBlank()) {
+            throw new IllegalStateException("No se pudo determinar la carpeta personal del usuario");
+        }
+        return Paths.get(directorioPersonal).resolve("StockAppSources");
     }
 
     private static String limpiarCarateresEspeciales (String nombreImagen) {
@@ -65,7 +76,8 @@ public class ImagenesHelper {
         Path origen = Paths.get(rutaOrigen);
         if (!Files.exists(origen)) return "";
 
-        Files.createDirectories(getRutaBaseImagenes());
+        Path rutaBase = getRutaBaseImagenes();
+        Files.createDirectories(rutaBase);
 
         String nombreArchivoImagen = origen.getFileName().toString();
         String ext = getExtension(nombreArchivoImagen);            // ".png"
@@ -75,7 +87,6 @@ public class ImagenesHelper {
         }
         nombreBase = limpiarCarateresEspeciales (nombreBase);
 
-        Path rutaBase = getRutaBaseImagenes();
         Path destino = rutaBase.resolve(nombreBase + ext);
 
         // Si existe, genero baseName-1.png, baseName-2.png, etc.
@@ -142,6 +153,68 @@ public class ImagenesHelper {
         ImageIcon original = new ImageIcon(url);
         Image escalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
         return new ImageIcon(escalada);
+    }
+
+    public static ImageIcon iconoCircular(String rutaRecurso, int diametro, Color fondo) {
+        try {
+            URL url = ImagenesHelper.class.getResource(rutaRecurso);
+            if (url == null) {
+                System.err.println("No se encontró el recurso: " + rutaRecurso);
+                return null;
+            }
+
+            BufferedImage original = ImageIO.read(url);
+            // Elimina sólo el margen exterior del PNG, conservando el águila completa.
+            int recorteX = Math.round(original.getWidth() * 0.05f);
+            int recorteY = Math.round(original.getHeight() * 0.05f);
+            BufferedImage recortada = original.getSubimage(
+                recorteX,
+                recorteY,
+                original.getWidth() - (recorteX * 2),
+                original.getHeight() - (recorteY * 2)
+            );
+            // Se compone a 4x y recién después se reduce: el sobremuestreo evita
+            // dientes de sierra tanto en la ilustración como en el círculo.
+            int diametroRender = diametro * 4;
+            BufferedImage escalada = escalarPorPromedioDeArea(
+                recortada, diametroRender, diametroRender
+            );
+
+            BufferedImage circular = new BufferedImage(
+                diametroRender, diametroRender, BufferedImage.TYPE_INT_ARGB
+            );
+            Graphics2D g2 = circular.createGraphics();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            g2.setColor(fondo);
+            g2.fillOval(0, 0, diametroRender, diametroRender);
+            g2.setClip(new java.awt.geom.Ellipse2D.Double(0, 0, diametroRender, diametroRender));
+            g2.drawImage(escalada, 0, 0, null);
+            g2.setClip(null);
+            g2.setColor(new Color(221, 226, 232));
+            g2.setStroke(new BasicStroke(8f));
+            g2.drawOval(4, 4, diametroRender - 9, diametroRender - 9);
+            g2.dispose();
+            return new ImageIcon(escalarPorPromedioDeArea(circular, diametro, diametro));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private static BufferedImage escalarPorPromedioDeArea(
+            BufferedImage original, int anchoFinal, int altoFinal) {
+        Image reducida = original.getScaledInstance(
+            anchoFinal, altoFinal, Image.SCALE_AREA_AVERAGING
+        );
+        BufferedImage resultado = new BufferedImage(
+            anchoFinal, altoFinal, BufferedImage.TYPE_INT_ARGB
+        );
+        Graphics2D g2 = resultado.createGraphics();
+        g2.setComposite(AlphaComposite.Src);
+        g2.drawImage(reducida, 0, 0, null);
+        g2.dispose();
+        return resultado;
     }
 
     public static void ponerIconoEscalado(AbstractButton boton, String rutaRecurso, int ancho, int alto) {
@@ -530,5 +603,26 @@ public static void estilizarTablaGaming(
         table.getColumnModel().getColumn(c).setCellRenderer(zebraRenderer);
     }
 }
-}
 
+public static void mostrarEstadoVacio(
+        JScrollPane scroll, String titulo, String descripcion) {
+    JPanel estado = new JPanel(new GridBagLayout());
+    estado.setOpaque(false);
+
+    JLabel mensaje = new JLabel(
+        "<html><div style='text-align:center'>"
+        + "<span style='font-size:18px'><b>" + titulo + "</b></span>"
+        + "<br><br>" + descripcion
+        + "</div></html>",
+        SwingConstants.CENTER
+    );
+    mensaje.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+    mensaje.setForeground(Color.WHITE);
+    mensaje.setBorder(new EmptyBorder(24, 32, 24, 32));
+    estado.add(mensaje);
+
+    scroll.setViewportView(estado);
+    scroll.getViewport().setOpaque(false);
+    scroll.setOpaque(false);
+}
+}

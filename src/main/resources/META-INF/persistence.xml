@@ -17,9 +17,9 @@
             <!-- JDBC -->
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="jakarta.persistence.jdbc.url"
-                      value="jdbc:mysql://localhost:3306/stockapp?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC"/>
-            <property name="jakarta.persistence.jdbc.user" value="StockApp"/>
-            <property name="jakarta.persistence.jdbc.password" value="StockApp"/>
+                      value="jdbc:mysql://localhost:3306/stockappDB?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC"/>
+            <property name="jakarta.persistence.jdbc.user" value="StockUser"/>
+            <property name="jakarta.persistence.jdbc.password" value="StockPass"/>
 
             <!-- Hibernate -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>

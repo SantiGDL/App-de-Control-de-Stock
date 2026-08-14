@@ -288,15 +288,18 @@ public DTItemDeSTOCK getDTItemDeSTOCK(EntityManager em, Long itemId) {
  
  
 public List<ItemDeSTOCK> getItemsDeStock(EntityManager em) {
-    Stock s = em.createQuery(
+    List<Stock> stocks = em.createQuery(
         "SELECT DISTINCT s FROM Stock s " +
         "LEFT JOIN FETCH s.itemsDeStock " +
         "WHERE s.clave = :clave ",
         Stock.class
     )
     .setParameter("clave", "DEFAULT")
-    .getSingleResult();
+    .setMaxResults(1)
+    .getResultList();
     
+    if (stocks.isEmpty()) return List.of();
+    Stock s = stocks.get(0);
     return s.filtrarActivos(s.getItemsDeSTOCK());
 }
     
@@ -620,6 +623,9 @@ public void desactivarProveedor(Long proveedorId) {
 
         Proveedor proveedor = em.find(Proveedor.class, proveedorId);
         if (proveedor == null) throw new IllegalArgumentException("Item no existe");
+        if ("DEFAULT".equalsIgnoreCase(proveedor.getNombre())) {
+            throw new IllegalArgumentException("El proveedor DEFAULT no puede eliminarse");
+        }
         
         //ACA DESACTIVO EL ITEM DE CATALOGO; AHORA TENGO QUE DESACTIVAR EL DE STOCK; PARA ELLO LO BUSCO POR NOMBRE
         proveedor.setActivo(false);
@@ -644,4 +650,3 @@ public void desactivarProveedor(Long proveedorId) {
 
 
     
-
