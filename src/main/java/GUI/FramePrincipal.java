@@ -12,6 +12,7 @@ import Persistencia.ManejadorDePersistencia;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTMaterialLighterIJTheme;
 import java.awt.Color;
+import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
@@ -42,6 +43,9 @@ public class FramePrincipal extends javax.swing.JFrame {
             }
             } catch (Exception ignored) {}
         initComponents();
+        // Evita estados tan pequeños que los controles dejan de ser utilizables,
+        // pero permite redimensionar la aplicación normalmente.
+        setMinimumSize(new Dimension(620, 440));
         //Al inicializal el frame principal le pido que cargue el Panel Principal tambien
         JPanel PanelPrincipal = new PanelPrincipal();
         controller.cambiarPanelGeneral(Fondo, PanelPrincipal);

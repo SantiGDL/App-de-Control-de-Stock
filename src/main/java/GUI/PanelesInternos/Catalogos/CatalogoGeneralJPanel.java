@@ -16,7 +16,11 @@ import Persistencia.FabricaEntityManager;
 import Persistencia.ManejadorDePersistencia;
 import jakarta.persistence.EntityManager;
 import java.awt.Color;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import static javax.swing.SwingConstants.CENTER;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -39,7 +43,7 @@ private void cargarTablaItems() {
     List<Item> items = MDP.getItemsDeCatalogoGeneralOptimizado();
     // 2) Armo el modelo con columnas
     javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
-        new Object[]{"ID", "Nombre", "Descripcion", "Imagen"}, 0
+        new Object[]{"ID", "Nombre", "Descripción", "Imagen"}, 0
     ) {
         @Override public boolean isCellEditable(int row, int column) { return false; }
         
@@ -73,6 +77,14 @@ private void cargarTablaItems() {
             true,
             null  // 👈 NO TOCAR esta columna (alertas)
 );
+    CatalogoGeneral.getColumnModel().getColumn(1).setPreferredWidth(220);
+    CatalogoGeneral.getColumnModel().getColumn(2).setPreferredWidth(360);
+    CatalogoGeneral.getColumnModel().getColumn(3).setPreferredWidth(190);
+    if (items.isEmpty()) {
+        ImagenesHelper.mostrarEstadoVacio(jScrollPane1,
+                "El catálogo general está vacío",
+                "Creá un ítem para que aparezca disponible en este catálogo.");
+    }
     //CONFIGURAR BOTONES LATERALES
         ImagenesHelper.estilizarBotonMenuLateral(
         INICIO,
@@ -107,7 +119,33 @@ private void cargarTablaItems() {
      */
     public CatalogoGeneralJPanel() {
         initComponents();
+        configurarVista();
         cargarTablaItems();
+    }
+
+    private void configurarVista() {
+        MenuLateral.setBackground(new Color(22, 73, 138));
+        MenuLateral.setPreferredSize(new Dimension(200, 0));
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
+        jLabel3.setText("CATÁLOGO GENERAL");
+        jLabel3.setFont(new Font("Segoe UI Black", Font.PLAIN, 36));
+        MenuSuperior.removeAll();
+        MenuSuperior.setLayout(new BorderLayout());
+        MenuSuperior.setPreferredSize(new Dimension(0, 100));
+        MenuSuperior.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK));
+        MenuSuperior.add(jLabel3, BorderLayout.CENTER);
+        Contenido.removeAll();
+        Contenido.setLayout(new BorderLayout());
+        Contenido.setBackground(new Color(0, 87, 174));
+        Contenido.setBorder(BorderFactory.createEmptyBorder(14, 14, 14, 14));
+        Contenido.add(jScrollPane1, BorderLayout.CENTER);
+        JPanel centro = new JPanel(new BorderLayout());
+        centro.add(MenuSuperior, BorderLayout.NORTH);
+        centro.add(Contenido, BorderLayout.CENTER);
+        Fondo.removeAll();
+        Fondo.setLayout(new BorderLayout());
+        Fondo.add(MenuLateral, BorderLayout.WEST);
+        Fondo.add(centro, BorderLayout.CENTER);
     }
 
     /**

@@ -7,13 +7,21 @@ package GUI.PanelesInternosConfiguraciones;
 import GUI.FramePrincipal;
 import GUI.GUIController;
 import GUI.PanelPrincipal;
-import GUI.PanelesPRINCIPALES.PanelDeItems;
 import ImagenesHelpers.ImagenesHelper;
 import Persistencia.DTOs.DTItem;
 import Persistencia.ManejadorDePersistencia;
 import java.awt.Color;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -28,6 +36,7 @@ public class ConfigurarAlertasPantalla2JPanel extends javax.swing.JPanel {
      */  
     public ConfigurarAlertasPantalla2JPanel(Long itemId) {
         initComponents();
+        configurarVista();
         this.itemId = itemId;
         dtItem = controller.recuperarDTItemDeId(itemId);
         controller.mostrarImagenEnPanel(ImagenItem, RellenoImagenItem, dtItem.getImagen());
@@ -58,6 +67,88 @@ public class ConfigurarAlertasPantalla2JPanel extends javax.swing.JPanel {
         //Color del texto
         Color.BLACK
         );
+    }
+
+    private void configurarVista() {
+        MenuLateral.setBackground(new Color(22, 73, 138));
+        MenuLateral.setPreferredSize(new Dimension(200, 0));
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
+
+        jLabel3.setFont(new Font("Segoe UI Black", Font.PLAIN, 36));
+        MenuSuperior.removeAll();
+        MenuSuperior.setLayout(new BorderLayout());
+        MenuSuperior.setPreferredSize(new Dimension(0, 100));
+        MenuSuperior.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK));
+        MenuSuperior.add(jLabel3, BorderLayout.CENTER);
+
+        JLabel ayuda = new JLabel(
+                "<html><div style='text-align:center'><b>Definí cuándo querés recibir cada aviso.</b>"
+                + "<br>Rojo: nivel crítico · Amarillo: nivel preventivo · Por encima: stock normal.</div></html>",
+                SwingConstants.CENTER);
+        ayuda.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        ayuda.setForeground(new Color(43, 54, 69));
+
+        UmbralAmarilloLbl.setText("Umbral amarillo");
+        UmbralRojoLbl.setText("Umbral rojo");
+        Imagen.setText("Producto seleccionado");
+        for (javax.swing.JTextField campo : new javax.swing.JTextField[]{UmbraAmarilloContenido, UmbralRojoContenido}) {
+            campo.setPreferredSize(new Dimension(290, 38));
+            campo.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+            campo.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(new Color(180, 194, 210)),
+                    BorderFactory.createEmptyBorder(5, 9, 5, 9)));
+        }
+
+        ImagenItem.removeAll();
+        ImagenItem.setLayout(new BorderLayout());
+        ImagenItem.setPreferredSize(new Dimension(180, 180));
+        ImagenItem.setBackground(new Color(237, 242, 248));
+        ImagenItem.setBorder(BorderFactory.createLineBorder(new Color(190, 202, 216), 2));
+        RellenoImagenItem.setHorizontalAlignment(SwingConstants.CENTER);
+        ImagenItem.add(RellenoImagenItem, BorderLayout.CENTER);
+
+        Aceptar.setText("GUARDAR ALERTAS");
+        Aceptar.setFont(new Font("Segoe UI Black", Font.PLAIN, 14));
+        Aceptar.setBackground(new Color(34, 207, 139));
+        Aceptar.setForeground(Color.WHITE);
+        Aceptar.setPreferredSize(new Dimension(290, 40));
+
+        JPanel formulario = new JPanel(new GridBagLayout());
+        formulario.setBackground(new Color(250, 248, 245));
+        formulario.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(220, 225, 232)),
+                BorderFactory.createEmptyBorder(24, 30, 24, 30)));
+        GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(7, 8, 7, 8);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0; c.gridy = 0; c.gridwidth = 3;
+        formulario.add(ayuda, c);
+        c.gridwidth = 1; c.anchor = GridBagConstraints.WEST;
+        c.gridx = 0; c.gridy = 1; formulario.add(UmbralAmarilloLbl, c);
+        c.gridx = 1; formulario.add(UmbraAmarilloContenido, c);
+        c.gridx = 0; c.gridy = 2; formulario.add(UmbralRojoLbl, c);
+        c.gridx = 1; formulario.add(UmbralRojoContenido, c);
+        c.gridx = 0; c.gridy = 3; c.gridwidth = 2; formulario.add(Aceptar, c);
+        c.gridx = 2; c.gridy = 1; c.gridheight = 3; c.gridwidth = 1;
+        c.fill = GridBagConstraints.NONE; c.anchor = GridBagConstraints.CENTER;
+        JPanel imagenConTitulo = new JPanel(new BorderLayout(0, 8));
+        imagenConTitulo.setOpaque(false);
+        imagenConTitulo.add(Imagen, BorderLayout.NORTH);
+        imagenConTitulo.add(ImagenItem, BorderLayout.CENTER);
+        formulario.add(imagenConTitulo, c);
+
+        Contenido.removeAll();
+        Contenido.setLayout(new GridBagLayout());
+        Contenido.setBackground(new Color(0, 87, 174));
+        Contenido.add(formulario);
+
+        JPanel centro = new JPanel(new BorderLayout());
+        centro.add(MenuSuperior, BorderLayout.NORTH);
+        centro.add(Contenido, BorderLayout.CENTER);
+        Fondo.removeAll();
+        Fondo.setLayout(new BorderLayout());
+        Fondo.add(MenuLateral, BorderLayout.WEST);
+        Fondo.add(centro, BorderLayout.CENTER);
     }
 
     /**
@@ -344,14 +435,28 @@ public class ConfigurarAlertasPantalla2JPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "El umbralRojo es obligatorio");
             return;
         }
-        Integer umbralAmarillo = Integer.valueOf(umbralAmarilloStr);
-        Integer umbralRojo = Integer.valueOf(umbralRojoStr);
-
-            UmbraAmarilloContenido.setText("");
-            UmbralRojoContenido.setText("");
+        Integer umbralAmarillo;
+        Integer umbralRojo;
+        try {
+            umbralAmarillo = Integer.valueOf(umbralAmarilloStr);
+            umbralRojo = Integer.valueOf(umbralRojoStr);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Los umbrales deben ser números enteros.");
+            return;
+        }
+        if (umbralAmarillo < 0 || umbralRojo < 0) {
+            JOptionPane.showMessageDialog(this, "Los umbrales no pueden ser negativos.");
+            return;
+        }
+        if (umbralRojo > umbralAmarillo) {
+            JOptionPane.showMessageDialog(this, "El umbral rojo debe ser menor o igual que el amarillo.");
+            return;
+        }
         ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
         MDP.editarAlertas(itemId, umbralAmarillo, umbralRojo);
         JOptionPane.showMessageDialog(this, "Alertas configuradas correctamente");
+        UmbraAmarilloContenido.setText("");
+        UmbralRojoContenido.setText("");
         
         
     }//GEN-LAST:event_AceptarActionPerformed
@@ -367,7 +472,7 @@ public class ConfigurarAlertasPantalla2JPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_INICIOActionPerformed
 
     private void ATRASActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ATRASActionPerformed
-        JPanel panelDeItems = new PanelDeItems();
+        JPanel panelDeItems = new ConfigurarAlertasJPanel();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(panelDeItems);
     }//GEN-LAST:event_ATRASActionPerformed

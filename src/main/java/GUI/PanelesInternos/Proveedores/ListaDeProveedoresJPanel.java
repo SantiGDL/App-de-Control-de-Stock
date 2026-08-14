@@ -14,15 +14,56 @@ import Persistencia.Clases.Proveedor;
 import Persistencia.FabricaEntityManager;
 import Persistencia.ManejadorDePersistencia;
 import jakarta.persistence.EntityManager;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
  * @author Santi-kun
  */
 public class ListaDeProveedoresJPanel extends javax.swing.JPanel {
+
+    private void configurarVista() {
+        MenuLateral.setBackground(new Color(22, 73, 138));
+        MenuLateral.setPreferredSize(new Dimension(200, 0));
+        MenuLateral.setMinimumSize(new Dimension(200, 0));
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
+
+        MenuSuperior.removeAll();
+        MenuSuperior.setLayout(new BorderLayout());
+        MenuSuperior.setPreferredSize(new Dimension(0, 100));
+        MenuSuperior.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK));
+        jLabel3.setFont(new Font("Segoe UI Black", Font.PLAIN, 36));
+        jLabel3.setHorizontalAlignment(SwingConstants.CENTER);
+        MenuSuperior.add(jLabel3, BorderLayout.CENTER);
+
+        Contenido.removeAll();
+        Contenido.setLayout(new BorderLayout(0, 0));
+        Contenido.setBackground(new Color(0, 87, 174));
+        Contenido.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 2, Color.BLACK));
+        Contenido.add(jScrollPane1, BorderLayout.CENTER);
+
+        JPanel derecha = new JPanel(new BorderLayout(0, 0));
+        derecha.setBorder(new EmptyBorder(0, 0, 0, 0));
+        derecha.add(MenuSuperior, BorderLayout.NORTH);
+        derecha.add(Contenido, BorderLayout.CENTER);
+
+        Fondo.removeAll();
+        Fondo.setLayout(new BorderLayout(0, 0));
+        Fondo.setBorder(new EmptyBorder(0, 0, 0, 0));
+        Fondo.add(MenuLateral, BorderLayout.WEST);
+        Fondo.add(derecha, BorderLayout.CENTER);
+        Fondo.revalidate();
+        Fondo.repaint();
+    }
 
     private void cargarTablaProveedores() {
     ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
@@ -32,7 +73,7 @@ public class ListaDeProveedoresJPanel extends javax.swing.JPanel {
     List<Proveedor> proveedores = MDP.obtenerTodosLosProveedoresOrderByNombre(em);
     // 2) Armo el modelo con columnas
     javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
-        new Object[]{"ID", "Nombre", "Contacto", "Ubicacion", "Descripcion", "Imagen"}, 0
+        new Object[]{"ID", "Nombre", "Contacto", "Ubicación", "Descripción", "Imagen"}, 0
     ) {
         @Override public boolean isCellEditable(int row, int column) { return false; }
         
@@ -55,6 +96,11 @@ public class ListaDeProveedoresJPanel extends javax.swing.JPanel {
     ListaDeProveedores.getColumnModel().getColumn(0).setMinWidth(0);
     ListaDeProveedores.getColumnModel().getColumn(0).setMaxWidth(0);
     ListaDeProveedores.getColumnModel().getColumn(0).setPreferredWidth(0);
+    ListaDeProveedores.getColumnModel().getColumn(1).setPreferredWidth(145);
+    ListaDeProveedores.getColumnModel().getColumn(2).setPreferredWidth(140);
+    ListaDeProveedores.getColumnModel().getColumn(3).setPreferredWidth(145);
+    ListaDeProveedores.getColumnModel().getColumn(4).setPreferredWidth(230);
+    ListaDeProveedores.getColumnModel().getColumn(5).setPreferredWidth(160);
     //HAY QUE RENDERIZAR DESPUES DE SETEAR EL MODELO
     int colImagen = 5;
     ListaDeProveedores.getColumnModel().getColumn(colImagen)
@@ -69,6 +115,34 @@ public class ListaDeProveedoresJPanel extends javax.swing.JPanel {
             null  // 👈 NO TOCAR esta columna (alertas)
     );
 
+    ListaDeProveedores.getColumnModel().getColumn(4).setCellRenderer(new DefaultTableCellRenderer() {
+        {
+            setHorizontalAlignment(SwingConstants.CENTER);
+        }
+
+        @Override
+        public java.awt.Component getTableCellRendererComponent(
+                javax.swing.JTable table, Object value, boolean isSelected,
+                boolean hasFocus, int row, int column) {
+            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            String descripcion = value == null ? "" : value.toString();
+            setText(descripcion);
+            setToolTipText(descripcion.isBlank() ? null : descripcion);
+            setForeground(Color.WHITE);
+            setHorizontalAlignment(SwingConstants.CENTER);
+            setOpaque(false);
+            return this;
+        }
+    });
+
+    if (proveedores.isEmpty()) {
+        ImagenesHelper.mostrarEstadoVacio(
+            jScrollPane1,
+            "No hay proveedores registrados",
+            "Creá un proveedor para que aparezca en esta lista."
+        );
+    }
+
     
     }
     
@@ -77,6 +151,7 @@ public class ListaDeProveedoresJPanel extends javax.swing.JPanel {
      */
     public ListaDeProveedoresJPanel() {
         initComponents();
+        configurarVista();
         cargarTablaProveedores();
         
         //CONFIGURAR BOTONES LATERALES

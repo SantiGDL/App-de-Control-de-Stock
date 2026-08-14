@@ -10,7 +10,11 @@ import Persistencia.FabricaEntityManager;
 import Persistencia.ManejadorDePersistencia;
 import jakarta.persistence.EntityManager;
 import java.awt.Color;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import static javax.swing.SwingConstants.CENTER;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -36,7 +40,7 @@ public class ConfigurarAlertasJPanel extends javax.swing.JPanel {
        List<ItemDeSTOCK> itemsDeStock = MDP.getItemsDeStock(em);
        // 2) Armo el modelo con columnas
        javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
-           new Object[]{"ID", "Nombre", "Descripcion", "Imagen", "cantUnidades", "Seleccionar"}, 0
+           new Object[]{"ID", "Nombre", "Descripción", "Imagen", "Unidades", "Acción"}, 0
        ) {
            @Override public boolean isCellEditable(int row, int column) { return false; }
 
@@ -50,20 +54,27 @@ public class ConfigurarAlertasJPanel extends javax.swing.JPanel {
                it.getDescripcion(),
                it.getImagen(),
                it.getCantUnidades(),
-               ">"
+               "CONFIGURAR"
            });
        }
        TablaDeStock.setModel(modeloTabla);
        TablaDeStock.getTableHeader().setReorderingAllowed(false);
        //REDERIZO LA IMAGEN DE LA TABLA
        int colImagen = 3;
-       TablaDeStock.setRowHeight(120);
-       //RENDERIZO LA IMAGEN USANDO EL HELPER
-       TablaDeStock.getColumnModel().getColumn(colImagen)
-                 .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
+       RenderDeImagenEnTablas renderImagen = new RenderDeImagenEnTablas(120, 120);
+       ImagenesHelper.estilizarTablaGaming(
+               TablaDeStock, jScrollPane1, 120, colImagen, renderImagen, true, 5);
+
+       // El ID se conserva en el modelo para navegar, pero no se muestra al usuario.
+       TablaDeStock.removeColumn(TablaDeStock.getColumnModel().getColumn(0));
+
+       TablaDeStock.getColumnModel().getColumn(0).setPreferredWidth(180);
+       TablaDeStock.getColumnModel().getColumn(1).setPreferredWidth(260);
+       TablaDeStock.getColumnModel().getColumn(2).setPreferredWidth(150);
+       TablaDeStock.getColumnModel().getColumn(3).setPreferredWidth(100);
 
         //AHORA EL BOTON PARA APRETAR PARA SELECCIONAR PROVEEDOR
-       Integer columnaInteraccion = 5;
+       Integer columnaInteraccion = 4;
        TablaDeStock.getColumnModel().getColumn(columnaInteraccion).setCellRenderer(new DefaultTableCellRenderer() {
        @Override
        public java.awt.Component getTableCellRendererComponent(
@@ -72,14 +83,14 @@ public class ConfigurarAlertasJPanel extends javax.swing.JPanel {
 
            var c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
            setHorizontalAlignment(CENTER);
-           setFont(getFont().deriveFont(java.awt.Font.BOLD, 18f));
+           setFont(new Font("Segoe UI Black", Font.PLAIN, 12));
            setForeground(java.awt.Color.WHITE);
            setBackground(new java.awt.Color(0, 102, 255)); // azul
            return c;
        }
        });
-       TablaDeStock.getColumnModel().getColumn(columnaInteraccion).setMaxWidth(45);
-       TablaDeStock.getColumnModel().getColumn(columnaInteraccion).setMinWidth(45);
+       TablaDeStock.getColumnModel().getColumn(columnaInteraccion).setPreferredWidth(120);
+       TablaDeStock.getColumnModel().getColumn(columnaInteraccion).setMinWidth(110);
 
        //AHORA DETECTAR LA INTERACCION CON LA COLOUMNA 4
 
@@ -101,12 +112,48 @@ public class ConfigurarAlertasJPanel extends javax.swing.JPanel {
            irAConfigurarAlertasPantalla2(itemId);
        }
    });
+
+       if (itemsDeStock.isEmpty()) {
+           ImagenesHelper.mostrarEstadoVacio(
+                   jScrollPane1,
+                   "Todavía no hay productos en stock",
+                   "Registrá una compra para poder configurar sus alertas de cantidad.");
        }
+       }
+
+    private void configurarVista() {
+        MenuLateral.setBackground(new Color(22, 73, 138));
+        MenuLateral.setPreferredSize(new Dimension(200, 0));
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
+
+        jLabel3.setFont(new Font("Segoe UI Black", Font.PLAIN, 36));
+        MenuSuperior.removeAll();
+        MenuSuperior.setLayout(new BorderLayout());
+        MenuSuperior.setPreferredSize(new Dimension(0, 100));
+        MenuSuperior.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK));
+        MenuSuperior.add(jLabel3, BorderLayout.CENTER);
+
+        Contenido.removeAll();
+        Contenido.setLayout(new BorderLayout());
+        Contenido.setBackground(new Color(0, 87, 174));
+        Contenido.setBorder(BorderFactory.createEmptyBorder(14, 14, 14, 14));
+        Contenido.add(jScrollPane1, BorderLayout.CENTER);
+
+        JPanel centro = new JPanel(new BorderLayout());
+        centro.add(MenuSuperior, BorderLayout.NORTH);
+        centro.add(Contenido, BorderLayout.CENTER);
+
+        Fondo.removeAll();
+        Fondo.setLayout(new BorderLayout());
+        Fondo.add(MenuLateral, BorderLayout.WEST);
+        Fondo.add(centro, BorderLayout.CENTER);
+    }
     /**
      * Creates new form ConfigurarAlertas
      */
     public ConfigurarAlertasJPanel() {
         initComponents();
+        configurarVista();
         cargarTablaItemsSTOCK();
         
         //CONFIGURAR BOTONES LATERALES

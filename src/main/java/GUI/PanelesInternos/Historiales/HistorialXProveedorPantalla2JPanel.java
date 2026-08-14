@@ -15,7 +15,12 @@ import Persistencia.FabricaEntityManager;
 import Persistencia.ManejadorDePersistencia;
 import jakarta.persistence.EntityManager;
 import java.awt.Color;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.JTable;
 import javax.swing.JPanel;
 
 /**
@@ -30,8 +35,8 @@ public class HistorialXProveedorPantalla2JPanel extends javax.swing.JPanel {
         List<CompraItem> compras =  MDP.getComprasProveedorX(proveedorId);
         // 2) Armo el modelo con columnas
         javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
-            new Object[]{"ID", "NombreItem","Imagen Item ", "Nombre Proveedor" ,"Imagen Proveedor", 
-                "Cant Unidades","Precio X Unidad" , "Precio Total" , "Fecha" }, 0
+            new Object[]{"ID", "Producto", "Imagen del producto", "Proveedor", "Imagen del proveedor",
+                "Unidades", "Precio unitario", "Precio total", "Fecha"}, 0
         ) {
             @Override public boolean isCellEditable(int row, int column) { return false; }
 
@@ -70,6 +75,20 @@ public class HistorialXProveedorPantalla2JPanel extends javax.swing.JPanel {
         //RENDERIZO LA IMAGEN USANDO EL HELPER
         HistorialXProveedor.getColumnModel().getColumn(colImagenProveedor)
                   .setCellRenderer(new RenderDeImagenEnTablas(120, 120));
+        ImagenesHelper.estilizarTablaGaming(
+                HistorialXProveedor, jScrollPane1, 120, colImagenItem,
+                HistorialXProveedor.getColumnModel().getColumn(colImagenItem).getCellRenderer(),
+                true, colImagenProveedor);
+        HistorialXProveedor.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        int[] anchos = {0, 190, 160, 180, 160, 100, 135, 135, 130};
+        for (int i = 1; i < anchos.length; i++) {
+            HistorialXProveedor.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        }
+        if (compras.isEmpty()) {
+            ImagenesHelper.mostrarEstadoVacio(jScrollPane1,
+                    "Este proveedor no tiene movimientos",
+                    "Las compras realizadas a este proveedor aparecerán en esta pantalla.");
+        }
         
         //CONFIGURAR BOTONES LATERALES
         ImagenesHelper.estilizarBotonMenuLateral(
@@ -103,8 +122,34 @@ public class HistorialXProveedorPantalla2JPanel extends javax.swing.JPanel {
      */
     public HistorialXProveedorPantalla2JPanel(Long proveedorId) {
         initComponents();
+        configurarVista();
         this.proveedorId = proveedorId;
         cargarTablaHistorial();
+    }
+
+    private void configurarVista() {
+        MenuLateral.setBackground(new Color(22, 73, 138));
+        MenuLateral.setPreferredSize(new Dimension(200, 0));
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
+        jLabel3.setText("HISTORIAL DEL PROVEEDOR");
+        jLabel3.setFont(new Font("Segoe UI Black", Font.PLAIN, 36));
+        MenuSuperior.removeAll();
+        MenuSuperior.setLayout(new BorderLayout());
+        MenuSuperior.setPreferredSize(new Dimension(0, 100));
+        MenuSuperior.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK));
+        MenuSuperior.add(jLabel3, BorderLayout.CENTER);
+        Contenido.removeAll();
+        Contenido.setLayout(new BorderLayout());
+        Contenido.setBackground(new Color(0, 87, 174));
+        Contenido.setBorder(BorderFactory.createEmptyBorder(14, 14, 14, 14));
+        Contenido.add(jScrollPane1, BorderLayout.CENTER);
+        JPanel centro = new JPanel(new BorderLayout());
+        centro.add(MenuSuperior, BorderLayout.NORTH);
+        centro.add(Contenido, BorderLayout.CENTER);
+        Fondo.removeAll();
+        Fondo.setLayout(new BorderLayout());
+        Fondo.add(MenuLateral, BorderLayout.WEST);
+        Fondo.add(centro, BorderLayout.CENTER);
     }
 
     /**

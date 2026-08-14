@@ -12,9 +12,20 @@ import Persistencia.Clases.ItemDeSTOCK;
 import Persistencia.DTOs.DTItem;
 import Persistencia.DTOs.DTItemDeSTOCK;
 import Persistencia.ManejadorDePersistencia;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -24,11 +35,109 @@ public class EliminarItemPantalla2JPanel extends javax.swing.JPanel {
     Long itemId;
     private DTItem dtItem;
     GUIController controller = new GUIController();
+
+    private void configurarVista() {
+        MenuLateral2.setBackground(new Color(22, 73, 138));
+        MenuLateral2.setPreferredSize(new Dimension(200, 0));
+        MenuLateral2.setMinimumSize(new Dimension(200, 0));
+        MenuLateral2.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
+
+        MenuSuperior2.removeAll();
+        MenuSuperior2.setLayout(new BorderLayout());
+        MenuSuperior2.setPreferredSize(new Dimension(0, 100));
+        MenuSuperior2.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK));
+        jLabel8.setText("CONFIRMAR ELIMINACIÓN");
+        jLabel8.setFont(new Font("Segoe UI Black", Font.PLAIN, 36));
+        jLabel8.setHorizontalAlignment(SwingConstants.CENTER);
+        MenuSuperior2.add(jLabel8, BorderLayout.CENTER);
+
+        NombreItem.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        DescripcionItem.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        NombreItem.setPreferredSize(new Dimension(320, 38));
+        DescripcionItem.setPreferredSize(new Dimension(320, 38));
+        NombreItem.setBorder(new EmptyBorder(7, 10, 7, 10));
+        DescripcionItem.setBorder(new EmptyBorder(7, 10, 7, 10));
+
+        ImagenItem.setPreferredSize(new Dimension(180, 180));
+        ImagenItem.setMinimumSize(new Dimension(180, 180));
+        ImagenItem.setBorder(BorderFactory.createLineBorder(new Color(205, 213, 222), 2));
+        ImagenItem.removeAll();
+        ImagenItem.setLayout(new BorderLayout());
+        RellenoImagenItem.setHorizontalAlignment(SwingConstants.CENTER);
+        ImagenItem.add(RellenoImagenItem, BorderLayout.CENTER);
+
+        Eliminar.setText("ELIMINAR DEFINITIVAMENTE");
+        Eliminar.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        Eliminar.setBackground(new Color(196, 54, 65));
+        Eliminar.setForeground(Color.WHITE);
+        Eliminar.setOpaque(true);
+        Eliminar.setContentAreaFilled(true);
+        Eliminar.setBorderPainted(false);
+        Eliminar.setFocusPainted(false);
+        Eliminar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        Eliminar.setPreferredSize(new Dimension(250, 42));
+
+        JPanel tarjeta = new JPanel(new GridBagLayout());
+        tarjeta.setBackground(new Color(250, 248, 244));
+        tarjeta.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(207, 216, 226), 1),
+            new EmptyBorder(26, 32, 26, 32)
+        ));
+
+        JLabel advertencia = new JLabel(
+            "<html><div style='text-align:center'><b>¿Querés eliminar este ítem?</b><br>"
+            + "Dejará de aparecer en el catálogo y en las operaciones nuevas.</div></html>",
+            SwingConstants.CENTER
+        );
+        advertencia.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        advertencia.setForeground(new Color(92, 55, 58));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0, 0, 24, 0);
+        tarjeta.add(advertencia, gbc);
+
+        gbc.gridwidth = 1; gbc.gridx = 0; gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 6, 28);
+        tarjeta.add(NombreItemLbl, gbc);
+        gbc.gridy = 2; gbc.insets = new Insets(0, 0, 18, 28);
+        tarjeta.add(NombreItem, gbc);
+        gbc.gridy = 3; gbc.insets = new Insets(0, 0, 6, 28);
+        tarjeta.add(DescripcionItemLbl, gbc);
+        gbc.gridy = 4; gbc.insets = new Insets(0, 0, 22, 28);
+        tarjeta.add(DescripcionItem, gbc);
+        gbc.gridy = 5; gbc.insets = new Insets(0, 0, 0, 28);
+        tarjeta.add(Eliminar, gbc);
+
+        gbc.gridx = 1; gbc.gridy = 1; gbc.gridheight = 5;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        tarjeta.add(ImagenItem, gbc);
+
+        Contenido.removeAll();
+        Contenido.setLayout(new GridBagLayout());
+        Contenido.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 2, Color.BLACK));
+        Contenido.add(tarjeta);
+
+        JPanel derecha = new JPanel(new BorderLayout(0, 0));
+        derecha.add(MenuSuperior2, BorderLayout.NORTH);
+        derecha.add(Contenido, BorderLayout.CENTER);
+        Fondo.removeAll();
+        Fondo.setLayout(new BorderLayout(0, 0));
+        Fondo.add(MenuLateral2, BorderLayout.WEST);
+        Fondo.add(derecha, BorderLayout.CENTER);
+        Fondo.revalidate();
+        Fondo.repaint();
+    }
     /**
      * Creates new form EliminarItemPantalla2JPanel
      */
     public EliminarItemPantalla2JPanel(Long itemId) {
         initComponents();
+        configurarVista();
         this.itemId = itemId;
         dtItem = controller.recuperarDTItemDeId(itemId);
         cargarDatos();
@@ -358,7 +467,9 @@ public class EliminarItemPantalla2JPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_INICIOActionPerformed
 
     private void ATRASActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ATRASActionPerformed
-      
+        JPanel eliminarItems = new EliminarItemJPanel();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(eliminarItems);
     }//GEN-LAST:event_ATRASActionPerformed
 
     private void NombreItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreItemActionPerformed
@@ -370,10 +481,21 @@ public class EliminarItemPantalla2JPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_DescripcionItemActionPerformed
 
     private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
+        int confirmacion = JOptionPane.showConfirmDialog(
+            this,
+            "¿Confirmás que querés eliminar \"" + dtItem.getNombre() + "\"?",
+            "Confirmar eliminación",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE
+        );
+        if (confirmacion != JOptionPane.YES_OPTION) return;
+
         ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
-        //Obtengo el item de stock a partir de la id
         MDP.desactivarItem(itemId);
-        JOptionPane.showMessageDialog(null, "Item Eliminado Correctamente");
+        JOptionPane.showMessageDialog(this, "Ítem eliminado correctamente");
+        JPanel eliminarItems = new EliminarItemJPanel();
+        FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.cambiarFondo(eliminarItems);
     }//GEN-LAST:event_EliminarActionPerformed
 
 

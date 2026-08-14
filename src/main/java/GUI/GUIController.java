@@ -7,7 +7,9 @@ import Persistencia.DTOs.DTProveedor;
 import Persistencia.FabricaEntityManager;
 import Persistencia.ManejadorDePersistencia;
 import jakarta.persistence.EntityManager;
+import java.awt.Dimension;
 import java.awt.Image;
+import java.net.URL;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -92,7 +94,19 @@ public class GUIController {
         return;
     }
 
-    ImageIcon icon = new ImageIcon(ruta);
+    ImageIcon icon;
+    File archivo = new File(ruta);
+    if (archivo.isFile()) {
+        icon = new ImageIcon(archivo.getAbsolutePath());
+    } else {
+        String rutaRecurso = ruta.startsWith("/") ? ruta : "/" + ruta;
+        URL recurso = getClass().getResource(rutaRecurso);
+        if (recurso == null) {
+            label.setIcon(null);
+            return;
+        }
+        icon = new ImageIcon(recurso);
+    }
     if (icon.getIconWidth() <= 0) { // no cargó
         label.setIcon(null);
         return;
@@ -101,7 +115,9 @@ public class GUIController {
     int w = panel.getWidth();
     int h = panel.getHeight();
     if (w <= 0 || h <= 0) { // si todavía no se layout-eó
-        w = 160; h = 160;   // fallback
+        Dimension preferido = panel.getPreferredSize();
+        w = (preferido != null && preferido.width > 0) ? preferido.width : 160;
+        h = (preferido != null && preferido.height > 0) ? preferido.height : 160;
     }
 
     Image escalada = icon.getImage().getScaledInstance(w, h, java.awt.Image.SCALE_SMOOTH);

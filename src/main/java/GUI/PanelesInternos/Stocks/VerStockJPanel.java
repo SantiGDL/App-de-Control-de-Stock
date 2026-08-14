@@ -96,6 +96,15 @@ ImagenesHelper.estilizarTablaGaming(
         true,
         colUnidades  // 👈 NO TOCAR esta columna (alertas)
 );
+
+if (itemsDeStock.isEmpty()) {
+    ImagenesHelper.mostrarEstadoVacio(
+        jScrollPane1,
+        "El stock está vacío",
+        "Todavía no se registraron existencias.<br>"
+        + "Usá <b>Comprar ítem</b> para agregar las primeras unidades al stock."
+    );
+}
     
     
     }

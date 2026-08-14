@@ -19,10 +19,15 @@ import Persistencia.Clases.Proveedor;
 import Persistencia.FabricaEntityManager;
 import Persistencia.ManejadorDePersistencia;
 import jakarta.persistence.EntityManager;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import static javax.swing.SwingConstants.CENTER;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
@@ -33,10 +38,54 @@ public class SeleccionarProveedorCompraJPanel extends javax.swing.JPanel {
     //Atributos
     private Long ProveedorId;
     private Long ItemId;
+
+    private void configurarVista() {
+        MenuLateral.setBackground(new Color(22, 73, 138));
+        MenuLateral.setPreferredSize(new Dimension(200, 0));
+        MenuLateral.setMinimumSize(new Dimension(200, 0));
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
+
+        MenuSuperior.removeAll();
+        MenuSuperior.setLayout(new BorderLayout());
+        MenuSuperior.setPreferredSize(new Dimension(0, 100));
+        MenuSuperior.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK));
+        jLabel3.setText("SELECCIONAR PROVEEDOR");
+        jLabel3.setFont(new Font("Segoe UI Black", Font.PLAIN, 36));
+        jLabel3.setHorizontalAlignment(CENTER);
+        MenuSuperior.add(jLabel3, BorderLayout.CENTER);
+        jLabel4.setVisible(false);
+
+        jLabel5.setText("Elegí un proveedor para continuar con la compra");
+        jLabel5.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        jLabel5.setForeground(Color.WHITE);
+        jLabel5.setHorizontalAlignment(CENTER);
+        jLabel5.setPreferredSize(new Dimension(0, 38));
+
+        Contenido.removeAll();
+        Contenido.setLayout(new BorderLayout(0, 0));
+        Contenido.setBackground(new Color(0, 87, 174));
+        Contenido.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 2, Color.BLACK));
+        Contenido.add(jLabel5, BorderLayout.NORTH);
+        Contenido.add(jScrollPane1, BorderLayout.CENTER);
+
+        JPanel derecha = new JPanel(new BorderLayout(0, 0));
+        derecha.setBorder(new EmptyBorder(0, 0, 0, 0));
+        derecha.add(MenuSuperior, BorderLayout.NORTH);
+        derecha.add(Contenido, BorderLayout.CENTER);
+
+        Fondo.removeAll();
+        Fondo.setLayout(new BorderLayout(0, 0));
+        Fondo.setBorder(new EmptyBorder(0, 0, 0, 0));
+        Fondo.add(MenuLateral, BorderLayout.WEST);
+        Fondo.add(derecha, BorderLayout.CENTER);
+        Fondo.revalidate();
+        Fondo.repaint();
+    }
     //<<CONSTRUCTOR>>
     public SeleccionarProveedorCompraJPanel(Long itemId) {
         this.ItemId = itemId;
         initComponents();
+        configurarVista();
         cargarTablaItems();
         
          //CONFIGURAR BOTONES LATERALES
@@ -91,7 +140,7 @@ public class SeleccionarProveedorCompraJPanel extends javax.swing.JPanel {
     List<Proveedor> proveedores = MDP.obtenerTodosLosProveedoresOrderByNombre(em);
     // 2) Armo el modelo con columnas
     javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
-        new Object[]{"ID", "Nombre", "Contacto", "Ubicación" , "Descripción", "Imágen", ""}, 0
+        new Object[]{"ID", "Nombre", "Contacto", "Ubicación" , "Descripción", "Imagen", "Acción"}, 0
     ) {
         @Override public boolean isCellEditable(int r, int c) { return false; }
     };
@@ -104,7 +153,7 @@ public class SeleccionarProveedorCompraJPanel extends javax.swing.JPanel {
         proveedorDefault.getUbicacion(),                 
         proveedorDefault.getDescripcion(),
         proveedorDefault.getImagen(),                 
-        ">"                 // columna acción
+        "SELECCIONAR"                 // columna acción
     });
     // 3) Cargás filas
     for (Proveedor p : proveedores) {
@@ -116,7 +165,7 @@ public class SeleccionarProveedorCompraJPanel extends javax.swing.JPanel {
             p.getUbicacion(),
             p.getDescripcion(),
             p.getImagen(),
-            ">"
+            "SELECCIONAR"
         });
         }
         
@@ -126,6 +175,12 @@ public class SeleccionarProveedorCompraJPanel extends javax.swing.JPanel {
     CatalogoGeneral.getColumnModel().getColumn(0).setMinWidth(0);
     CatalogoGeneral.getColumnModel().getColumn(0).setMaxWidth(0);
     CatalogoGeneral.getColumnModel().getColumn(0).setPreferredWidth(0);
+
+    CatalogoGeneral.getColumnModel().getColumn(1).setPreferredWidth(125);
+    CatalogoGeneral.getColumnModel().getColumn(2).setPreferredWidth(140);
+    CatalogoGeneral.getColumnModel().getColumn(3).setPreferredWidth(135);
+    CatalogoGeneral.getColumnModel().getColumn(4).setPreferredWidth(190);
+    CatalogoGeneral.getColumnModel().getColumn(5).setPreferredWidth(140);
     
      //HAY QUE RENDERIZAR DESPUES DE SETEAR EL MODELO
     int colImagen = 5;
@@ -151,14 +206,14 @@ public class SeleccionarProveedorCompraJPanel extends javax.swing.JPanel {
 
         var c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         setHorizontalAlignment(CENTER);
-        setFont(getFont().deriveFont(java.awt.Font.BOLD, 18f));
+        setFont(getFont().deriveFont(java.awt.Font.BOLD, 11f));
         setForeground(java.awt.Color.WHITE);
         setBackground(new java.awt.Color(0, 102, 255)); // azul
         return c;
     }
     });
-    CatalogoGeneral.getColumnModel().getColumn(6).setMaxWidth(45);
-    CatalogoGeneral.getColumnModel().getColumn(6).setMinWidth(45);
+    CatalogoGeneral.getColumnModel().getColumn(6).setMaxWidth(105);
+    CatalogoGeneral.getColumnModel().getColumn(6).setMinWidth(105);
    
     //AHORA DETECTAR LA INTERACCION CON LA COLOUMNA 4
     
@@ -413,7 +468,7 @@ public class SeleccionarProveedorCompraJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_INICIOActionPerformed
 
     private void ATRASActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ATRASActionPerformed
-        JPanel panelDeItems = new PanelDeItems();
+        JPanel panelDeItems = new ComprarItemJPanel();
         FramePrincipal frame = (FramePrincipal) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.cambiarFondo(panelDeItems);
     }//GEN-LAST:event_ATRASActionPerformed

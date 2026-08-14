@@ -31,6 +31,12 @@ private Image imagen;
         imagen = new ImageIcon(url).getImage();
     }
 
+    public void quitarImagenDeFondo() {
+        imagen = null;
+        setOpaque(true);
+        repaint();
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

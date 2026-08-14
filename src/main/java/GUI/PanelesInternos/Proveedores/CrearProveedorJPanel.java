@@ -13,11 +13,28 @@ import GUI.PanelesPRINCIPALES.PanelDeProveedores;
 import ImagenesHelpers.ImagenesHelper;
 import Persistencia.Clases.Proveedor;
 import Persistencia.ManejadorDePersistencia;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FileDialog;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.Window;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -26,7 +43,146 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class CrearProveedorJPanel extends javax.swing.JPanel {
     private String rutaImagenSeleccionada = "";
+    private final JLabel vistaPreviaImagen = new JLabel("Sin imagen", SwingConstants.CENTER);
+    private final JLabel nombreArchivoImagen = new JLabel("Ningún archivo seleccionado");
     GUIController controller = new GUIController();
+
+    private void configurarVista() {
+        MenuLateral.setBackground(new Color(22, 73, 138));
+        MenuLateral.setPreferredSize(new Dimension(200, 0));
+        MenuLateral.setMinimumSize(new Dimension(200, 0));
+        MenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
+
+        MenuSuperior.removeAll();
+        MenuSuperior.setLayout(new BorderLayout());
+        MenuSuperior.setPreferredSize(new Dimension(0, 100));
+        MenuSuperior.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK));
+        jLabel3.setText("CREAR PROVEEDOR");
+        jLabel3.setFont(new Font("Segoe UI Black", Font.PLAIN, 36));
+        jLabel3.setHorizontalAlignment(SwingConstants.CENTER);
+        MenuSuperior.add(jLabel3, BorderLayout.CENTER);
+        jLabel4.setVisible(false);
+
+        estilizarCampo(NombreContenido);
+        estilizarCampo(ContactoContenido);
+        estilizarCampo(UbicacionContenido);
+        estilizarCampo(DescripcionContenido);
+        estilizarBoton(ImagenContenido, "ELEGIR IMAGEN", new Color(0, 102, 255));
+        estilizarBoton(ACEPTAR, "CREAR PROVEEDOR", new Color(30, 170, 105));
+
+        nombreArchivoImagen.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        nombreArchivoImagen.setForeground(new Color(90, 98, 108));
+        vistaPreviaImagen.setPreferredSize(new Dimension(220, 220));
+        vistaPreviaImagen.setMinimumSize(new Dimension(220, 220));
+        vistaPreviaImagen.setOpaque(true);
+        vistaPreviaImagen.setBackground(new Color(242, 245, 249));
+        vistaPreviaImagen.setForeground(new Color(105, 115, 125));
+        vistaPreviaImagen.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        vistaPreviaImagen.setBorder(BorderFactory.createLineBorder(new Color(205, 213, 222), 2));
+
+        JPanel tarjeta = new JPanel(new GridBagLayout());
+        tarjeta.setBackground(new Color(250, 248, 244));
+        tarjeta.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(207, 216, 226), 1),
+            new EmptyBorder(24, 30, 24, 30)
+        ));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0; gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1;
+        agregarCampo(tarjeta, gbc, "Nombre del proveedor", NombreContenido);
+        agregarCampo(tarjeta, gbc, "Contacto", ContactoContenido);
+        agregarCampo(tarjeta, gbc, "Ubicación", UbicacionContenido);
+        agregarCampo(tarjeta, gbc, "Descripción (opcional)", DescripcionContenido);
+
+        gbc.insets = new Insets(0, 0, 6, 28);
+        tarjeta.add(crearEtiqueta("Imagen (opcional)"), gbc);
+        gbc.gridy++;
+        gbc.insets = new Insets(0, 0, 5, 28);
+        tarjeta.add(ImagenContenido, gbc);
+        gbc.gridy++;
+        gbc.insets = new Insets(0, 0, 18, 28);
+        tarjeta.add(nombreArchivoImagen, gbc);
+        gbc.gridy++;
+        gbc.insets = new Insets(0, 0, 0, 28);
+        tarjeta.add(ACEPTAR, gbc);
+
+        gbc.gridx = 1; gbc.gridy = 0; gbc.gridheight = 12;
+        gbc.weightx = 0; gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        tarjeta.add(vistaPreviaImagen, gbc);
+
+        Contenido.removeAll();
+        Contenido.setLayout(new GridBagLayout());
+        Contenido.setBackground(new Color(0, 87, 174));
+        Contenido.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 2, Color.BLACK));
+        Contenido.add(tarjeta);
+
+        JPanel derecha = new JPanel(new BorderLayout(0, 0));
+        derecha.add(MenuSuperior, BorderLayout.NORTH);
+        derecha.add(Contenido, BorderLayout.CENTER);
+        Fondo.removeAll();
+        Fondo.setLayout(new BorderLayout(0, 0));
+        Fondo.add(MenuLateral, BorderLayout.WEST);
+        Fondo.add(derecha, BorderLayout.CENTER);
+        Fondo.revalidate();
+        Fondo.repaint();
+    }
+
+    private void agregarCampo(JPanel tarjeta, GridBagConstraints gbc, String texto, javax.swing.JTextField campo) {
+        gbc.insets = new Insets(0, 0, 6, 28);
+        tarjeta.add(crearEtiqueta(texto), gbc);
+        gbc.gridy++;
+        gbc.insets = new Insets(0, 0, 14, 28);
+        tarjeta.add(campo, gbc);
+        gbc.gridy++;
+    }
+
+    private JLabel crearEtiqueta(String texto) {
+        JLabel etiqueta = new JLabel(texto);
+        etiqueta.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        etiqueta.setForeground(new Color(35, 45, 58));
+        return etiqueta;
+    }
+
+    private void estilizarCampo(javax.swing.JTextField campo) {
+        campo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        campo.setPreferredSize(new Dimension(330, 36));
+        campo.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(185, 196, 208), 1),
+            new EmptyBorder(5, 9, 5, 9)
+        ));
+    }
+
+    private void estilizarBoton(javax.swing.JButton boton, String texto, Color fondo) {
+        boton.setText(texto);
+        boton.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        boton.setBackground(fondo);
+        boton.setForeground(Color.WHITE);
+        boton.setOpaque(true);
+        boton.setContentAreaFilled(true);
+        boton.setBorderPainted(false);
+        boton.setFocusPainted(false);
+        boton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        boton.setPreferredSize(new Dimension(200, 38));
+    }
+
+    private void mostrarVistaPrevia(File archivo) {
+        ImageIcon original = new ImageIcon(archivo.getAbsolutePath());
+        if (original.getIconWidth() <= 0) return;
+        int maximo = 204;
+        double escala = Math.min((double) maximo / original.getIconWidth(), (double) maximo / original.getIconHeight());
+        int ancho = Math.max(1, (int) Math.round(original.getIconWidth() * escala));
+        int alto = Math.max(1, (int) Math.round(original.getIconHeight() * escala));
+        Image imagen = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+        vistaPreviaImagen.setText("");
+        vistaPreviaImagen.setIcon(new ImageIcon(imagen));
+        nombreArchivoImagen.setText(archivo.getName());
+        nombreArchivoImagen.setToolTipText(archivo.getAbsolutePath());
+    }
     /**
      * Creates new form CrearProveedor
      */
@@ -46,6 +202,7 @@ public class CrearProveedorJPanel extends javax.swing.JPanel {
         //Color del texto
         Color.BLACK
         );
+        configurarVista();
         
         ImagenesHelper.estilizarBotonMenuLateral(
         ATRAS,
@@ -356,23 +513,24 @@ public class CrearProveedorJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_DescripcionContenidoActionPerformed
 
     private void ImagenContenidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImagenContenidoActionPerformed
-  JFileChooser chooser = new JFileChooser();
-    chooser.setDialogTitle("Seleccionar imagen");
-
-    FileNameExtensionFilter filter = new FileNameExtensionFilter(
-            "Imágenes (png, jpg, jpeg, gif, webp)", "png", "jpg", "jpeg", "gif", "webp"
-    );
-    chooser.setFileFilter(filter);
-
-    int result = chooser.showOpenDialog(this);
-    if (result == JFileChooser.APPROVE_OPTION) {
-        File file = chooser.getSelectedFile();
-        rutaImagenSeleccionada = file.getAbsolutePath();
-
-        // (Opcional) mostrar al usuario qué eligió:
-        javax.swing.JOptionPane.showMessageDialog(this, "Imagen seleccionada:\n" + rutaImagenSeleccionada);
-    
-}  
+        Window ventana = SwingUtilities.getWindowAncestor(this);
+        FileDialog selector = new FileDialog(
+            ventana instanceof Frame ? (Frame) ventana : null,
+            "Seleccionar imagen del proveedor",
+            FileDialog.LOAD
+        );
+        selector.setFilenameFilter((directorio, nombre) -> {
+            String archivo = nombre.toLowerCase();
+            return archivo.endsWith(".png") || archivo.endsWith(".jpg")
+                || archivo.endsWith(".jpeg") || archivo.endsWith(".gif")
+                || archivo.endsWith(".webp");
+        });
+        selector.setVisible(true);
+        if (selector.getFile() != null) {
+            File archivo = new File(selector.getDirectory(), selector.getFile());
+            rutaImagenSeleccionada = archivo.getAbsolutePath();
+            mostrarVistaPrevia(archivo);
+        }
     }//GEN-LAST:event_ImagenContenidoActionPerformed
 
     private void VenderItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VenderItem1ActionPerformed
@@ -384,9 +542,11 @@ public class CrearProveedorJPanel extends javax.swing.JPanel {
       String contacto = ContactoContenido.getText().trim();
       String ubicacion = UbicacionContenido.getText().trim();
       String descripcion = DescripcionContenido.getText().trim();
-      //Por ahora lo dejo asi hasta que configure las imagenes
       String imagen = "";
-      if (descripcion.isEmpty()){descripcion = "";}
+      if (nombreProveedor.isEmpty() || contacto.isEmpty() || ubicacion.isEmpty()) {
+          javax.swing.JOptionPane.showMessageDialog(this, "Completá nombre, contacto y ubicación.");
+          return;
+      }
       try {
         // Copia la imagen elegida a la carpeta raíz (si el usuario eligió una)
         imagen = controller.cargarImagen(rutaImagenSeleccionada);
@@ -394,11 +554,6 @@ public class CrearProveedorJPanel extends javax.swing.JPanel {
         javax.swing.JOptionPane.showMessageDialog(this, "No se pudo copiar la imagen:\n" + io.getMessage());
         return;
         }
-      if (nombreProveedor.isEmpty() || contacto.isEmpty() || ubicacion.isEmpty()) {
-          javax.swing.JOptionPane.showMessageDialog(this, "Debe rellenar todos los campos");
-          return;
-          }
-      
      Proveedor nuevoProveedor = new Proveedor(nombreProveedor, contacto, ubicacion, descripcion, imagen);
      try{
      ManejadorDePersistencia MDP = ManejadorDePersistencia.getInstancia();
@@ -409,6 +564,11 @@ public class CrearProveedorJPanel extends javax.swing.JPanel {
      ContactoContenido.setText("");
      UbicacionContenido.setText("");
      DescripcionContenido.setText("");
+     rutaImagenSeleccionada = "";
+     vistaPreviaImagen.setIcon(null);
+     vistaPreviaImagen.setText("Sin imagen");
+     nombreArchivoImagen.setText("Ningún archivo seleccionado");
+     nombreArchivoImagen.setToolTipText(null);
      } catch (Exception ex) {
         javax.swing.JOptionPane.showMessageDialog(null, "Error creando Proveedor: " + ex.getMessage());
         ex.printStackTrace();
