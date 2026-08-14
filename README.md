@@ -144,7 +144,3 @@ src/main/resources/
 └── META-INF/
     └── persistence.xml # Configuración de JPA y MySQL
 ```
-
-## Estado del proyecto
-
-El proyecto se encuentra en desarrollo y ya cuenta con el flujo principal de administración de inventario operativo.
